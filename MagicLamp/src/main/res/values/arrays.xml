@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="arr_mode">
+        <item>普通模式</item>
+        <item>唤醒模式</item>
+        <item>阅读模式</item>
+        <item>浪漫模式</item>
+        <item>睡眠模式</item>
+    </string-array>
+    <string-array name="arr_menu">
+        <item>灯光</item>
+        <item>音乐</item>
+        <item>广播</item>
+        <item>场景</item>
+        <item>设置</item>
+    </string-array>
+</resources>

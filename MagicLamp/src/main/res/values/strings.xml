@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MagicLamp</string>
+    <string name="tip_loading">加载中...</string>
+    <string name="tip_loadempty">暂无数据</string>
+    <string name="tip_retry">加载失败,请点击重试！</string>
+    <string name="music_mode">音乐同步</string>
+    <string name="blink_mode">闪烁</string>
+    <string name="candy_mode">烛光</string>
+    <string name="default_mode">默认</string>
+    <string name="lamp_color">灯颜色</string>
+    <string name="panel_name">变化色</string>
+</resources>

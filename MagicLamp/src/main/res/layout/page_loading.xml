@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dkgray"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <tcl.com.magiclamp.views.LoadingView
+        android:id="@+id/refresh_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/loading_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tip_loading"
+        android:textColor="@color/c_b7b7b7"
+        android:textSize="14sp" />
+</LinearLayout>

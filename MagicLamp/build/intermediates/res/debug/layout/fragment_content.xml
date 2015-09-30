@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/info_sreen_bg"
+    android:gravity="center_horizontal">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/item_header" />
+
+    <tcl.com.magiclamp.picker.ColorPickerView2
+        android:id="@+id/color_picker"
+        android:layout_below="@id/header"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="60dp"
+        android:layout_centerHorizontal="true"/>
+
+    <View
+        android:id="@+id/color_picker_cover"
+        android:layout_below="@id/header"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@color/cover"
+        android:layout_marginTop="60dp"
+        android:visibility="gone"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/panel_1"
+        android:layout_below="@id/header"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:drawablePadding="10dp"
+        android:drawableLeft="@drawable/panel_empty"
+        android:text="@string/lamp_color"
+        android:background="@null"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_panel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="20dp"
+        android:background="@color/gray"
+        android:layout_below="@id/panel_1">
+
+        <Button
+            android:id="@+id/panel_2"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="20dp"
+            android:tag="panel_2"
+            android:background="@drawable/panel_empty"/>
+
+        <Button
+            android:id="@+id/panel_3"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_below="@id/panel_2"
+            android:layout_marginTop="20dp"
+            android:tag="panel_3"
+            android:background="@drawable/panel_empty"/>
+
+        <Button
+            android:id="@+id/panel_4"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_below="@id/panel_3"
+            android:layout_marginTop="20dp"
+            android:tag="panel_4"
+            android:background="@drawable/panel_empty"/>
+
+        <Button
+            android:id="@+id/panel_5"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_below="@id/panel_4"
+            android:layout_marginTop="20dp"
+            android:tag="panel_5"
+            android:background="@drawable/panel_empty"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_panel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/rl_panel"
+        android:layout_toRightOf="@id/rl_panel"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/panel_name"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_progress_seek_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_below="@id/color_picker">
+
+        <SeekBar
+            android:id="@+id/progress_seek_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="10"
+            android:progressDrawable="@drawable/seekbar_progress"
+            android:thumb="@drawable/thumb" />
+
+        <View
+            android:id="@+id/seek_bar_cover"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:background="@color/cover"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+    <RadioGroup
+        android:id="@+id/short_cut_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:layout_below="@id/rl_progress_seek_bar"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/sync_music_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:gravity="center_horizontal"
+            android:drawableTop="@drawable/sync_music_mode_selector"
+            android:text="@string/music_mode"
+            android:enabled="true"/>
+
+        <RadioButton
+            android:id="@+id/blink_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="17dp"
+            android:button="@null"
+            android:gravity="center_horizontal"
+            android:drawableTop="@drawable/blind_mode_selector"
+            android:text="@string/blink_mode"
+            android:enabled="true"/>
+
+            <RadioButton
+            android:id="@+id/candy_light_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="17dp"
+            android:button="@null"
+            android:gravity="center_horizontal"
+            android:drawableTop="@drawable/candy_light_mode_selector"
+            android:text="@string/candy_mode"
+            android:enabled="true"/>
+
+        <RadioButton
+            android:id="@+id/default_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="17dp"
+            android:button="@null"
+            android:gravity="center_horizontal"
+            android:drawableTop="@drawable/default_mode_selector"
+            android:text="@string/default_mode"
+            android:enabled="true"/>
+    </RadioGroup>
+
+    <FrameLayout
+        android:id="@+id/fl_cover"
+        android:layout_below="@id/header"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@color/cover"/>
+
+    <include
+        android:id="@+id/error_view"
+        layout="@layout/page_loadfailed"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/header"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/loading_view"
+        layout="@layout/page_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/header"
+        android:visibility="gone" />
+
+</RelativeLayout><!-- From: file:/Users/sjyin/openresource/MagicLamp/MagicLamp/src/main/res/layout/fragment_content.xml -->

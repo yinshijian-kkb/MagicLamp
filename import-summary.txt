@@ -1,0 +1,111 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+* .idea/
+* .idea/compiler.xml
+* .idea/copyright/
+* .idea/copyright/profiles_settings.xml
+* .idea/findbugs-idea.xml
+* .idea/misc.xml
+* .idea/modules.xml
+* .idea/vcs.xml
+* .idea/workspace.xml
+* MagicLamp.iml
+* ant.properties
+* build.xml
+* out/
+* out/production/
+* out/production/MagicLamp/
+* out/production/MagicLamp/MagicLamp.apk
+* out/production/MagicLamp/MagicLamp.unaligned.apk
+* out/production/MagicLamp/com/
+* out/production/MagicLamp/com/jeremyfeinstein/
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/CanvasTransformerBuilder$1.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/CanvasTransformerBuilder$2.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/CanvasTransformerBuilder$3.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/CanvasTransformerBuilder$4.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/CanvasTransformerBuilder$5.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/CanvasTransformerBuilder$6.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/CanvasTransformerBuilder.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/CustomViewAbove$1.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/CustomViewAbove$2.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/CustomViewAbove$OnPageChangeListener.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/CustomViewAbove$SimpleOnPageChangeListener.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/CustomViewAbove.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/CustomViewBehind.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/MenuInterface.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/SlidingMenu$1.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/SlidingMenu$2.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/SlidingMenu$CanvasTransformer.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/SlidingMenu$OnCloseListener.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/SlidingMenu$OnClosedListener.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/SlidingMenu$OnOpenListener.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/SlidingMenu$OnOpenedListener.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/SlidingMenu$SavedState$1.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/SlidingMenu$SavedState.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/SlidingMenu.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/app/
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/app/SlidingActivity.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/app/SlidingActivityBase.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/app/SlidingActivityHelper$1.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/app/SlidingActivityHelper.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/app/SlidingFragmentActivity.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/app/SlidingListActivity.class
+* out/production/MagicLamp/com/jeremyfeinstein/slidingmenu/lib/app/SlidingPreferenceActivity.class
+* out/production/MagicLamp/tcl/
+* out/production/MagicLamp/tcl/com/
+* out/production/MagicLamp/tcl/com/magiclamp/
+* out/production/MagicLamp/tcl/com/magiclamp/BuildConfig.class
+* out/production/MagicLamp/tcl/com/magiclamp/MyActivity.class
+* out/production/MagicLamp/tcl/com/magiclamp/MyApplication.class
+* out/production/MagicLamp/tcl/com/magiclamp/R$array.class
+* out/production/MagicLamp/tcl/com/magiclamp/R$attr.class
+* out/production/MagicLamp/tcl/com/magiclamp/R$color.class
+* out/production/MagicLamp/tcl/com/magiclamp/R$dimen.class
+* out/production/MagicLamp/tcl/com/magiclamp/R$drawable.class
+* out/production/MagicLamp/tcl/com/magiclamp/R$id.class
+* out/production/MagicLamp/tcl/com/magiclamp/R$layout.class
+* out/production/MagicLamp/tcl/com/magiclamp/R$string.class
+* out/production/MagicLamp/tcl/com/magiclamp/R$styleable.class
+* out/production/MagicLamp/tcl/com/magiclamp/R.class
+* out/production/MagicLamp/tcl/com/magiclamp/fragment/
+* out/production/MagicLamp/tcl/com/magiclamp/fragment/ContentFragment.class
+* out/production/MagicLamp/tcl/com/magiclamp/fragment/MenuFragment.class
+* out/production/MagicLamp/tcl/com/magiclamp/fragment/TestContentFragment.class
+* out/production/MagicLamp/tcl/com/magiclamp/utils/
+* out/production/MagicLamp/tcl/com/magiclamp/utils/ViewHelper.class
+* proguard-project.txt
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+* AndroidManifest.xml => MagicLamp/src/main/AndroidManifest.xml
+* assets/ => MagicLamp/src/main/assets
+* libs/android-support-v4.jar => MagicLamp/libs/android-support-v4.jar
+* res/ => MagicLamp/src/main/res/
+* src/ => MagicLamp/src/main/java/
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)

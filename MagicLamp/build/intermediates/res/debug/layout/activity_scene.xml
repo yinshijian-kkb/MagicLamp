@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!--id::rl_header -->
+    <include
+        android:id="@+id/rl_header"
+        layout="@layout/item_header" />
+
+    <!--id::lv -->
+    <include
+        layout="@layout/item_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl_header" />
+
+</RelativeLayout><!-- From: file:/Users/sjyin/openresource/MagicLamp/MagicLamp/src/main/res/layout/activity_scene.xml -->
