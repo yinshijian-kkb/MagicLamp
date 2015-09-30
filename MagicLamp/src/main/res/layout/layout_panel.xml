@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_panel"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingBottom="20dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:background="@color/gray">
+
+    <Button
+        android:id="@+id/panel_2"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/panel_default"
+        android:tag="panel_2" />
+
+    <Button
+        android:id="@+id/panel_3"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_below="@id/panel_2"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/panel_default"
+        android:tag="panel_3" />
+
+    <Button
+        android:id="@+id/panel_4"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_below="@id/panel_3"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/panel_default"
+        android:tag="panel_4" />
+
+    <Button
+        android:id="@+id/panel_5"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_below="@id/panel_4"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/panel_default"
+        android:tag="panel_5" />
+
+</RelativeLayout>

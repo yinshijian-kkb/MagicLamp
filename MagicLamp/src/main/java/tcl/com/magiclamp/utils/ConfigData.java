@@ -60,7 +60,7 @@ public class ConfigData {
         map.put(LampMode.Reading, readingLamp);
 
         LampBean romanticLamp = new LampBean(true,true,
-                false,false,
+                false,true,
                 true,false,false);//音乐、灯色、灯效
         romanticLamp.setColor(0xff9932cd);
         romanticLamp.setAffection(LampAffection.Candy);

@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="100dp">
-
-    <RadioButton
-        android:id="@+id/ic_scene"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_centerVertical="true"
-        android:focusable="false"
-        android:layout_marginLeft="10dp"/>
+    android:layout_width="135dp"
+    android:layout_height="wrap_content"
+    android:paddingTop="15dp"
+    android:paddingBottom="15dp">
 
     <TextView
         android:id="@+id/tv_scene"
-        style="@style/TextViewFontStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
         android:layout_marginRight="10dp"
+        android:textSize="13sp"
+        android:textColor="@color/ltgray"
         android:text="普通模式" />
+
+    <ImageView
+        android:id="@+id/ic_scene"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/screening_choose" />
 
 </RelativeLayout><!-- From: file:/Users/sjyin/openresource/MagicLamp/MagicLamp/src/main/res/layout/item_scene.xml -->

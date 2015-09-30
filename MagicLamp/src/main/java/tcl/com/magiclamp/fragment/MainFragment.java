@@ -1,24 +1,20 @@
 package tcl.com.magiclamp.fragment;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.transition.Scene;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
@@ -36,20 +32,24 @@ import java.util.Map;
 import java.util.TreeSet;
 
 import tcl.com.magiclamp.MyActivity;
-import tcl.com.magiclamp.OnModeCheckedListener;
 import tcl.com.magiclamp.R;
 import tcl.com.magiclamp.adapter.SceneHolder;
 import tcl.com.magiclamp.adapter.base.BaseHolder;
 import tcl.com.magiclamp.adapter.base.CommonAdapter;
+import tcl.com.magiclamp.data.LampAffection;
 import tcl.com.magiclamp.data.LampBean;
 import tcl.com.magiclamp.data.LampMode;
 import tcl.com.magiclamp.data.SceneItem;
-import tcl.com.magiclamp.picker.ColorPickerView;
 import tcl.com.magiclamp.picker.ColorPickerView2;
 import tcl.com.magiclamp.picker.OnColorChangedListener;
 import tcl.com.magiclamp.utils.ConfigData;
 import tcl.com.magiclamp.utils.ToastUtils;
 import tcl.com.magiclamp.utils.UIUtils;
+
+import static tcl.com.magiclamp.data.LampAffection.Blink;
+import static tcl.com.magiclamp.data.LampAffection.Candy;
+import static tcl.com.magiclamp.data.LampAffection.Default;
+import static tcl.com.magiclamp.data.LampAffection.SyncMusic;
 
 /**
  * Created by sjyin on 9/21/15.
@@ -61,11 +61,26 @@ public class MainFragment extends Fragment implements
         AdapterView.OnItemClickListener, CompoundButton.OnCheckedChangeListener {
 
     private MyActivity mContext;
-    private ColorPickerView colorPicker;
     private ColorPickerView2 colorPicker2;
     private TextView panel_1, tv_header;
     private PopupWindow modPop;
     private View viewError, viewLoading, fl_cover;
+
+    private LampMode mMode;
+    private LampBean mLampData;
+    private SeekBar brightnessBar;
+    private Button panel2, panel3, panel4, panel5;
+    private Drawable panelEmpty;
+    private int compoundColorSize = 4;
+    private int[] mCompundColors = new int[]{0,0,0,0,0};
+    private int mCompundColorPosition = 0;
+    private RadioButton cb_sync_music_mode, blink_mode, candy_light_mode, default_mode;
+    private ArrayList<LampMode> lampModes;
+    private ArrayList<SceneItem> items;
+    private CommonAdapter<SceneItem> modeAdapter;
+    private int lastModePos;
+    private TreeSet<Integer> cancelColorPos;//if there are more than one mode can change compound color ,this should be map
+
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -78,23 +93,6 @@ public class MainFragment extends Fragment implements
             }
         }
     };
-    private LampMode mMode;
-    private LampBean mLampData;
-    private SeekBar brightnessBar;
-    private Button panel2, panel3, panel4, panel5;
-    private Drawable panelEmpty;
-    private GradientDrawable panelDefault;
-    private int compoundColorSize = 4;
-    private int[] mCompundColors = new int[5];
-    private int mCompundColorPosition = 0;
-    private TreeSet<Integer> emptyPanelIndex;
-    private View colorPickerCover;
-    private View brightnessCover;
-    private RadioButton cb_sync_music_mode, blink_mode, candy_light_mode, default_mode;
-    private ArrayList<LampMode> lampModes;
-    private ArrayList<SceneItem> items;
-    private CommonAdapter<SceneItem> modeAdapter;
-    private int lastModePos;
 
     @Override
     public void onAttach(Activity activity) {
@@ -117,8 +115,7 @@ public class MainFragment extends Fragment implements
             lampModes.add(mode);
         }
 
-        emptyPanelIndex = new TreeSet<Integer>();//TODO:灯色选择面板
-
+        cancelColorPos = new TreeSet<Integer>();
         view.findViewById(R.id.header).setBackgroundColor(
                 UIUtils.getColor(R.color.info_sreen_bg));
 
@@ -135,7 +132,7 @@ public class MainFragment extends Fragment implements
 
         panelEmpty = UIUtils.getDrawable(R.drawable.panel_empty);
         panel_1 = (TextView) view.findViewById(R.id.panel_1);
-        panelDefault = (GradientDrawable) UIUtils.getDrawable(R.drawable.panel_default);
+        GradientDrawable panelDefault = (GradientDrawable) UIUtils.getDrawable(R.drawable.panel_default);
         panelDefault.setBounds(0, 0, panelDefault.getMinimumWidth(), panelDefault.getMinimumHeight());
         panelEmpty.setBounds(0, 0, panelEmpty.getMinimumWidth(), panelEmpty.getMinimumHeight());
 
@@ -151,11 +148,8 @@ public class MainFragment extends Fragment implements
         panel4.setOnClickListener(this);
         panel5.setOnClickListener(this);
 
-        colorPickerCover = view.findViewById(R.id.color_picker_cover);
-
         brightnessBar = (SeekBar) view.findViewById(R.id.progress_seek_bar);
         brightnessBar.setOnSeekBarChangeListener(this);
-        brightnessCover = view.findViewById(R.id.seek_bar_cover);
 
         cb_sync_music_mode = (RadioButton) view.findViewById(R.id.sync_music_mode);
         blink_mode = (RadioButton) view.findViewById(R.id.blink_mode);
@@ -180,26 +174,20 @@ public class MainFragment extends Fragment implements
         //更新标题
         tv_header.setText(mMode.toString());
         //灯色
+        GradientDrawable panelBg = (GradientDrawable) panel_1.getCompoundDrawables()[0];
         if (mLampData.getColor() != 0) {
-            panelDefault.setColor(mLampData.getColor());
+            panelBg.setColor(mLampData.getColor());
         } else {
-            panelDefault = (GradientDrawable) panelEmpty;
-            panelDefault.setColor(Color.TRANSPARENT);
+            panelBg.setColor(Color.BLACK);
         }
-        panel_1.setCompoundDrawables(
-                panelDefault,
-                null,
-                null,
-                null
-        );
         //变化色
         for (int i = 0; i < compoundColorSize; i++) {//TODO:has bug
             String tag = String.format("panel_%d", i + 2);
+            GradientDrawable gd = (GradientDrawable) getView().findViewWithTag(tag).getBackground();
             if (mLampData.getCompoundColor() != null && mLampData.getCompoundColor()[i] != 0) {
-                panelDefault.setColor(mLampData.getCompoundColor()[i]);
-                getView().findViewWithTag(tag).setBackgroundDrawable(panelDefault);
-            }else{
-                getView().findViewWithTag(tag).setBackgroundDrawable(panelEmpty);
+                gd.setColor(mLampData.getCompoundColor()[i]);
+            } else {
+                gd.setColor(UIUtils.getColor(R.color.black));
             }
         }
 
@@ -207,18 +195,23 @@ public class MainFragment extends Fragment implements
         brightnessBar.setProgress(mLampData.getBrightness());
         //灯效
         boolean canAdjustedAffection = mLampData.isCanAdjustedAffection();
+        LampAffection affection = mLampData.getAffection();
         cb_sync_music_mode.setEnabled(canAdjustedAffection ? true : false);
         blink_mode.setEnabled(canAdjustedAffection ? true : false);
         candy_light_mode.setEnabled(canAdjustedAffection ? true : false);
         default_mode.setEnabled(canAdjustedAffection ? true : false);
+        if (canAdjustedAffection && mLampData.getAffection() != null) {
+            cb_sync_music_mode.setChecked(affection == SyncMusic);
+            blink_mode.setChecked(affection == Blink);
+            candy_light_mode.setChecked(affection == Candy);
+            default_mode.setChecked(affection == Default);
+        }
 
         //是否可编辑
         //灯色
-        boolean canAdjustedComposedColor = mLampData.isCanAdjustedComposedColor();
-        colorPickerCover.setVisibility(canAdjustedComposedColor ? View.GONE : View.VISIBLE);
-        setPanelState(mLampData.isCanAdjustedComposedColor());
         //亮度
-        brightnessCover.setVisibility(mLampData.isCanAdjustedBrightness() ? View.GONE : View.VISIBLE);
+        setPanelState(mLampData.isCanAdjustedComposedColor());
+
     }
 
     /**
@@ -253,16 +246,16 @@ public class MainFragment extends Fragment implements
                 showPop();
                 break;
             case R.id.panel_2:
-                fillColorPanel(v, 0);
+                cancelPanelColor(v, 0);
                 break;
             case R.id.panel_3:
-                fillColorPanel(v, 1);
+                cancelPanelColor(v, 1);
                 break;
             case R.id.panel_4:
-                fillColorPanel(v, 2);
+                cancelPanelColor(v, 2);
                 break;
             case R.id.panel_5:
-                fillColorPanel(v, 3);
+                cancelPanelColor(v, 3);
                 break;
             default:
                 break;
@@ -275,12 +268,13 @@ public class MainFragment extends Fragment implements
      * @param v
      * @param pos
      */
-    private void fillColorPanel(View v, int pos) {
-        if (v.getBackground() != panelEmpty) {
+    private void cancelPanelColor(View v, int pos) {
+        if(mCompundColors[pos] == 0){
             ToastUtils.showShort(mContext, "没有填充色值");
-        } else {
+        }else{
+            cancelColorPos.add(pos);
+            ((GradientDrawable) v.getBackground()).setColor(UIUtils.getColor(R.color.black));
             mCompundColors[pos] = 0;
-            v.setBackgroundDrawable(panelEmpty);
         }
     }
 
@@ -319,7 +313,7 @@ public class MainFragment extends Fragment implements
         lv.setAdapter(modeAdapter);
         lv.setDividerHeight(2);
         lv.setOnItemClickListener(this);
-        lv.setBackgroundColor(Color.YELLOW);
+        lv.setBackgroundResource(R.drawable.pop_bg);
         return lv;
     }
 
@@ -383,22 +377,31 @@ public class MainFragment extends Fragment implements
             ToastUtils.showShort(mContext, "不可编辑灯色");
             return;
         }
-        if (mCompundColorPosition >= compoundColorSize) {
-            if (checkCompoundColorPanel()) {
+
+        if (!cancelColorPos.isEmpty()) {
+            int mPos = cancelColorPos.first();
+            fillPanel(mPos, color);
+            cancelColorPos.remove(mPos);
+            return;
+        } else {
+            if (mCompundColorPosition >= compoundColorSize) {
                 ToastUtils.showShort(mContext, "灯色面板已经填充满");
                 return;
             }
         }
+        fillPanel(mCompundColorPosition, color);
+        mCompundColorPosition++;
+    }
 
-        if (mCompundColorPosition < compoundColorSize) {
-            mCompundColors[mCompundColorPosition] = color;
-            String tag = String.format("panel_%d", mCompundColorPosition + 2);
-            panelDefault.setColor(color);
-            getView().findViewWithTag(tag).setBackgroundDrawable(panelDefault);
-            mCompundColorPosition++;
-        } else {
-
-        }
+    /**
+     * 填充填色板
+     * @param color
+     */
+    private void fillPanel(int pos,int color){
+        mCompundColors[pos] = color;
+        String tag = String.format("panel_%d", pos + 2);
+        GradientDrawable gd = (GradientDrawable) getView().findViewWithTag(tag).getBackground();
+        gd.setColor(color);
     }
 
     /**
@@ -421,15 +424,11 @@ public class MainFragment extends Fragment implements
         showPop();
         if (lastModePos != position) {
             SceneItem item = items.get(position);
-            changeMode2(true, item);
+            changeMode(true, item);
         }
     }
 
-    public void changeMode(boolean isChecked, SceneItem data) {//TODO: if add showPop then the pop can not show
-//        changeMode2(isChecked, data);
-    }
-
-    private void changeMode2(boolean isChecked, SceneItem data){
+    private void changeMode(boolean isChecked, SceneItem data) {
         if (!isChecked) return;
 
         ConfigData.curLampMode = data.getMode();

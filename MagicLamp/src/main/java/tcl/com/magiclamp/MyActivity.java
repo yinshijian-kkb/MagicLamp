@@ -19,7 +19,7 @@ import tcl.com.magiclamp.data.SceneItem;
 import tcl.com.magiclamp.fragment.MainFragment;
 import tcl.com.magiclamp.fragment.LeftMenuFragment;
 
-public class MyActivity extends SlidingFragmentActivity implements OnModeCheckedListener<SceneItem> {
+public class MyActivity extends SlidingFragmentActivity{
 
     private SlidingMenu mSlidingMenu;
     private long mkeyTime;
@@ -101,10 +101,5 @@ public class MyActivity extends SlidingFragmentActivity implements OnModeChecked
         }
         if (i != null)
             startActivity(i);
-    }
-
-    @Override
-    public void changeMode(boolean isChecked, SceneItem data) {
-        mainFragment.changeMode(isChecked,data);
     }
 }
