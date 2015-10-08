@@ -1,4 +1,4 @@
 .gradle/
 .idea/
-build/intermediates/gradle_project_sync_data.bin
+build/
 local.properties

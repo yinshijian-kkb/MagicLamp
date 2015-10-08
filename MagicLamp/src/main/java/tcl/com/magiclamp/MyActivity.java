@@ -78,6 +78,7 @@ public class MyActivity extends SlidingFragmentActivity{
                 switch (resultCode){
                     case SceneFinishResultCode:
                         mLeftFragment.updateMenuState(0);
+                        setOnMenuClick(null,null,0,0l);
                         break;
                 }
                 break;
@@ -110,7 +111,6 @@ public class MyActivity extends SlidingFragmentActivity{
                 i.setClass(this,BroadcastActivity.class);
                 break;
             case 3://场景
-                setResult(SceneFinishResultCode);
                 i.setClass(this,SceneActivity.class);
                 break;
             case 4://设置

@@ -3,6 +3,7 @@ package tcl.com.magiclamp.activities;
 import android.app.Activity;
 import android.content.Intent;
 
+import tcl.com.magiclamp.MyActivity;
 import tcl.com.magiclamp.R;
 
 /**
@@ -24,6 +25,7 @@ public class BaseActivity extends Activity {
 
     @Override
     public void finish() {
+        setResult(MyActivity.SceneFinishResultCode);
         super.finish();
         overridePendingTransition(R.anim.fade, R.anim.fade_left);
     }

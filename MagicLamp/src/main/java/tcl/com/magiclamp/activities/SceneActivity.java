@@ -7,6 +7,8 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import tcl.com.magiclamp.MyActivity;
+import tcl.com.magiclamp.MyApplication;
 import tcl.com.magiclamp.data.LampMode;
 import tcl.com.magiclamp.R;
 import tcl.com.magiclamp.data.SceneItem;
@@ -18,7 +20,6 @@ import tcl.com.magiclamp.views.SceneManager;
  * Created by sjyin on 9/26/15.
  */
 public class SceneActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
-    private LampMode mCurMode;
     private SceneManager sm;
 
     @Override
@@ -41,7 +42,12 @@ public class SceneActivity extends BaseActivity implements View.OnClickListener,
         sm.setOnItemClickListener(this);
         container.addView(sm.getSceneView());
 
-        mCurMode = ConfigData.curLampMode;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        updateGlobeData();
     }
 
     @Override
@@ -49,12 +55,21 @@ public class SceneActivity extends BaseActivity implements View.OnClickListener,
         switch (v.getId()) {
             case R.id.iv_header_option:
             case R.id.iv_header_back://退出当前页 保存场景模式
-                if (mCurMode != null && ConfigData.curLampMode != mCurMode) {
-                    ConfigData.curLampMode = mCurMode;
-                    ConfigData.curLamp = ConfigData.lamps.get(ConfigData.curLampMode);
-                }
+                setResult(MyActivity.SceneFinishResultCode);
+                updateGlobeData();
                 finish();
                 break;
+        }
+    }
+
+    /**
+     * 更新全局的模式
+     */
+    private void updateGlobeData(){
+        LampMode _curMode = sm.getData().get(sm.getLastModePos()).getMode();
+        if (ConfigData.curLampMode != _curMode) {
+            ConfigData.curLampMode = _curMode;
+            ConfigData.curLamp = ConfigData.lamps.get(ConfigData.curLampMode);
         }
     }
 

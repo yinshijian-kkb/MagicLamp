@@ -33,7 +33,7 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="10dip"
         android:layout_marginTop="10dp"
-        android:src="@drawable/ic_launcher"
+        android:src="@drawable/on"
         android:visibility="invisible" />
 
     <CheckBox
