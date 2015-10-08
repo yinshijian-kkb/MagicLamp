@@ -9,13 +9,6 @@
         <dex dex="/Users/sjyin/openresource/MagicLamp/MagicLamp/build/intermediates/pre-dexed/debug/universal-image-loader-1.9.3-831be2dba9aaa5e7c7e749ae78468139bd0fe6fb.jar" />
     </item>
     <item
-        jar="/Users/sjyin/openresource/MagicLamp/MagicLamp/build/intermediates/exploded-aar/MagicLamp/HoloColorPicker/unspecified/jars/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="33cb812611fe3a4bc46fcdf1f48c6c4763e12a93">
-        <dex dex="/Users/sjyin/openresource/MagicLamp/MagicLamp/build/intermediates/pre-dexed/debug/classes-0a4d1bb8fa1e4170182c6d8aa004f43d5d07e8c0.jar" />
-    </item>
-    <item
         jar="/Users/sjyin/openresource/MagicLamp/MagicLamp/libs/android-support-v4.jar"
         jumboMode="false"
         revision="21.1.2"
