@@ -62,14 +62,14 @@ public class MainFragment extends Fragment implements
 
     private MyActivity mContext;
     private ColorPickerView2 colorPicker2;
-    private TextView panel_1, tv_header;
+    private TextView tv_header;
     private PopupWindow modPop;
     private View viewError, viewLoading, fl_cover;
 
     private LampMode mMode;
     private LampBean mLampData;
     private SeekBar brightnessBar;
-    private Button panel2, panel3, panel4, panel5;
+    private Button panel_1,panel2, panel3, panel4, panel5;
     private Drawable panelEmpty;
     private int compoundColorSize = 4;
     private int[] mCompundColors = new int[]{0,0,0,0,0};
@@ -93,6 +93,7 @@ public class MainFragment extends Fragment implements
             }
         }
     };
+    private boolean mIsChangeColor;
 
     @Override
     public void onAttach(Activity activity) {
@@ -131,7 +132,8 @@ public class MainFragment extends Fragment implements
         tv_header.setOnClickListener(this);
 
         panelEmpty = UIUtils.getDrawable(R.drawable.panel_empty);
-        panel_1 = (TextView) view.findViewById(R.id.panel_1);
+        panel_1 = (Button) view.findViewById(R.id.panel_1);
+        panel_1.setOnClickListener(this);
         GradientDrawable panelDefault = (GradientDrawable) UIUtils.getDrawable(R.drawable.panel_default);
         panelDefault.setBounds(0, 0, panelDefault.getMinimumWidth(), panelDefault.getMinimumHeight());
         panelEmpty.setBounds(0, 0, panelEmpty.getMinimumWidth(), panelEmpty.getMinimumHeight());
@@ -147,6 +149,7 @@ public class MainFragment extends Fragment implements
         panel3.setOnClickListener(this);
         panel4.setOnClickListener(this);
         panel5.setOnClickListener(this);
+        view.findViewById(R.id.btn_confirm).setOnClickListener(this);
 
         brightnessBar = (SeekBar) view.findViewById(R.id.progress_seek_bar);
         brightnessBar.setOnSeekBarChangeListener(this);
@@ -174,7 +177,7 @@ public class MainFragment extends Fragment implements
         //更新标题
         tv_header.setText(mMode.toString());
         //灯色
-        GradientDrawable panelBg = (GradientDrawable) panel_1.getCompoundDrawables()[0];
+        GradientDrawable panelBg = (GradientDrawable) panel_1.getBackground();
         if (mLampData.getColor() != 0) {
             panelBg.setColor(mLampData.getColor());
         } else {
@@ -238,24 +241,42 @@ public class MainFragment extends Fragment implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_header_back:
-//                mContext.performClick();//back::showContent
+                mContext.performClick();//back::showContent
 //                group.setEnabled(flag ? true : false);
-                flag = !flag;
+//                flag = !flag;
                 break;
             case R.id.tv_header_title:
                 showPop();
                 break;
-            case R.id.panel_2:
+            case R.id.panel_1://编辑灯色
+                mIsChangeColor = true;
+                //灯色
+                GradientDrawable panelBg = (GradientDrawable) panel_1.getBackground();
+                if (mLampData.getColor() != 0) {
+                    panelBg.setColor(Color.BLACK);
+                    mLampData.setColor(0);
+                } else {
+                    ToastUtils.showShort(mContext,"请选择灯色");
+                }
+                break;
+            case R.id.panel_2://编辑变化色
+                mIsChangeColor = false;
                 cancelPanelColor(v, 0);
                 break;
             case R.id.panel_3:
+                mIsChangeColor = false;
                 cancelPanelColor(v, 1);
                 break;
             case R.id.panel_4:
+                mIsChangeColor = false;
                 cancelPanelColor(v, 2);
                 break;
             case R.id.panel_5:
+                mIsChangeColor = false;
                 cancelPanelColor(v, 3);
+                break;
+            case R.id.btn_confirm:
+                ToastUtils.showShort(mContext,"同步变化色");
                 break;
             default:
                 break;
@@ -372,25 +393,31 @@ public class MainFragment extends Fragment implements
     /* ColorChangeListener */
     @Override
     public void colorChanged(int color) {
-        //不可以编辑灯色
-        if (!mLampData.isCanAdjustedComposedColor()) {
-            ToastUtils.showShort(mContext, "不可编辑灯色");
-            return;
-        }
-
-        if (!cancelColorPos.isEmpty()) {
-            int mPos = cancelColorPos.first();
-            fillPanel(mPos, color);
-            cancelColorPos.remove(mPos);
-            return;
+        if (mIsChangeColor) {
+            //编辑灯颜色
+            fillPanel(4,color);
         } else {
-            if (mCompundColorPosition >= compoundColorSize) {
-                ToastUtils.showShort(mContext, "灯色面板已经填充满");
+            //编辑变化色
+            if (!mLampData.isCanAdjustedComposedColor()) {
+                ToastUtils.showShort(mContext, "不可编辑灯色");
                 return;
+            } else {
+                if (!cancelColorPos.isEmpty()) {
+                    int mPos = cancelColorPos.first();
+                    fillPanel(mPos, color);
+                    cancelColorPos.remove(mPos);
+                    return;
+                } else {
+                    if (mCompundColorPosition >= compoundColorSize) {
+                        ToastUtils.showShort(mContext, "灯色面板已经填充满");
+                        return;
+                    }
+                }
+                mCompundColors[mCompundColorPosition] = color;//1
+                fillPanel(mCompundColorPosition, color);//2
+                mCompundColorPosition++;
             }
         }
-        fillPanel(mCompundColorPosition, color);
-        mCompundColorPosition++;
     }
 
     /**
@@ -398,24 +425,9 @@ public class MainFragment extends Fragment implements
      * @param color
      */
     private void fillPanel(int pos,int color){
-        mCompundColors[pos] = color;
         String tag = String.format("panel_%d", pos + 2);
         GradientDrawable gd = (GradientDrawable) getView().findViewWithTag(tag).getBackground();
         gd.setColor(color);
-    }
-
-    /**
-     * 检查变换色列表是否有空的
-     *
-     * @return
-     */
-    private boolean checkCompoundColorPanel() {
-        for (int i = 0; i < compoundColorSize; i++) {
-            if (mCompundColors[i] == 0) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /*  OnItemClickListener  */
