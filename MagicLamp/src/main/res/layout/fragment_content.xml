@@ -92,6 +92,7 @@
             android:layout_toRightOf="@id/tv_start"
             android:max="100"
             android:progress="10"
+            android:thumbOffset="0dp"
             android:progressDrawable="@drawable/seekbar_progress"
             android:thumb="@drawable/thumb" />
 
