@@ -24,6 +24,10 @@ public class MyActivity extends SlidingFragmentActivity{
     private SlidingMenu mSlidingMenu;
     private long mkeyTime;
     private MainFragment mainFragment;
+    private LeftMenuFragment mLeftFragment;
+
+    public static final int RequestCode = 0x001;
+    public static final int SceneFinishResultCode = 0x002;
 
     /**
      * Called when the activity is first created.
@@ -49,7 +53,8 @@ public class MyActivity extends SlidingFragmentActivity{
         //设置 SlidingMenu 内容
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         mainFragment = new MainFragment();
-        fragmentTransaction.replace(R.id.left_menu, new LeftMenuFragment());
+        mLeftFragment = new LeftMenuFragment();
+        fragmentTransaction.replace(R.id.left_menu, mLeftFragment);
         fragmentTransaction.replace(R.id.content, mainFragment);
         fragmentTransaction.commit();
     }
@@ -62,6 +67,20 @@ public class MyActivity extends SlidingFragmentActivity{
         toggle();
         if (!mSlidingMenu.isMenuShowing()){
             mainFragment.showLoading();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case RequestCode:
+                switch (resultCode){
+                    case SceneFinishResultCode:
+                        mLeftFragment.updateMenuState(0);
+                        break;
+                }
+                break;
         }
     }
 
@@ -81,6 +100,7 @@ public class MyActivity extends SlidingFragmentActivity{
         switch (position){
             case 0://灯光
                 toggle();
+                mainFragment.lampBeanInvalidate();
                 i = null;
                 break;
             case 1://音乐
@@ -90,6 +110,7 @@ public class MyActivity extends SlidingFragmentActivity{
                 i.setClass(this,BroadcastActivity.class);
                 break;
             case 3://场景
+                setResult(SceneFinishResultCode);
                 i.setClass(this,SceneActivity.class);
                 break;
             case 4://设置
@@ -99,7 +120,8 @@ public class MyActivity extends SlidingFragmentActivity{
                 i = null;
                 break;
         }
-        if (i != null)
-            startActivity(i);
+        if (i != null){
+            startActivityForResult(i, RequestCode);
+        }
     }
 }

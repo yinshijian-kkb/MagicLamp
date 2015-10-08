@@ -158,4 +158,9 @@ public class SlidingFragmentActivity extends FragmentActivity implements Sliding
 		overridePendingTransition(R.anim.fade_right, R.anim.fade);
 	}
 
+	@Override
+	public void startActivityForResult(Intent intent, int requestCode) {
+		super.startActivityForResult(intent, requestCode);
+		overridePendingTransition(R.anim.fade_right, R.anim.fade);
+	}
 }

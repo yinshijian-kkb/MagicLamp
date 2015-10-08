@@ -8,10 +8,16 @@
         layout="@layout/item_header" />
 
     <!--id::lv -->
-    <include
+    <!--<include
         layout="@layout/item_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/rl_header" />
+        android:layout_below="@id/rl_header" />-->
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl_header"/>
 
 </RelativeLayout>

@@ -1,21 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/Users/sjyin/openresource/MagicLamp/MagicLamp/src/main/res/values/arrays.xml -->
-    <eat-comment/>
-    <string-array name="arr_menu">
-        <item>灯光</item>
-        <item>音乐</item>
-        <item>广播</item>
-        <item>场景</item>
-        <item>设置</item>
-    </string-array>
-    <string-array name="arr_mode">
-        <item>普通模式</item>
-        <item>唤醒模式</item>
-        <item>阅读模式</item>
-        <item>浪漫模式</item>
-        <item>睡眠模式</item>
-    </string-array>
     <!-- From: file:/Users/sjyin/openresource/MagicLamp/MagicLamp/src/main/res/values/array.xml -->
     <eat-comment/>
     <array name="nav_drawer_icons">
@@ -156,8 +140,13 @@
     <string name="candy_mode">烛光</string>
     <string name="default_mode">默认</string>
     <string name="lamp_color">灯颜色</string>
+    <string name="light">灯光</string>
+    <string name="music">音乐</string>
     <string name="music_mode">音乐同步</string>
     <string name="panel_name">变化色</string>
+    <string name="radio">广播</string>
+    <string name="scene">场景</string>
+    <string name="set_up">设置</string>
     <string name="tip_loadempty">暂无数据</string>
     <string name="tip_loading">加载中...</string>
     <string name="tip_retry">加载失败,请点击重试！</string>

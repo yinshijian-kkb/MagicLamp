@@ -45,6 +45,7 @@ import tcl.com.magiclamp.picker.OnColorChangedListener;
 import tcl.com.magiclamp.utils.ConfigData;
 import tcl.com.magiclamp.utils.ToastUtils;
 import tcl.com.magiclamp.utils.UIUtils;
+import tcl.com.magiclamp.views.SceneManager;
 
 import static tcl.com.magiclamp.data.LampAffection.Blink;
 import static tcl.com.magiclamp.data.LampAffection.Candy;
@@ -76,8 +77,6 @@ public class MainFragment extends Fragment implements
     private int mCompundColorPosition = 0;
     private RadioButton cb_sync_music_mode, blink_mode, candy_light_mode, default_mode;
     private ArrayList<LampMode> lampModes;
-    private ArrayList<SceneItem> items;
-    private CommonAdapter<SceneItem> modeAdapter;
     private int lastModePos;
     private TreeSet<Integer> cancelColorPos;//if there are more than one mode can change compound color ,this should be map
 
@@ -94,6 +93,7 @@ public class MainFragment extends Fragment implements
         }
     };
     private boolean mIsChangeColor;
+    private SceneManager mSceneManger;
 
     @Override
     public void onAttach(Activity activity) {
@@ -170,7 +170,11 @@ public class MainFragment extends Fragment implements
     /**
      * 切换不同的模式
      */
-    private void lampBeanInvalidate() {
+    public void lampBeanInvalidate() {
+        if (mMode != null && mMode == ConfigData.curLampMode){
+            return;
+        }
+
         mMode = ConfigData.curLampMode;
         mLampData = ConfigData.curLamp;
 
@@ -304,7 +308,10 @@ public class MainFragment extends Fragment implements
      */
     private void showPop() {
         if (modPop == null) {
-            modPop = new PopupWindow(getModePopView(),
+            mSceneManger = new SceneManager(mContext);//1
+            mSceneManger.setOnItemClickListener(this);//2
+            lastModePos = mSceneManger.getLastModePos();
+            modPop = new PopupWindow(mSceneManger.getSceneView(),//3
                     200,
                     WindowManager.LayoutParams.WRAP_CONTENT);
             modPop.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));//or can not dismiss when touch outside
@@ -321,48 +328,6 @@ public class MainFragment extends Fragment implements
         } else {
             modPop.dismiss();
         }
-    }
-
-    private View getModePopView() {
-        ListView lv = new ListView(mContext);
-        modeAdapter = new CommonAdapter<SceneItem>(mContext, configScene()) {
-            @Override
-            protected BaseHolder getHolder(Context context) {
-                return new SceneHolder(mContext);
-            }
-        };
-        lv.setAdapter(modeAdapter);
-        lv.setDividerHeight(2);
-        lv.setOnItemClickListener(this);
-        lv.setBackgroundResource(R.drawable.pop_bg);
-        return lv;
-    }
-
-    /**
-     * 配置场景
-     *
-     * @return
-     */
-    private List<SceneItem> configScene() {
-        if (items == null)
-            items = new ArrayList<SceneItem>();
-        else
-            items.clear();
-        Map<LampMode, LampBean> scenes = ConfigData.lamps;
-        int index = 0;
-        for (LampMode mode : scenes.keySet()) {
-            SceneItem item = new SceneItem();
-            if (mode == mMode) {
-                lastModePos = index;
-                item.setChecked(true);
-            } else {
-                item.setChecked(false);
-            }
-            item.setMode(mode);
-            items.add(index, item);
-            index++;
-        }
-        return items;
     }
 
     /**
@@ -434,20 +399,16 @@ public class MainFragment extends Fragment implements
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         showPop();
-        if (lastModePos != position) {
-            SceneItem item = items.get(position);
-            changeMode(true, item);
+        if (mSceneManger.getLastModePos() != position) {
+            mSceneManger.getData().get(position).setChecked(true);
+            mSceneManger.getData().get(mSceneManger.getLastModePos()).setChecked(false);
+            mSceneManger.getAdapter().notifyDataSetChanged();
+            mSceneManger.setLastModePos(position);
+
+            ConfigData.curLampMode = mSceneManger.getData().get(position).getMode();
+            ConfigData.curLamp = ConfigData.lamps.get(ConfigData.curLampMode);
+            lampBeanInvalidate();
         }
-    }
-
-    private void changeMode(boolean isChecked, SceneItem data) {
-        if (!isChecked) return;
-
-        ConfigData.curLampMode = data.getMode();
-        ConfigData.curLamp = ConfigData.lamps.get(ConfigData.curLampMode);
-        lampBeanInvalidate();
-        configScene();
-        modeAdapter.notifyDataSetChanged();
     }
 
     /* OnCheckedChangeListener */

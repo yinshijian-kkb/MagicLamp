@@ -10,4 +10,9 @@
     <string name="default_mode">默认</string>
     <string name="lamp_color">灯颜色</string>
     <string name="panel_name">变化色</string>
+    <string name="set_up">设置</string>
+    <string name="scene">场景</string>
+    <string name="radio">广播</string>
+    <string name="music">音乐</string>
+    <string name="light">灯光</string>
 </resources>
