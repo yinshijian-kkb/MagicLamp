@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/the_default_not_available" android:state_enabled="false" />
-    <item android:drawable="@drawable/the_default" android:state_checked="false" />
-    <item android:drawable="@drawable/the_default_selected" android:state_checked="true" />
-</selector><!-- From: file:/Users/sjyin/openresource/MagicLamp/MagicLamp/src/main/res/drawable/default_mode_selector.xml -->
