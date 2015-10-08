@@ -1,10 +1,8 @@
 package tcl.com.magiclamp.fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,27 +18,20 @@ import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.TreeSet;
 
 import tcl.com.magiclamp.MyActivity;
 import tcl.com.magiclamp.R;
-import tcl.com.magiclamp.adapter.SceneHolder;
-import tcl.com.magiclamp.adapter.base.BaseHolder;
-import tcl.com.magiclamp.adapter.base.CommonAdapter;
 import tcl.com.magiclamp.data.LampAffection;
 import tcl.com.magiclamp.data.LampBean;
 import tcl.com.magiclamp.data.LampMode;
-import tcl.com.magiclamp.data.SceneItem;
-import tcl.com.magiclamp.picker.ColorPickerView2;
+import tcl.com.magiclamp.picker.ColorPickerView;
 import tcl.com.magiclamp.picker.OnColorChangedListener;
 import tcl.com.magiclamp.utils.ConfigData;
 import tcl.com.magiclamp.utils.ToastUtils;
@@ -62,24 +53,44 @@ public class MainFragment extends Fragment implements
         AdapterView.OnItemClickListener, CompoundButton.OnCheckedChangeListener {
 
     private MyActivity mContext;
-    private ColorPickerView2 colorPicker2;
-    private TextView tv_header;
+    /**
+     * 颜色选择器
+     */
+    private ColorPickerView colorPicker2;
     private PopupWindow modPop;
+    private TextView tv_header;
     private View viewError, viewLoading, fl_cover;
 
+    /**
+     * 模式
+     */
     private LampMode mMode;
+    /**
+     * 当前模式下，对应的数据
+     */
     private LampBean mLampData;
+    /**
+     * 灯光亮度调节器
+     */
     private SeekBar brightnessBar;
+
     private Button panel_1,panel2, panel3, panel4, panel5;
-    private Drawable panelEmpty;
+    /**
+     * 灯光变化色
+     */
     private int compoundColorSize = 4;
     private int[] mCompundColors = new int[]{0,0,0,0,0};
     private int mCompundColorPosition = 0;
+    /**
+     * 灯效
+     */
     private RadioButton cb_sync_music_mode, blink_mode, candy_light_mode, default_mode;
     private ArrayList<LampMode> lampModes;
-    private int lastModePos;
     private TreeSet<Integer> cancelColorPos;//if there are more than one mode can change compound color ,this should be map
 
+    /**
+     * 模拟延时操作
+     */
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -92,6 +103,9 @@ public class MainFragment extends Fragment implements
             }
         }
     };
+    /**
+     * 是否可编辑灯色
+     */
     private boolean mIsChangeColor;
     private SceneManager mSceneManger;
 
@@ -131,14 +145,10 @@ public class MainFragment extends Fragment implements
         tv_header = (TextView) view.findViewById(R.id.tv_header_title);
         tv_header.setOnClickListener(this);
 
-        panelEmpty = UIUtils.getDrawable(R.drawable.panel_empty);
         panel_1 = (Button) view.findViewById(R.id.panel_1);
         panel_1.setOnClickListener(this);
-        GradientDrawable panelDefault = (GradientDrawable) UIUtils.getDrawable(R.drawable.panel_default);
-        panelDefault.setBounds(0, 0, panelDefault.getMinimumWidth(), panelDefault.getMinimumHeight());
-        panelEmpty.setBounds(0, 0, panelEmpty.getMinimumWidth(), panelEmpty.getMinimumHeight());
 
-        colorPicker2 = (ColorPickerView2) view.findViewById(R.id.color_picker);
+        colorPicker2 = (ColorPickerView) view.findViewById(R.id.color_picker);
         colorPicker2.setOnColorChangedListener(this);
 
         panel2 = (Button) view.findViewById(R.id.panel_2);
@@ -310,7 +320,6 @@ public class MainFragment extends Fragment implements
         if (modPop == null) {
             mSceneManger = new SceneManager(mContext);//1
             mSceneManger.setOnItemClickListener(this);//2
-            lastModePos = mSceneManger.getLastModePos();
             modPop = new PopupWindow(mSceneManger.getSceneView(),//3
                     200,
                     WindowManager.LayoutParams.WRAP_CONTENT);

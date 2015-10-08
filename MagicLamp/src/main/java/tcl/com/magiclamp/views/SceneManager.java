@@ -20,12 +20,17 @@ import tcl.com.magiclamp.data.SceneItem;
 import tcl.com.magiclamp.utils.ConfigData;
 
 /**
+ * 场景管理器
+ *
  * Created by sjyin on 10/8/15.
  */
 public class SceneManager {
 
     private Context mContext;
     private LampMode mMode;
+    /**
+     * 默认情况下是默认模式
+     */
     private int mLastModePos = 3;
     private ArrayList<SceneItem> items;
     private ListView lv;

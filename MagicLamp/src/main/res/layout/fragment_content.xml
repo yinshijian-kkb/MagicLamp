@@ -9,7 +9,7 @@
         android:id="@+id/header"
         layout="@layout/item_header" />
 
-    <tcl.com.magiclamp.picker.ColorPickerView2
+    <tcl.com.magiclamp.picker.ColorPickerView
         android:id="@+id/color_picker"
         android:layout_width="200dp"
         android:layout_height="200dp"
