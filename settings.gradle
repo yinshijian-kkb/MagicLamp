@@ -1,1 +1,1 @@
-include ':MagicLamp', ':HoloColorPicker'
+include ':MagicLamp'

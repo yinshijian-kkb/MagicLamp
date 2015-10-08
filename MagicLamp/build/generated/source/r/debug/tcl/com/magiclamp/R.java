@@ -29,55 +29,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int bar_length=0x7f010001;
-        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-         */
-        public static final int bar_orientation_horizontal=0x7f010004;
-        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-         */
-        public static final int bar_pointer_halo_radius=0x7f010003;
-        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-         */
-        public static final int bar_pointer_radius=0x7f010002;
-        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-         */
-        public static final int bar_thickness=0x7f010000;
-        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-         */
-        public static final int behindOffset=0x7f01000e;
+        public static final int behindOffset=0x7f010003;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -85,7 +37,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int behindScrollScale=0x7f010010;
+        public static final int behindScrollScale=0x7f010005;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -95,67 +47,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int behindWidth=0x7f01000f;
-        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-         */
-        public static final int color_center_halo_radius=0x7f010008;
-        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-         */
-        public static final int color_center_radius=0x7f010007;
-        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-         */
-        public static final int color_pointer_halo_radius=0x7f01000a;
-        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-         */
-        public static final int color_pointer_radius=0x7f010009;
-        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-         */
-        public static final int color_wheel_radius=0x7f010005;
-        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-         */
-        public static final int color_wheel_thickness=0x7f010006;
+        public static final int behindWidth=0x7f010004;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -163,7 +55,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int fadeDegree=0x7f010016;
+        public static final int fadeDegree=0x7f01000b;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -171,7 +63,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int fadeEnabled=0x7f010015;
+        public static final int fadeEnabled=0x7f01000a;
         /** <p>Must be one of the following constant values.</p>
 <table>
 <colgroup align="left" />
@@ -182,11 +74,11 @@ containing a value of this type.
 <tr><td><code>right</code></td><td>1</td><td></td></tr>
 </table>
          */
-        public static final int mode=0x7f01000b;
+        public static final int mode=0x7f010000;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int selectorDrawable=0x7f010018;
+        public static final int selectorDrawable=0x7f01000d;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -194,11 +86,11 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int selectorEnabled=0x7f010017;
+        public static final int selectorEnabled=0x7f01000c;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int shadowDrawable=0x7f010013;
+        public static final int shadowDrawable=0x7f010008;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -208,7 +100,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int shadowWidth=0x7f010014;
+        public static final int shadowWidth=0x7f010009;
         /** <p>Must be one of the following constant values.</p>
 <table>
 <colgroup align="left" />
@@ -219,7 +111,7 @@ containing a value of this type.
 <tr><td><code>fullscreen</code></td><td>1</td><td></td></tr>
 </table>
          */
-        public static final int touchModeAbove=0x7f010011;
+        public static final int touchModeAbove=0x7f010006;
         /** <p>Must be one of the following constant values.</p>
 <table>
 <colgroup align="left" />
@@ -230,15 +122,15 @@ containing a value of this type.
 <tr><td><code>fullscreen</code></td><td>1</td><td></td></tr>
 </table>
          */
-        public static final int touchModeBehind=0x7f010012;
+        public static final int touchModeBehind=0x7f010007;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int viewAbove=0x7f01000c;
+        public static final int viewAbove=0x7f010001;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int viewBehind=0x7f01000d;
+        public static final int viewBehind=0x7f010002;
     }
     public static final class color {
         public static final int adv_mask_bg=0x7f060000;
@@ -345,22 +237,12 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int yellow=0x7f060065;
     }
     public static final class dimen {
-        public static final int bar_length=0x7f070000;
-        public static final int bar_pointer_halo_radius=0x7f070001;
-        public static final int bar_pointer_radius=0x7f070002;
-        public static final int bar_thickness=0x7f070003;
-        public static final int brightness_bar_height=0x7f070004;
-        public static final int brightness_bar_width=0x7f070005;
-        public static final int color_center_halo_radius=0x7f070006;
-        public static final int color_center_radius=0x7f070007;
-        public static final int color_pointer_halo_radius=0x7f070008;
-        public static final int color_pointer_radius=0x7f070009;
-        public static final int color_wheel_radius=0x7f07000a;
-        public static final int color_wheel_thickness=0x7f07000b;
-        public static final int disable_height=0x7f07000c;
-        public static final int disable_width=0x7f07000d;
-        public static final int shadow_width=0x7f07000e;
-        public static final int slidingmenu_offset=0x7f07000f;
+        public static final int brightness_bar_height=0x7f070000;
+        public static final int brightness_bar_width=0x7f070001;
+        public static final int disable_height=0x7f070002;
+        public static final int disable_width=0x7f070003;
+        public static final int shadow_width=0x7f070004;
+        public static final int slidingmenu_offset=0x7f070005;
     }
     public static final class drawable {
         public static final int arrow_normal=0x7f020000;
@@ -512,226 +394,6 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int TextViewFontStyle=0x7f0a0000;
     }
     public static final class styleable {
-        /** Attributes that can be used with a ColorBars.
-           <p>Includes the following attributes:</p>
-           <table>
-           <colgroup align="left" />
-           <colgroup align="left" />
-           <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #ColorBars_bar_length tcl.com.magiclamp:bar_length}</code></td><td></td></tr>
-           <tr><td><code>{@link #ColorBars_bar_orientation_horizontal tcl.com.magiclamp:bar_orientation_horizontal}</code></td><td></td></tr>
-           <tr><td><code>{@link #ColorBars_bar_pointer_halo_radius tcl.com.magiclamp:bar_pointer_halo_radius}</code></td><td></td></tr>
-           <tr><td><code>{@link #ColorBars_bar_pointer_radius tcl.com.magiclamp:bar_pointer_radius}</code></td><td></td></tr>
-           <tr><td><code>{@link #ColorBars_bar_thickness tcl.com.magiclamp:bar_thickness}</code></td><td></td></tr>
-           </table>
-           @see #ColorBars_bar_length
-           @see #ColorBars_bar_orientation_horizontal
-           @see #ColorBars_bar_pointer_halo_radius
-           @see #ColorBars_bar_pointer_radius
-           @see #ColorBars_bar_thickness
-         */
-        public static final int[] ColorBars = {
-            0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003,
-            0x7f010004
-        };
-        /**
-          <p>This symbol is the offset where the {@link tcl.com.magiclamp.R.attr#bar_length}
-          attribute's value can be found in the {@link #ColorBars} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name tcl.com.magiclamp:bar_length
-        */
-        public static final int ColorBars_bar_length = 1;
-        /**
-          <p>This symbol is the offset where the {@link tcl.com.magiclamp.R.attr#bar_orientation_horizontal}
-          attribute's value can be found in the {@link #ColorBars} array.
-
-
-          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name tcl.com.magiclamp:bar_orientation_horizontal
-        */
-        public static final int ColorBars_bar_orientation_horizontal = 4;
-        /**
-          <p>This symbol is the offset where the {@link tcl.com.magiclamp.R.attr#bar_pointer_halo_radius}
-          attribute's value can be found in the {@link #ColorBars} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name tcl.com.magiclamp:bar_pointer_halo_radius
-        */
-        public static final int ColorBars_bar_pointer_halo_radius = 3;
-        /**
-          <p>This symbol is the offset where the {@link tcl.com.magiclamp.R.attr#bar_pointer_radius}
-          attribute's value can be found in the {@link #ColorBars} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name tcl.com.magiclamp:bar_pointer_radius
-        */
-        public static final int ColorBars_bar_pointer_radius = 2;
-        /**
-          <p>This symbol is the offset where the {@link tcl.com.magiclamp.R.attr#bar_thickness}
-          attribute's value can be found in the {@link #ColorBars} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name tcl.com.magiclamp:bar_thickness
-        */
-        public static final int ColorBars_bar_thickness = 0;
-        /** Attributes that can be used with a ColorPicker.
-           <p>Includes the following attributes:</p>
-           <table>
-           <colgroup align="left" />
-           <colgroup align="left" />
-           <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #ColorPicker_color_center_halo_radius tcl.com.magiclamp:color_center_halo_radius}</code></td><td></td></tr>
-           <tr><td><code>{@link #ColorPicker_color_center_radius tcl.com.magiclamp:color_center_radius}</code></td><td></td></tr>
-           <tr><td><code>{@link #ColorPicker_color_pointer_halo_radius tcl.com.magiclamp:color_pointer_halo_radius}</code></td><td></td></tr>
-           <tr><td><code>{@link #ColorPicker_color_pointer_radius tcl.com.magiclamp:color_pointer_radius}</code></td><td></td></tr>
-           <tr><td><code>{@link #ColorPicker_color_wheel_radius tcl.com.magiclamp:color_wheel_radius}</code></td><td></td></tr>
-           <tr><td><code>{@link #ColorPicker_color_wheel_thickness tcl.com.magiclamp:color_wheel_thickness}</code></td><td></td></tr>
-           </table>
-           @see #ColorPicker_color_center_halo_radius
-           @see #ColorPicker_color_center_radius
-           @see #ColorPicker_color_pointer_halo_radius
-           @see #ColorPicker_color_pointer_radius
-           @see #ColorPicker_color_wheel_radius
-           @see #ColorPicker_color_wheel_thickness
-         */
-        public static final int[] ColorPicker = {
-            0x7f010005, 0x7f010006, 0x7f010007, 0x7f010008,
-            0x7f010009, 0x7f01000a
-        };
-        /**
-          <p>This symbol is the offset where the {@link tcl.com.magiclamp.R.attr#color_center_halo_radius}
-          attribute's value can be found in the {@link #ColorPicker} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name tcl.com.magiclamp:color_center_halo_radius
-        */
-        public static final int ColorPicker_color_center_halo_radius = 3;
-        /**
-          <p>This symbol is the offset where the {@link tcl.com.magiclamp.R.attr#color_center_radius}
-          attribute's value can be found in the {@link #ColorPicker} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name tcl.com.magiclamp:color_center_radius
-        */
-        public static final int ColorPicker_color_center_radius = 2;
-        /**
-          <p>This symbol is the offset where the {@link tcl.com.magiclamp.R.attr#color_pointer_halo_radius}
-          attribute's value can be found in the {@link #ColorPicker} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name tcl.com.magiclamp:color_pointer_halo_radius
-        */
-        public static final int ColorPicker_color_pointer_halo_radius = 5;
-        /**
-          <p>This symbol is the offset where the {@link tcl.com.magiclamp.R.attr#color_pointer_radius}
-          attribute's value can be found in the {@link #ColorPicker} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name tcl.com.magiclamp:color_pointer_radius
-        */
-        public static final int ColorPicker_color_pointer_radius = 4;
-        /**
-          <p>This symbol is the offset where the {@link tcl.com.magiclamp.R.attr#color_wheel_radius}
-          attribute's value can be found in the {@link #ColorPicker} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name tcl.com.magiclamp:color_wheel_radius
-        */
-        public static final int ColorPicker_color_wheel_radius = 0;
-        /**
-          <p>This symbol is the offset where the {@link tcl.com.magiclamp.R.attr#color_wheel_thickness}
-          attribute's value can be found in the {@link #ColorPicker} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name tcl.com.magiclamp:color_wheel_thickness
-        */
-        public static final int ColorPicker_color_wheel_thickness = 1;
         /** Attributes that can be used with a SlidingMenu.
            <p>Includes the following attributes:</p>
            <table>
@@ -769,10 +431,10 @@ containing a value of this type.
            @see #SlidingMenu_viewBehind
          */
         public static final int[] SlidingMenu = {
-            0x7f01000b, 0x7f01000c, 0x7f01000d, 0x7f01000e,
-            0x7f01000f, 0x7f010010, 0x7f010011, 0x7f010012,
-            0x7f010013, 0x7f010014, 0x7f010015, 0x7f010016,
-            0x7f010017, 0x7f010018
+            0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003,
+            0x7f010004, 0x7f010005, 0x7f010006, 0x7f010007,
+            0x7f010008, 0x7f010009, 0x7f01000a, 0x7f01000b,
+            0x7f01000c, 0x7f01000d
         };
         /**
           <p>This symbol is the offset where the {@link tcl.com.magiclamp.R.attr#behindOffset}
