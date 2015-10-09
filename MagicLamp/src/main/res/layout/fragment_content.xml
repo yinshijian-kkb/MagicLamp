@@ -188,9 +188,11 @@
         android:visibility="gone" />
 
     <include
+        android:id="@+id/music_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/layout_footer_music"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="-90dp"/>
 
 </RelativeLayout>

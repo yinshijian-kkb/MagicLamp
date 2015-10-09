@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -113,6 +115,9 @@ public class MainFragment extends Fragment implements
     private boolean mIsExpanded;
     private SceneManager mSceneManger;
     private CheckBox cb;
+    private View music_panel;
+    private boolean mMusicPanelShowing;
+    private Animation musicPanelUp,musicPanelDown;
 
     @Override
     public void onAttach(Activity activity) {
@@ -179,6 +184,14 @@ public class MainFragment extends Fragment implements
         viewLoading = view.findViewById(R.id.loading_view);
         fl_cover = view.findViewById(R.id.fl_cover);
 
+
+        //add music panel at footer
+        music_panel = view.findViewById(R.id.music_panel);
+        ((CheckBox)view.findViewById(R.id.cb_arrow)).setOnCheckedChangeListener(this);
+
+        musicPanelUp = AnimationUtils.loadAnimation(mContext,R.anim.music_panel_up);
+        musicPanelDown = AnimationUtils.loadAnimation(mContext,R.anim.music_panel_down);
+
         expandCompoundColor(false);
         lampBeanInvalidate();
 
@@ -195,6 +208,12 @@ public class MainFragment extends Fragment implements
         mMode = ConfigData.curLampMode;
         mLampData = ConfigData.curLamp;
 
+        //是否显示音乐面板
+        music_panel.setVisibility(mLampData.isCanAdjustedMusic() ? View.VISIBLE : View.INVISIBLE);
+        if (mLampData.isCanAdjustedMusic()){
+            mMusicPanelShowing = true;
+            music_panel.startAnimation(musicPanelUp);
+        }
         //更新标题
         tv_header.setText(mMode.toString());
         //灯色
@@ -302,9 +321,10 @@ public class MainFragment extends Fragment implements
                 cancelPanelColor(v, 3);
                 break;
             case R.id.btn_confirm:
-                ToastUtils.showShort(mContext,"同步变化色");
+                ToastUtils.showShort(mContext, "同步变化色");
                 expandCompoundColor(false);
                 break;
+
             default:
                 break;
         }
@@ -457,6 +477,12 @@ public class MainFragment extends Fragment implements
 //                fl_cover.setVisibility(isChecked ? View.VISIBLE : View.GONE);
                 ToastUtils.showShort(mContext,isChecked ? "关机":"开机");
                 tv_header.setEnabled(!isChecked);
+                break;
+            // add music panel at footer
+            case R.id.cb_arrow:
+                ToastUtils.showShort(mContext, "arrow click");
+                mMusicPanelShowing = isChecked;
+                music_panel.startAnimation(mMusicPanelShowing ? musicPanelUp : musicPanelDown);
                 break;
         }
     }
