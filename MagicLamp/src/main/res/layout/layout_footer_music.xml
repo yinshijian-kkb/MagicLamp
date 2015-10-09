@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/info_sreen_bg">
+
+    <ImageView
+        android:id="@+id/ib_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/music_arrow_b" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_below="@id/ib_arrow"
+        android:background="@color/c_3c3e45">
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/music_shortcut_margin"
+            android:layout_marginRight="@dimen/music_shortcut_margin"
+            android:src="@drawable/music_head" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/iv_icon">
+
+            <TextView
+                android:id="@+id/tv_song"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="怒放的生命"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/tv_singer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_song"
+                android:layout_marginTop="9dp"
+                android:text="汪峰"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/music_shortcut_margin"
+            android:layout_marginRight="@dimen/music_shortcut_margin"
+            android:background="@drawable/play_selector" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="6dp"
+            android:layout_toLeftOf="@id/btn_play"
+            style="@style/music_syllable_style"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

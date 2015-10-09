@@ -2,6 +2,7 @@ package tcl.com.magiclamp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.Window;
@@ -15,9 +16,9 @@ import tcl.com.magiclamp.activities.BroadcastActivity;
 import tcl.com.magiclamp.activities.MusicActivity;
 import tcl.com.magiclamp.activities.SceneActivity;
 import tcl.com.magiclamp.activities.SettingActivity;
-import tcl.com.magiclamp.data.SceneItem;
 import tcl.com.magiclamp.fragment.MainFragment;
 import tcl.com.magiclamp.fragment.LeftMenuFragment;
+import tcl.com.magiclamp.fragment.MusicFragment;
 
 public class MyActivity extends SlidingFragmentActivity{
 
@@ -28,6 +29,7 @@ public class MyActivity extends SlidingFragmentActivity{
 
     public static final int RequestCode = 0x001;
     public static final int SceneFinishResultCode = 0x002;
+    private MusicFragment musicFragment;
 
     /**
      * Called when the activity is first created.
@@ -56,6 +58,18 @@ public class MyActivity extends SlidingFragmentActivity{
         mLeftFragment = new LeftMenuFragment();
         fragmentTransaction.replace(R.id.left_menu, mLeftFragment);
         fragmentTransaction.replace(R.id.content, mainFragment);
+        fragmentTransaction.commit();
+    }
+
+    /**
+     * 切换Fragment
+     *
+     * @param pFragment
+     */
+    public void replaceContentFragment(Fragment pFragment){
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.fade_up,0);
+        fragmentTransaction.replace(R.id.content, pFragment);
         fragmentTransaction.commit();
     }
 
@@ -105,7 +119,12 @@ public class MyActivity extends SlidingFragmentActivity{
                 i = null;
                 break;
             case 1://音乐
-                i.setClass(this,MusicActivity.class);
+//                i.setClass(this,MusicActivity.class);
+                if (musicFragment == null){
+                    musicFragment = new MusicFragment();
+                }
+                replaceContentFragment(musicFragment);
+                i = null;
                 break;
             case 2://广播
                 i.setClass(this,BroadcastActivity.class);

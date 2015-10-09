@@ -7,5 +7,6 @@
     <dimen name="disable_height">120px</dimen>
     <dimen name="brightness_bar_height">7dp</dimen>
     <dimen name="brightness_bar_width">200dp</dimen>
+    <dimen name="music_shortcut_margin">17dp</dimen>
 
 </resources>
