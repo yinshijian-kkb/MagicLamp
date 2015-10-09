@@ -87,12 +87,14 @@
         <SeekBar
             android:id="@+id/progress_seek_bar"
             android:layout_width="match_parent"
-            android:layout_height="12dp"
+            android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/tv_end"
             android:layout_toRightOf="@id/tv_start"
             android:max="100"
             android:progress="10"
             android:thumbOffset="0dp"
+            android:minHeight="7dp"
+            android:maxHeight="7dp"
             android:progressDrawable="@drawable/seekbar_progress"
             android:thumb="@drawable/thumb" />
 

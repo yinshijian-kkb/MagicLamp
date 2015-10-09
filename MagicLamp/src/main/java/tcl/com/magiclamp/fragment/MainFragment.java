@@ -74,7 +74,7 @@ public class MainFragment extends Fragment implements
      */
     private SeekBar brightnessBar;
 
-    private Button panel_1,panel2, panel3, panel4, panel5;
+    private Button panel_1,panel2, panel3, panel4, panel5,panelConfirm;
     /**
      * 灯光变化色
      */
@@ -107,7 +107,12 @@ public class MainFragment extends Fragment implements
      * 是否可编辑灯色
      */
     private boolean mIsChangeColor;
+    /**
+     * 变化色是否折叠
+     */
+    private boolean mIsExpanded;
     private SceneManager mSceneManger;
+    private CheckBox cb;
 
     @Override
     public void onAttach(Activity activity) {
@@ -138,7 +143,7 @@ public class MainFragment extends Fragment implements
         ivBack.setImageResource(R.drawable.menu);
         ivBack.setOnClickListener(this);
 
-        CheckBox cb = (CheckBox) view.findViewById(R.id.cb_checker);
+        cb = (CheckBox) view.findViewById(R.id.cb_checker);
         cb.setButtonDrawable(R.drawable.on);
         cb.setOnCheckedChangeListener(this);
 
@@ -155,11 +160,12 @@ public class MainFragment extends Fragment implements
         panel3 = (Button) view.findViewById(R.id.panel_3);
         panel4 = (Button) view.findViewById(R.id.panel_4);
         panel5 = (Button) view.findViewById(R.id.panel_5);
+        panelConfirm = (Button)view.findViewById(R.id.btn_confirm);
         panel2.setOnClickListener(this);
         panel3.setOnClickListener(this);
         panel4.setOnClickListener(this);
         panel5.setOnClickListener(this);
-        view.findViewById(R.id.btn_confirm).setOnClickListener(this);
+        panelConfirm.setOnClickListener(this);
 
         brightnessBar = (SeekBar) view.findViewById(R.id.progress_seek_bar);
         brightnessBar.setOnSeekBarChangeListener(this);
@@ -173,6 +179,7 @@ public class MainFragment extends Fragment implements
         viewLoading = view.findViewById(R.id.loading_view);
         fl_cover = view.findViewById(R.id.fl_cover);
 
+        expandCompoundColor(false);
         lampBeanInvalidate();
 
     }
@@ -237,10 +244,11 @@ public class MainFragment extends Fragment implements
      * @param canAdjustedComposedColor
      */
     private void setPanelState(boolean canAdjustedComposedColor) {
-        panel2.setEnabled(canAdjustedComposedColor ? true : false);
+//        panel2.setEnabled(canAdjustedComposedColor ? true : false);
         panel3.setEnabled(canAdjustedComposedColor ? true : false);
         panel4.setEnabled(canAdjustedComposedColor ? true : false);
         panel5.setEnabled(canAdjustedComposedColor ? true : false);
+//        panelConfirm.setEnabled(canAdjustedComposedColor ? true : false);
     }
 
     @Override
@@ -249,7 +257,7 @@ public class MainFragment extends Fragment implements
         showLoading();
     }
 
-    private boolean flag = true;
+//    private boolean flag = true;
 
     @Override
     public void onClick(View v) {
@@ -274,8 +282,12 @@ public class MainFragment extends Fragment implements
                 }
                 break;
             case R.id.panel_2://编辑变化色
-                mIsChangeColor = false;
-                cancelPanelColor(v, 0);
+                if (!mIsExpanded){
+                    expandCompoundColor(true);
+                }else{
+                    mIsChangeColor = false;
+                    cancelPanelColor(v, 0);
+                }
                 break;
             case R.id.panel_3:
                 mIsChangeColor = false;
@@ -291,10 +303,23 @@ public class MainFragment extends Fragment implements
                 break;
             case R.id.btn_confirm:
                 ToastUtils.showShort(mContext,"同步变化色");
+                expandCompoundColor(false);
                 break;
             default:
                 break;
         }
+    }
+
+    /**
+     * 展开、折叠变化色
+     * @param isExpanded
+     */
+    private void expandCompoundColor(boolean isExpanded) {
+        mIsExpanded = isExpanded;
+        panel3.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        panel4.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        panel5.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        panelConfirm.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
     }
 
     /**
@@ -304,6 +329,10 @@ public class MainFragment extends Fragment implements
      * @param pos
      */
     private void cancelPanelColor(View v, int pos) {
+        if (!mLampData.isCanAdjustedComposedColor()) {
+            ToastUtils.showShort(mContext, "不可编辑灯色");
+            return;
+        }
         if(mCompundColors[pos] == 0){
             ToastUtils.showShort(mContext, "没有填充色值");
         }else{
@@ -425,9 +454,11 @@ public class MainFragment extends Fragment implements
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
             case R.id.cb_checker:
-                fl_cover.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+//                fl_cover.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+                ToastUtils.showShort(mContext,isChecked ? "关机":"开机");
                 tv_header.setEnabled(!isChecked);
                 break;
         }
     }
+
 }

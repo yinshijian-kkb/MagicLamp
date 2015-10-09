@@ -15,6 +15,8 @@
         android:theme="@android:style/Theme.Light.NoTitleBar">
         <activity
             android:name="MyActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,21 +27,25 @@
             android:name=".activities.MusicActivity"
             android:alwaysRetainTaskState="true"
             android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation"
             android:windowSoftInputMode="stateUnchanged|adjustPan" />
         <activity
             android:name=".activities.BroadcastActivity"
             android:alwaysRetainTaskState="true"
             android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation"
             android:windowSoftInputMode="stateUnchanged|adjustPan" />
         <activity
             android:name=".activities.SceneActivity"
             android:alwaysRetainTaskState="true"
             android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation"
             android:windowSoftInputMode="stateUnchanged|adjustPan" />
         <activity
             android:name=".activities.SettingActivity"
             android:alwaysRetainTaskState="true"
             android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation"
             android:windowSoftInputMode="stateUnchanged|adjustPan" />
     </application>
 </manifest>
