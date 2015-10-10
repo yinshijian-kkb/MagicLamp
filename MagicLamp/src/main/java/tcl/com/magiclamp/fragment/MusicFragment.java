@@ -8,14 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import tcl.com.magiclamp.MyActivity;
+import tcl.com.magiclamp.R;
 import tcl.com.magiclamp.utils.ViewHelper;
 
 /**
  * Created by sjyin on 10/9/15.
  */
-public class MusicFragment extends Fragment{
+public class MusicFragment extends Fragment {
 
     private MyActivity mContext;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -24,7 +26,7 @@ public class MusicFragment extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return ViewHelper.getTextWithTitle("音乐");
+        return inflater.inflate(R.layout.fragment_music, null, true);
     }
 
     @Override
