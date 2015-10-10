@@ -63,51 +63,15 @@
         android:text="@string/panel_name"
         android:textColor="@color/c_666666" />
 
-    <RelativeLayout
+    <include
         android:id="@+id/rl_progress_seek_bar"
+        layout="@layout/music_seek_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/color_picker"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="50dp">
-
-        <TextView
-            android:id="@+id/tv_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="7.5dp"
-            android:text="0%"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
-
-        <SeekBar
-            android:id="@+id/progress_seek_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/tv_end"
-            android:layout_toRightOf="@id/tv_start"
-            android:max="100"
-            android:progress="10"
-            android:thumbOffset="0dp"
-            android:minHeight="7dp"
-            android:maxHeight="7dp"
-            android:progressDrawable="@drawable/seekbar_progress"
-            android:thumb="@drawable/thumb" />
-
-        <TextView
-            android:id="@+id/tv_end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="7.5dp"
-            android:text="100%"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
-
-    </RelativeLayout>
+        android:layout_marginTop="50dp" />
 
     <RadioGroup
         android:id="@+id/short_cut_view"
@@ -189,10 +153,10 @@
 
     <include
         android:id="@+id/music_panel"
+        layout="@layout/layout_footer_music"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/layout_footer_music"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/music_content_height_"/>
+        android:layout_marginBottom="@dimen/music_content_height_" />
 
 </RelativeLayout>

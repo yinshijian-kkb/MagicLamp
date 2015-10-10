@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="1dp">
+    <TextView
+        android:id="@+id/tv_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="7.5dp"
+        android:text="0%"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+    <SeekBar
+        android:id="@+id/progress_seek_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/tv_end"
+        android:layout_toRightOf="@id/tv_start"
+        android:max="100"
+        android:progress="10"
+        android:thumbOffset="0dp"
+        android:minHeight="5dp"
+        android:maxHeight="5dp"
+        android:progressDrawable="@drawable/seekbar_progress"
+        android:thumb="@drawable/thumb" />
+
+    <TextView
+        android:id="@+id/tv_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="7.5dp"
+        android:text="100%"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+</RelativeLayout>
