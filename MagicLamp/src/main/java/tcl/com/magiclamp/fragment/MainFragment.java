@@ -1,5 +1,6 @@
 package tcl.com.magiclamp.fragment;
 
+import com.nineoldandroids.animation.Animator;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -12,8 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -21,8 +20,11 @@ import android.widget.RadioButton;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.nineoldandroids.animation.ObjectAnimator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,7 +54,8 @@ public class MainFragment extends Fragment implements
         View.OnClickListener,
         SeekBar.OnSeekBarChangeListener,
         OnColorChangedListener,
-        AdapterView.OnItemClickListener, CompoundButton.OnCheckedChangeListener {
+        AdapterView.OnItemClickListener, CompoundButton.OnCheckedChangeListener,
+        Animator.AnimatorListener {
 
     private MyActivity mContext;
     /**
@@ -117,7 +120,9 @@ public class MainFragment extends Fragment implements
     private CheckBox cb;
     private View music_panel;
     private boolean mMusicPanelShowing;
-    private Animation musicPanelUp,musicPanelDown;
+    private CheckBox music_arrow, music_play;
+    private RelativeLayout music_content;
+    private int musicContentHeight;
 
     @Override
     public void onAttach(Activity activity) {
@@ -187,10 +192,15 @@ public class MainFragment extends Fragment implements
 
         //add music panel at footer
         music_panel = view.findViewById(R.id.music_panel);
-        ((CheckBox)view.findViewById(R.id.cb_arrow)).setOnCheckedChangeListener(this);
+        music_arrow = ((CheckBox)view.findViewById(R.id.cb_arrow));
+        music_play = ((CheckBox)view.findViewById(R.id.cb_play));
+        music_content = ((RelativeLayout)view.findViewById(R.id.rl_music_content));
+        music_content.setOnClickListener(this);
+        music_arrow.setOnCheckedChangeListener(this);
+        music_play.setOnCheckedChangeListener(this);
 
-        musicPanelUp = AnimationUtils.loadAnimation(mContext,R.anim.music_panel_up);
-        musicPanelDown = AnimationUtils.loadAnimation(mContext,R.anim.music_panel_down);
+        //measure music content height
+        musicContentHeight = UIUtils.getDimens(R.dimen.music_content_height);
 
         expandCompoundColor(false);
         lampBeanInvalidate();
@@ -212,7 +222,6 @@ public class MainFragment extends Fragment implements
         music_panel.setVisibility(mLampData.isCanAdjustedMusic() ? View.VISIBLE : View.INVISIBLE);
         if (mLampData.isCanAdjustedMusic()){
             mMusicPanelShowing = true;
-            music_panel.startAnimation(musicPanelUp);
         }
         //更新标题
         tv_header.setText(mMode.toString());
@@ -270,6 +279,35 @@ public class MainFragment extends Fragment implements
 //        panelConfirm.setEnabled(canAdjustedComposedColor ? true : false);
     }
 
+    /**
+     * 音乐面板向上弹起动画
+     */
+    private void musicPanelUp() {
+        //should be -musicContentHeight but not -musicContentHeight+1 ,I dont know why
+        ObjectAnimator _animator = ObjectAnimator.ofFloat(music_panel, "translationY", 0, -musicContentHeight+1).setDuration(100);
+        _animator.start();
+        _animator.addListener(this);
+    }
+
+    /**
+     * 音乐面板向下收藏动画
+     */
+    private void musicPanelDown() {
+        ObjectAnimator _animator = ObjectAnimator.ofFloat(music_panel, "translationY", -musicContentHeight+1, 0).setDuration(100);
+        _animator.start();
+        _animator.addListener(this);
+    }
+
+    /**
+     * 动画没有结束的时候，点击正在动画的UI无响应
+     *
+     * @param enable
+     */
+    private void enableMusicPanel(boolean enable){
+        music_arrow.setEnabled(enable ? true : false);
+        music_content.setEnabled(enable ? true : false);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -324,7 +362,10 @@ public class MainFragment extends Fragment implements
                 ToastUtils.showShort(mContext, "同步变化色");
                 expandCompoundColor(false);
                 break;
-
+            //touch the music panel
+            case R.id.rl_music_content:
+                ToastUtils.showShort(mContext,"ClickMusicPanel");
+                break;
             default:
                 break;
         }
@@ -480,11 +521,37 @@ public class MainFragment extends Fragment implements
                 break;
             // add music panel at footer
             case R.id.cb_arrow:
-                ToastUtils.showShort(mContext, "arrow click");
                 mMusicPanelShowing = isChecked;
-                music_panel.startAnimation(mMusicPanelShowing ? musicPanelUp : musicPanelDown);
+                if (mMusicPanelShowing){
+                    musicPanelUp();
+                }else{
+                    musicPanelDown();
+                }
+                break;
+            case R.id.cb_play:
+
                 break;
         }
     }
 
+    /*  ObjectAnimator Listener*/
+    @Override
+    public void onAnimationStart(Animator animation) {
+        enableMusicPanel(false);
+    }
+
+    @Override
+    public void onAnimationEnd(Animator animation) {
+        enableMusicPanel(true);
+    }
+
+    @Override
+    public void onAnimationCancel(Animator animation) {
+        enableMusicPanel(true);
+    }
+
+    @Override
+    public void onAnimationRepeat(Animator animation) {
+
+    }
 }

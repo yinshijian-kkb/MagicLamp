@@ -8,5 +8,8 @@
     <dimen name="brightness_bar_height">7dp</dimen>
     <dimen name="brightness_bar_width">200dp</dimen>
     <dimen name="music_shortcut_margin">17dp</dimen>
+    <dimen name="music_content_height">90dp</dimen>
+    <dimen name="music_content_height_">-90dp</dimen>
+    <dimen name="music_arrow_height">12.5dp</dimen>
 
 </resources>
