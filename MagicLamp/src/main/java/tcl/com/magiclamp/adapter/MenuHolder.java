@@ -23,6 +23,7 @@ public class MenuHolder extends BaseHolder<MenuItem> {
     };
     private TextView tv_mode;
     private ImageView iv_mode;
+    private View view;
 
     public MenuHolder(Context context) {
         super(context);
@@ -31,8 +32,12 @@ public class MenuHolder extends BaseHolder<MenuItem> {
     @Override
     public void refreshView(MenuItem data) {
         if (data.isChecked){
+            view.setBackgroundColor(UIUtils.getColor(R.color.c_2b3149));
+            tv_mode.setTextColor(UIUtils.getColor(R.color.white));
             iv_mode.setImageResource(checkedIcons[data.getIndex()]);
         }else{
+            view.setBackgroundColor(UIUtils.getColor(R.color.c_060d29));
+            tv_mode.setTextColor(UIUtils.getColor(R.color.c_a5a5ab));
             iv_mode.setImageResource(uncheckedIcons[data.getIndex()]);
         }
         tv_mode.setText(UIUtils.getString(data.getTitle()));
@@ -40,7 +45,7 @@ public class MenuHolder extends BaseHolder<MenuItem> {
 
     @Override
     public View initView(LayoutInflater inflater) {
-        View view = inflater.inflate(R.layout.item_mode, null);
+        view = inflater.inflate(R.layout.item_mode, null);
         tv_mode = (TextView)view.findViewById(R.id.tv_mode);
         iv_mode = (ImageView)view.findViewById(R.id.iv_mode);
         return view;

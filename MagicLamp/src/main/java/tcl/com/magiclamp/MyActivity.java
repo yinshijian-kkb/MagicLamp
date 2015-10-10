@@ -64,24 +64,50 @@ public class MyActivity extends SlidingFragmentActivity{
     /**
      * 切换Fragment
      *
-     * @param pFragment
+     * @param flag
      */
-    public void replaceContentFragment(Fragment pFragment){
+    public void replaceContentFragment(int flag){
+        Fragment _fragment = null;
+        switch (flag){
+            case 0:
+                if (mainFragment == null){
+                    mainFragment = new MainFragment();
+                }else{
+                    mainFragment.lampBeanInvalidate();
+                }
+                _fragment = mainFragment;
+                break;
+            case 1:
+                if (musicFragment == null){
+                    musicFragment = new MusicFragment();
+                }
+                _fragment = musicFragment;
+                break;
+        }
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.fade_up,0);
-        fragmentTransaction.replace(R.id.content, pFragment);
+        fragmentTransaction.setCustomAnimations(R.anim.fade_up,R.anim.fade_down);
+        fragmentTransaction.replace(R.id.content, _fragment);
         fragmentTransaction.commit();
     }
 
     /**
-     * MainFragment::showMenu
-     * MenuFragment::showContent
+     * 选中灯光
      */
-    public void performClick(){
+    public void performSelectLight(){
         toggle();
         if (!mSlidingMenu.isMenuShowing()){
             mainFragment.showLoading();
         }
+    }
+
+    /**
+     * 选中音乐
+     */
+    public void performChange2Music(){
+        //update left menu
+        mLeftFragment.updateMenuState(1);
+        //update content fragement
+        replaceContentFragment(1);
     }
 
     @Override
@@ -92,7 +118,7 @@ public class MyActivity extends SlidingFragmentActivity{
                 switch (resultCode){
                     case SceneFinishResultCode:
                         mLeftFragment.updateMenuState(0);
-                        setOnMenuClick(null,null,0,0l);
+                        setOnMenuClick(null,null,0,0);
                         break;
                 }
                 break;
@@ -115,15 +141,12 @@ public class MyActivity extends SlidingFragmentActivity{
         switch (position){
             case 0://灯光
                 toggle();
-                mainFragment.lampBeanInvalidate();
+                replaceContentFragment(0);
                 i = null;
                 break;
             case 1://音乐
-//                i.setClass(this,MusicActivity.class);
-                if (musicFragment == null){
-                    musicFragment = new MusicFragment();
-                }
-                replaceContentFragment(musicFragment);
+                toggle();
+                replaceContentFragment(1);
                 i = null;
                 break;
             case 2://广播

@@ -123,6 +123,7 @@ public class MainFragment extends Fragment implements
     private CheckBox music_arrow, music_play;
     private RelativeLayout music_content;
     private int musicContentHeight;
+    private long mkeyTime;
 
     @Override
     public void onAttach(Activity activity) {
@@ -201,6 +202,7 @@ public class MainFragment extends Fragment implements
 
         //measure music content height
         musicContentHeight = UIUtils.getDimens(R.dimen.music_content_height);
+        mkeyTime = System.currentTimeMillis();
 
         expandCompoundColor(false);
         lampBeanInvalidate();
@@ -314,15 +316,11 @@ public class MainFragment extends Fragment implements
         showLoading();
     }
 
-//    private boolean flag = true;
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_header_back:
-                mContext.performClick();//back::showContent
-//                group.setEnabled(flag ? true : false);
-//                flag = !flag;
+                mContext.performSelectLight();//back::showContent
                 break;
             case R.id.tv_header_title:
                 showPop();
@@ -364,7 +362,10 @@ public class MainFragment extends Fragment implements
                 break;
             //touch the music panel
             case R.id.rl_music_content:
-                ToastUtils.showShort(mContext,"ClickMusicPanel");
+                if ((System.currentTimeMillis() - mkeyTime) > 2000) {
+                    mContext.performChange2Music();
+                }
+                mkeyTime = System.currentTimeMillis();
                 break;
             default:
                 break;
