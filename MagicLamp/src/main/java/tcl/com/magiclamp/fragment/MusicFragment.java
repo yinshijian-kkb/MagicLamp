@@ -51,6 +51,7 @@ public class MusicFragment extends Fragment implements View.OnClickListener, See
         view.findViewById(R.id.cb_checker).setVisibility(View.GONE);
         view.findViewById(R.id.rl_header).setBackgroundColor(UIUtils.getColor(R.color.white));
         tv_header = (TextView) view.findViewById(R.id.tv_header_title);
+        tv_header.setText("怒放的生命");
         tv_singer = (TextView) view.findViewById(R.id.tv_singer);
         //init progress
         seek_bar = (SeekBar) view.findViewById(R.id.progress_seek_bar);

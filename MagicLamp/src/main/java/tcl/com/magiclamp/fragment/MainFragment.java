@@ -419,11 +419,14 @@ public class MainFragment extends Fragment implements
             modPop.setOutsideTouchable(true);
         }
         if (!modPop.isShowing()) {
-            int[] location = new int[2];
-            tv_header.getLocationOnScreen(location);
+            int[] _location = new int[2];
+            int _tvHeaderWidth = tv_header.getWidth();
+            int _modPopWidth = modPop.getWidth();
+            tv_header.getLocationOnScreen(_location);
             modPop.showAsDropDown(tv_header,
-//                    location[0]-(modPop.getWidth() - tv_header.getWidth())/2,
-                    0,
+                    _tvHeaderWidth > _modPopWidth ?
+                            -(_tvHeaderWidth - _modPopWidth) / 2 :
+                            -(_modPopWidth - _tvHeaderWidth) / 2,
                     0);
         } else {
             modPop.dismiss();
@@ -434,9 +437,9 @@ public class MainFragment extends Fragment implements
      * 显示阻塞加载
      */
     public void showLoading() {
-        viewLoading.setVisibility(View.VISIBLE);
+        /*viewLoading.setVisibility(View.VISIBLE);
         viewError.setVisibility(View.GONE);
-        mHandler.sendEmptyMessageDelayed(1, 1000);
+        mHandler.sendEmptyMessageDelayed(1, 1000);*/
     }
 
     /*  SeekBarChangeListener  */

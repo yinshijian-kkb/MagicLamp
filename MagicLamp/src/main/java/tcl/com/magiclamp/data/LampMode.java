@@ -11,7 +11,7 @@ package tcl.com.magiclamp.data;
  */
 public enum LampMode {
 
-    Normal("普通模式"),
+    Normal("灯光"),
     Awaked("唤醒模式"),
     Reading("阅读模式"),
     Romantic("浪漫模式"),
