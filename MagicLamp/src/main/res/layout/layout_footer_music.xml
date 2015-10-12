@@ -7,7 +7,8 @@
     <CheckBox
         android:id="@+id/cb_arrow"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/music_arrow_height"
+        android:padding="5dp"
+        android:layout_height="22.5dp"
         android:layout_centerHorizontal="true"
         android:background="@null"
         android:button="@drawable/music_arrow" />

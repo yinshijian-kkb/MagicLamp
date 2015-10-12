@@ -26,8 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:cacheColorHint="@color/transparent"
-            android:divider="@color/gray"
-            android:dividerHeight="0.5dp"
-            android:listSelector="@color/c_1f263f" />
+            android:divider="@color/c_1f263f"
+            android:dividerHeight="0.5dp" />
     </FrameLayout>
 </RelativeLayout>

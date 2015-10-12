@@ -12,13 +12,13 @@ import android.widget.Toast;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 
-import tcl.com.magiclamp.activities.BroadcastActivity;
-import tcl.com.magiclamp.activities.MusicActivity;
-import tcl.com.magiclamp.activities.SceneActivity;
-import tcl.com.magiclamp.activities.SettingActivity;
+import tcl.com.magiclamp.fragment.BroadcastFragment;
 import tcl.com.magiclamp.fragment.MainFragment;
 import tcl.com.magiclamp.fragment.LeftMenuFragment;
 import tcl.com.magiclamp.fragment.MusicFragment;
+import tcl.com.magiclamp.fragment.SceneFragment;
+import tcl.com.magiclamp.fragment.SettingFragment;
+import tcl.com.magiclamp.utils.JLog;
 
 public class MyActivity extends SlidingFragmentActivity{
 
@@ -30,6 +30,13 @@ public class MyActivity extends SlidingFragmentActivity{
     public static final int RequestCode = 0x001;
     public static final int SceneFinishResultCode = 0x002;
     private MusicFragment musicFragment;
+    /**
+     * 上一Fragment的标记
+     */
+    private int mLastFragmentPos;
+    private BroadcastFragment broadcastFragment;
+    private SceneFragment sceneFragment;
+    private SettingFragment settingFragment;
 
     /**
      * Called when the activity is first created.
@@ -64,12 +71,12 @@ public class MyActivity extends SlidingFragmentActivity{
     /**
      * 切换Fragment
      *
-     * @param flag
+     * @param fragmentPos
      */
-    public void replaceContentFragment(int flag){
+    public void replaceContentFragment(int fragmentPos){
         Fragment _fragment = null;
-        switch (flag){
-            case 0:
+        switch (fragmentPos){
+            case 0://灯光
                 if (mainFragment == null){
                     mainFragment = new MainFragment();
                 }else{
@@ -77,17 +84,40 @@ public class MyActivity extends SlidingFragmentActivity{
                 }
                 _fragment = mainFragment;
                 break;
-            case 1:
+            case 1://音乐
                 if (musicFragment == null){
                     musicFragment = new MusicFragment();
                 }
                 _fragment = musicFragment;
                 break;
+            case 2://广播
+                if (broadcastFragment == null){
+                    broadcastFragment = new BroadcastFragment();
+                }
+                _fragment = broadcastFragment;
+                break;
+            case 3://场景
+                if (sceneFragment == null){
+                    sceneFragment = new SceneFragment();
+                }
+                _fragment = sceneFragment;
+                break;
+            case 4://设置
+                if (settingFragment == null){
+                    settingFragment = new SettingFragment();
+                }
+                _fragment = settingFragment;
+                break;
         }
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.fade_up,R.anim.fade_down);
+        /*if (fragmentPos > mLastFragmentPos){
+            fragmentTransaction.setCustomAnimations(R.anim.fade_up_enter, R.anim.fade_up_exit);
+        }else{
+            fragmentTransaction.setCustomAnimations(R.anim.fade_down_enter, R.anim.fade_down_exit);
+        }*/
         fragmentTransaction.replace(R.id.content, _fragment);
         fragmentTransaction.commit();
+        mLastFragmentPos = fragmentPos;
     }
 
     /**
@@ -106,7 +136,7 @@ public class MyActivity extends SlidingFragmentActivity{
     public void performChange2Music(){
         //update left menu
         mLeftFragment.updateMenuState(1);
-        //update content fragement
+        //update content fragment
         replaceContentFragment(1);
     }
 
@@ -150,13 +180,22 @@ public class MyActivity extends SlidingFragmentActivity{
                 i = null;
                 break;
             case 2://广播
-                i.setClass(this,BroadcastActivity.class);
+                toggle();
+                replaceContentFragment(2);
+                i = null;
+//                i.setClass(this,BroadcastActivity.class);
                 break;
             case 3://场景
-                i.setClass(this,SceneActivity.class);
+                toggle();
+                replaceContentFragment(3);
+                i = null;
+//                i.setClass(this,SceneActivity.class);
                 break;
             case 4://设置
-                i.setClass(this,SettingActivity.class);
+                toggle();
+                replaceContentFragment(4);
+                i = null;
+//                i.setClass(this,SettingActivity.class);
                 break;
             default:
                 i = null;

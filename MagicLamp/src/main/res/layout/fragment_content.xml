@@ -15,7 +15,7 @@
         android:layout_height="200dp"
         android:layout_below="@id/header"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp" />
+        android:layout_marginTop="50dp" />
 
     <RelativeLayout
         android:id="@+id/rl_panel_1"
@@ -127,6 +127,15 @@
             android:text="@string/default_mode" />
     </RadioGroup>
 
+    <include
+        android:id="@+id/music_panel"
+        layout="@layout/layout_footer_music"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/music_content_height_" />
+
+
     <FrameLayout
         android:id="@+id/fl_cover"
         android:layout_width="match_parent"
@@ -150,13 +159,5 @@
         android:layout_height="match_parent"
         android:layout_below="@id/header"
         android:visibility="gone" />
-
-    <include
-        android:id="@+id/music_panel"
-        layout="@layout/layout_footer_music"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/music_content_height_" />
 
 </RelativeLayout>
