@@ -22,15 +22,18 @@ public class ConfigData {
      */
     public static LampBean curLamp;
 
-    public static HashMap<LampMode,LampBean> lamps;
+    public static HashMap<LampMode, LampBean> lamps;
     private static HashMap<LampMode, LampBean> map;
 
-    public static HashMap<LampMode,LampBean> init(){
+    public static HashMap<LampMode, LampBean> init() {
         if (map != null)
             return lamps;
 
         map = new HashMap<LampMode, LampBean>();
-        LampBean normalLamp = new LampBean();//all false
+        LampBean normalLamp = new LampBean(
+                true, true, true, true,
+                true, true, true
+        );//all true
         int[] composeColor = new int[5];
         composeColor[0] = 0xffff0000;
         composeColor[1] = 0xffffffff;
@@ -43,34 +46,38 @@ public class ConfigData {
         normalLamp.setBrightness(50);
         map.put(LampMode.Normal, normalLamp);
 
-        LampBean awakedLamp = new LampBean(true,
+        /*LampBean awakedLamp = new LampBean(true,
                 false,false,false,false,
-                true,true);//开始时间、重复时间、音乐
+                true,true);//开始时间、重复时间、音乐*/
+        LampBean awakedLamp = new LampBean();
         awakedLamp.setColor(0xffffffff);
         awakedLamp.setAffection(LampAffection.Default);
         awakedLamp.setBrightness(80);
         awakedLamp.setMusic("鸟叫");
         map.put(LampMode.Awaked, awakedLamp);
 
-        LampBean readingLamp = new LampBean(true,false,true,
-                false,false,false,false);//亮度、音乐
+        /*LampBean readingLamp = new LampBean(true,false,true,
+                false,false,false,false);//亮度、音乐*/
+        LampBean readingLamp = new LampBean();
         readingLamp.setColor(0xffffffff);
         readingLamp.setAffection(LampAffection.Default);
         readingLamp.setBrightness(100);
         map.put(LampMode.Reading, readingLamp);
 
-        LampBean romanticLamp = new LampBean(true,true,
+        /*LampBean romanticLamp = new LampBean(true,true,
                 false,true,
-                true,false,false);//音乐、灯色、灯效
+                true,false,false);//音乐、灯色、灯效*/
+        LampBean romanticLamp = new LampBean();
         romanticLamp.setColor(0xff9932cd);
         romanticLamp.setAffection(LampAffection.Candy);
         romanticLamp.setMusic("爵士音乐");
         romanticLamp.setBrightness(30);
         map.put(LampMode.Romantic, romanticLamp);
 
-        LampBean asleepLamp = new LampBean(true,
+        /*LampBean asleepLamp = new LampBean(true,
                 false,false,false,false,
-                true,false);//开始时间、音乐
+                true,false);//开始时间、音乐*/
+        LampBean asleepLamp = new LampBean();
         asleepLamp.setColor(0xffc0d9d9);
         asleepLamp.setAffection(LampAffection.Default);
         asleepLamp.setMusic("催眠曲");

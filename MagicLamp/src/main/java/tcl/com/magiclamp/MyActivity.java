@@ -125,9 +125,9 @@ public class MyActivity extends SlidingFragmentActivity{
      */
     public void performSelectLight(){
         toggle();
-        if (!mSlidingMenu.isMenuShowing()){
+        /*if (!mSlidingMenu.isMenuShowing()){
             mainFragment.showLoading();
-        }
+        }*/
     }
 
     /**

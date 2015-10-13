@@ -17,21 +17,38 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp" />
 
+    <View
+        android:id="@+id/picker_cover"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@color/gray"
+        android:visibility="gone"
+        android:layout_alignLeft="@id/color_picker"
+        android:layout_alignTop="@id/color_picker"/>
+
     <RelativeLayout
         android:id="@+id/rl_panel_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/header"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="15dp"
         android:layout_marginTop="40dp"
         android:gravity="center_vertical">
 
         <Button
             android:id="@+id/panel_1"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@drawable/panel_default"
+            android:layout_width="21dp"
+            android:layout_height="21dp"
+            android:background="@drawable/changable_panel_bg"
             android:tag="panel_6" />
+
+        <ImageView
+            android:id="@+id/iv_lamp_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4.5dp"
+            android:src="@drawable/panel_default"
+            android:background="@drawable/changable_panel_bg"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -39,6 +56,7 @@
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/panel_1"
             android:text="@string/lamp_color"
+            android:layout_centerVertical="true"
             android:textColor="@color/c_666666"
             android:textSize="12sp" />
     </RelativeLayout>
@@ -46,7 +64,7 @@
     <include
         android:id="@+id/rl_panel"
         layout="@layout/layout_panel"
-        android:layout_width="wrap_content"
+        android:layout_width="30dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/rl_panel_1"
         android:layout_marginLeft="15dp"
@@ -141,7 +159,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/header"
-        android:background="@color/cover"
+        android:background="@android:color/transparent"
         android:visibility="gone" />
 
     <include

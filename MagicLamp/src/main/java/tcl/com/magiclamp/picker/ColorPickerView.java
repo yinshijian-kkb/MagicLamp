@@ -18,6 +18,7 @@ import android.view.View;
 public class ColorPickerView extends View {//颜色选择器自定义View
     private Paint mPaint;//渐变色环画笔 
     private int[] mColors;//渐变色环颜色
+    private int[] mDisableColors;
     private OnColorChangedListener mListener;//颜色改变回调
 
 
@@ -40,11 +41,21 @@ public class ColorPickerView extends View {//颜色选择器自定义View
                 0xFFFF0000, 0xFFFF00FF, 0xFF0000FF, 0xFF00FFFF, 0xFF00FF00,
                 0xFFFFFF00, 0xFFFF0000
         };
+        mDisableColors = new int[]{//渐变色数组
+                0xFFFFFFFF, 0x00000000
+        };
         Shader s = new SweepGradient(0, 0, mColors, null);
         //初始化渐变色画笔
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setShader(s);
         mPaint.setStyle(Paint.Style.FILL);
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        Shader s = new SweepGradient(0, 0, enabled ? mColors : mDisableColors, null);
+        mPaint.setShader(s);
+        invalidate();
     }
 
     @Override
@@ -145,7 +156,9 @@ public class ColorPickerView extends View {//颜色选择器自定义View
                 if (unit < 0) {
                     unit += 1;
                 }
-                mPaint.setColor(interpColor(mColors, unit));
+                if (isEnabled()){
+                    mPaint.setColor(interpColor(mColors, unit));
+                }
 //                invalidate();
                 break;
             case MotionEvent.ACTION_UP:

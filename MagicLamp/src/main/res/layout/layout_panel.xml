@@ -1,55 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rl_panel"
-    android:layout_width="wrap_content"
+    android:layout_width="30dp"
     android:layout_height="wrap_content"
-    android:paddingBottom="7dp"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp"
     android:background="@drawable/changable_panel_bg">
 
     <Button
         android:id="@+id/panel_2"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="7dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7.5dp"
+        android:layout_marginBottom="7.5dp"
+        android:layout_centerHorizontal="true"
         android:background="@drawable/panel_default"
         android:tag="panel_2" />
 
     <Button
         android:id="@+id/panel_3"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/panel_2"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="12.5dp"
         android:background="@drawable/panel_default"
+        android:layout_centerHorizontal="true"
         android:tag="panel_3" />
 
     <Button
         android:id="@+id/panel_4"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/panel_3"
         android:layout_marginTop="20dp"
         android:background="@drawable/panel_default"
+        android:layout_centerHorizontal="true"
         android:tag="panel_4" />
 
     <Button
         android:id="@+id/panel_5"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/panel_4"
         android:layout_marginTop="20dp"
         android:background="@drawable/panel_default"
+        android:layout_centerHorizontal="true"
         android:tag="panel_5" />
 
     <Button
         android:id="@+id/btn_confirm"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="21dp"
+        android:layout_height="21dp"
         android:layout_below="@id/panel_5"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="7.5dp"
         android:background="@drawable/panel_confirm_selector"
+        android:layout_centerHorizontal="true"
         android:tag="panel_5" />
 
 </RelativeLayout>

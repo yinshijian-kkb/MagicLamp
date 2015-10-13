@@ -1,6 +1,7 @@
 package tcl.com.magiclamp.fragment;
 
 import com.nineoldandroids.animation.Animator;
+
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -34,6 +35,7 @@ import tcl.com.magiclamp.MyActivity;
 import tcl.com.magiclamp.R;
 import tcl.com.magiclamp.data.LampAffection;
 import tcl.com.magiclamp.data.LampBean;
+import tcl.com.magiclamp.data.LampColor;
 import tcl.com.magiclamp.data.LampMode;
 import tcl.com.magiclamp.picker.ColorPickerView;
 import tcl.com.magiclamp.picker.OnColorChangedListener;
@@ -64,7 +66,7 @@ public class MainFragment extends Fragment implements
     private ColorPickerView colorPicker2;
     private PopupWindow modPop;
     private TextView tv_header;
-    private View viewError, viewLoading, fl_cover;
+    private View viewError, viewLoading, fl_cover, colorPickerCover;
 
     /**
      * 模式
@@ -79,12 +81,12 @@ public class MainFragment extends Fragment implements
      */
     private SeekBar brightnessBar;
 
-    private Button panel_1,panel2, panel3, panel4, panel5,panelConfirm;
+    private Button panel_1, panel2, panel3, panel4, panel5, panelConfirm;
     /**
      * 灯光变化色
      */
-    private int compoundColorSize = 4;
-    private int[] mCompundColors = new int[]{0,0,0,0,0};
+    private int compoundColorSize = 5;
+    private int[] mCompundColors = new int[]{0, 0, 0, 0, 0, 0};
     private int mCompundColorPosition = 0;
     /**
      * 灯效
@@ -116,14 +118,23 @@ public class MainFragment extends Fragment implements
      * 变化色是否折叠
      */
     private boolean mIsExpanded;
+    /**
+     * 是否显示音乐面板
+     */
+    private boolean mMusicPanelShowing;
+    /**
+     * 是否关机
+     */
+    private boolean mPowerOff;
     private SceneManager mSceneManger;
     private CheckBox cb;
     private View music_panel;
-    private boolean mMusicPanelShowing;
     private CheckBox music_arrow, music_play;
     private RelativeLayout music_content;
     private int musicContentHeight;
     private long mkeyTime;
+    private LampColor mLampColor;
+    private ArrayList<LampColor> mCompundColorWithState;
 
     @Override
     public void onAttach(Activity activity) {
@@ -165,13 +176,16 @@ public class MainFragment extends Fragment implements
         panel_1.setOnClickListener(this);
 
         colorPicker2 = (ColorPickerView) view.findViewById(R.id.color_picker);
+        colorPickerCover = view.findViewById(R.id.picker_cover);
         colorPicker2.setOnColorChangedListener(this);
+        colorPickerCover.setOnClickListener(this);
+
 
         panel2 = (Button) view.findViewById(R.id.panel_2);
         panel3 = (Button) view.findViewById(R.id.panel_3);
         panel4 = (Button) view.findViewById(R.id.panel_4);
         panel5 = (Button) view.findViewById(R.id.panel_5);
-        panelConfirm = (Button)view.findViewById(R.id.btn_confirm);
+        panelConfirm = (Button) view.findViewById(R.id.btn_confirm);
         panel2.setOnClickListener(this);
         panel3.setOnClickListener(this);
         panel4.setOnClickListener(this);
@@ -189,13 +203,14 @@ public class MainFragment extends Fragment implements
         viewError = view.findViewById(R.id.error_view);
         viewLoading = view.findViewById(R.id.loading_view);
         fl_cover = view.findViewById(R.id.fl_cover);
+        fl_cover.setOnClickListener(this);
 
 
         //add music panel at footer
         music_panel = view.findViewById(R.id.music_panel);
-        music_arrow = ((CheckBox)view.findViewById(R.id.cb_arrow));
-        music_play = ((CheckBox)view.findViewById(R.id.cb_play));
-        music_content = ((RelativeLayout)view.findViewById(R.id.rl_music_content));
+        music_arrow = ((CheckBox) view.findViewById(R.id.cb_arrow));
+        music_play = ((CheckBox) view.findViewById(R.id.cb_play));
+        music_content = ((RelativeLayout) view.findViewById(R.id.rl_music_content));
         music_content.setOnClickListener(this);
         music_arrow.setOnCheckedChangeListener(this);
         music_play.setOnCheckedChangeListener(this);
@@ -203,6 +218,15 @@ public class MainFragment extends Fragment implements
         //measure music content height
         musicContentHeight = UIUtils.getDimens(R.dimen.music_content_height);
         mkeyTime = System.currentTimeMillis();
+
+        //init lamp color data
+        mLampColor = new LampColor();
+        mCompundColorWithState = new ArrayList<LampColor>();
+        mCompundColorWithState.add(new LampColor());
+        mCompundColorWithState.add(new LampColor());
+        mCompundColorWithState.add(new LampColor());
+        mCompundColorWithState.add(new LampColor());
+        mCompundColorWithState.add(new LampColor());
 
         expandCompoundColor(false);
         lampBeanInvalidate();
@@ -213,72 +237,159 @@ public class MainFragment extends Fragment implements
      * 切换不同的模式
      */
     public void lampBeanInvalidate() {
-        if (mMode != null && mMode == ConfigData.curLampMode){
+        if (mMode != null && mMode == ConfigData.curLampMode) {
             return;
         }
 
         mMode = ConfigData.curLampMode;
         mLampData = ConfigData.curLamp;
 
+
         //是否显示音乐面板
         music_panel.setVisibility(mLampData.isCanAdjustedMusic() ? View.VISIBLE : View.INVISIBLE);
-        if (mLampData.isCanAdjustedMusic()){
+        if (mLampData.isCanAdjustedMusic()) {
             mMusicPanelShowing = true;
         }
         //更新标题
         tv_header.setText(mMode.toString());
         //灯色
-        GradientDrawable panelBg = (GradientDrawable) panel_1.getBackground();
         if (mLampData.getColor() != 0) {
-            panelBg.setColor(mLampData.getColor());
+            mLampColor.setColor(mLampData.getColor());
         } else {
-            panelBg.setColor(Color.BLACK);
+            mLampColor.setColor(LampColor.COLOR_EMPTY);
         }
+
         //变化色
-        for (int i = 0; i < compoundColorSize; i++) {//TODO:has bug
-            String tag = String.format("panel_%d", i + 2);
-            GradientDrawable gd = (GradientDrawable) getView().findViewWithTag(tag).getBackground();
+        for (int i = 0; i < compoundColorSize; i++) {
+            LampColor _colorHolder = mCompundColorWithState.get(i);
             if (mLampData.getCompoundColor() != null && mLampData.getCompoundColor()[i] != 0) {
-                gd.setColor(mLampData.getCompoundColor()[i]);
+                _colorHolder.setColor(mLampData.getCompoundColor()[i]);
             } else {
-                gd.setColor(UIUtils.getColor(R.color.black));
+                _colorHolder.setColor(LampColor.COLOR_EMPTY);
             }
         }
 
         //亮度
         brightnessBar.setProgress(mLampData.getBrightness());
-        //灯效
-        boolean canAdjustedAffection = mLampData.isCanAdjustedAffection();
-        LampAffection affection = mLampData.getAffection();
-        cb_sync_music_mode.setEnabled(canAdjustedAffection ? true : false);
-        blink_mode.setEnabled(canAdjustedAffection ? true : false);
-        candy_light_mode.setEnabled(canAdjustedAffection ? true : false);
-        default_mode.setEnabled(canAdjustedAffection ? true : false);
-        if (canAdjustedAffection && mLampData.getAffection() != null) {
-            cb_sync_music_mode.setChecked(affection == SyncMusic);
-            blink_mode.setChecked(affection == Blink);
-            candy_light_mode.setChecked(affection == Candy);
-            default_mode.setChecked(affection == Default);
-        }
 
+        //灯效
+        LampAffection affection = mLampData.getAffection();
+        if (affection == null)
+            affection = LampAffection.Default;
+        showLampAffection(affection);
+        setLampEnable(!mPowerOff);
+    }
+
+    /**
+     * 设置灯效
+     *
+     * @param affection
+     */
+    private void showLampAffection(LampAffection affection) {
+        switch (affection) {
+            case Default:
+                default_mode.setChecked(affection == Default);
+                break;
+            case Candy:
+                candy_light_mode.setChecked(affection == Candy);
+                break;
+            case Blink:
+                blink_mode.setChecked(affection == Blink);
+                break;
+            case SyncMusic:
+                cb_sync_music_mode.setChecked(affection == SyncMusic);
+                break;
+        }
+    }
+
+    /**
+     * 开关机更新状态
+     */
+    private void setLampEnable(boolean enabled) {
+        fl_cover.setVisibility(enabled ? View.GONE : View.VISIBLE);
+        if (!enabled) {
+            disableLampController();
+            return;
+        }
+        //灯色
+        GradientDrawable panelBg = (GradientDrawable) panel_1.getBackground();
+        panelBg.setColor(mLampData.isCanAdjustedColor() ?
+                mLampColor.getColor()
+                : mLampColor.setState(LampColor.LampColorState.STATE_DISABLE));
+
+        //变化色
+        for (int i = 0; i < compoundColorSize; i++) {
+            String tag = String.format("panel_%d", i + 2);
+            LampColor _colorHolder = mCompundColorWithState.get(i);
+            GradientDrawable gd = (GradientDrawable) getView().findViewWithTag(tag).getBackground();
+            gd.setColor(mLampData.isCanAdjustedComposedColor() ? _colorHolder.getColor()
+                    : _colorHolder.setState(LampColor.LampColorState.STATE_DISABLE));
+        }
+        setPanelState(mLampData.isCanAdjustedColor(), mLampData.isCanAdjustedComposedColor());
+        //色盘
+        boolean _canClickPicker = mLampData.isCanAdjustedColor() || mLampData.isCanAdjustedComposedColor();
+        colorPicker2.setEnabled(_canClickPicker);
+        colorPickerCover.setVisibility(_canClickPicker ? View.GONE : View.VISIBLE);
+        //亮度
+        brightnessBar.setEnabled(mLampData.isCanAdjustedBrightness());
+        //音乐
+        music_arrow.setEnabled(mLampData.isCanAdjustedMusic());
+        //灯效
+        setAffectionState(mLampData.isCanAdjustedAffection());
+    }
+
+    /**
+     * 控制面板可以编辑
+     */
+    private void disableLampController() {
         //是否可编辑
         //灯色
+        GradientDrawable panelBg = (GradientDrawable) panel_1.getBackground();
+        panelBg.setColor(mLampColor.setState(LampColor.LampColorState.STATE_DISABLE));
+        //变化色
+        for (int i = 0; i < compoundColorSize; i++) {
+            String tag = String.format("panel_%d", i + 2);
+            GradientDrawable gd = (GradientDrawable) getView().findViewWithTag(tag).getBackground();
+            gd.setColor(mLampColor.setState(LampColor.LampColorState.STATE_DISABLE));
+        }
+        setPanelState(false, false);
+        //色盘
+        colorPicker2.setEnabled(false);
+        colorPickerCover.setVisibility(View.VISIBLE);
         //亮度
-        setPanelState(mLampData.isCanAdjustedComposedColor());
-
+        brightnessBar.setEnabled(false);
+        //音乐
+        music_arrow.setEnabled(false);
+        //灯效
+        setAffectionState(false);
     }
+
 
     /**
      * 变化色是否可点击
      *
+     * @param canAdjustedColor
      * @param canAdjustedComposedColor
      */
-    private void setPanelState(boolean canAdjustedComposedColor) {
-//        panel2.setEnabled(canAdjustedComposedColor ? true : false);
+    private void setPanelState(boolean canAdjustedColor, boolean canAdjustedComposedColor) {
+        panel_1.setEnabled(canAdjustedColor ? true : false);
+        panel2.setEnabled(canAdjustedComposedColor ? true : false);
         panel3.setEnabled(canAdjustedComposedColor ? true : false);
         panel4.setEnabled(canAdjustedComposedColor ? true : false);
         panel5.setEnabled(canAdjustedComposedColor ? true : false);
-//        panelConfirm.setEnabled(canAdjustedComposedColor ? true : false);
+        panelConfirm.setEnabled(canAdjustedComposedColor ? true : false);
+    }
+
+    /**
+     * 灯效是否可编辑
+     *
+     * @param canAdjustedAffection
+     */
+    private void setAffectionState(boolean canAdjustedAffection) {
+        cb_sync_music_mode.setEnabled(canAdjustedAffection ? true : false);
+        blink_mode.setEnabled(canAdjustedAffection ? true : false);
+        candy_light_mode.setEnabled(canAdjustedAffection ? true : false);
+        default_mode.setEnabled(canAdjustedAffection ? true : false);
     }
 
     /**
@@ -286,7 +397,7 @@ public class MainFragment extends Fragment implements
      */
     private void musicPanelUp() {
         //should be -musicContentHeight but not -musicContentHeight+1 ,I dont know why
-        ObjectAnimator _animator = ObjectAnimator.ofFloat(music_panel, "translationY", 0, -musicContentHeight+1).setDuration(100);
+        ObjectAnimator _animator = ObjectAnimator.ofFloat(music_panel, "translationY", 0, -musicContentHeight + 1).setDuration(100);
         _animator.start();
         _animator.addListener(this);
     }
@@ -295,7 +406,7 @@ public class MainFragment extends Fragment implements
      * 音乐面板向下收藏动画
      */
     private void musicPanelDown() {
-        ObjectAnimator _animator = ObjectAnimator.ofFloat(music_panel, "translationY", -musicContentHeight+1, 0).setDuration(100);
+        ObjectAnimator _animator = ObjectAnimator.ofFloat(music_panel, "translationY", -musicContentHeight + 1, 0).setDuration(100);
         _animator.start();
         _animator.addListener(this);
     }
@@ -305,7 +416,7 @@ public class MainFragment extends Fragment implements
      *
      * @param enable
      */
-    private void enableMusicPanel(boolean enable){
+    private void enableMusicPanel(boolean enable) {
         music_arrow.setEnabled(enable ? true : false);
         music_content.setEnabled(enable ? true : false);
     }
@@ -313,7 +424,7 @@ public class MainFragment extends Fragment implements
     @Override
     public void onResume() {
         super.onResume();
-        showLoading();
+//        showLoading();
     }
 
     @Override
@@ -333,13 +444,13 @@ public class MainFragment extends Fragment implements
                     panelBg.setColor(Color.BLACK);
                     mLampData.setColor(0);
                 } else {
-                    ToastUtils.showShort(mContext,"请选择灯色");
+                    ToastUtils.showShort(mContext, "请选择灯色");
                 }
                 break;
             case R.id.panel_2://编辑变化色
-                if (!mIsExpanded){
+                if (!mIsExpanded) {
                     expandCompoundColor(true);
-                }else{
+                } else {
                     mIsChangeColor = false;
                     cancelPanelColor(v, 0);
                 }
@@ -374,6 +485,7 @@ public class MainFragment extends Fragment implements
 
     /**
      * 展开、折叠变化色
+     *
      * @param isExpanded
      */
     private void expandCompoundColor(boolean isExpanded) {
@@ -391,15 +503,11 @@ public class MainFragment extends Fragment implements
      * @param pos
      */
     private void cancelPanelColor(View v, int pos) {
-        if (!mLampData.isCanAdjustedComposedColor()) {
-            ToastUtils.showShort(mContext, "不可编辑灯色");
-            return;
-        }
-        if(mCompundColors[pos] == 0){
+        if (mCompundColors[pos] == 0) {
             ToastUtils.showShort(mContext, "没有填充色值");
-        }else{
+        } else {
             cancelColorPos.add(pos);
-            ((GradientDrawable) v.getBackground()).setColor(UIUtils.getColor(R.color.black));
+            ((GradientDrawable) v.getBackground()).setColor(mLampColor.COLOR_EMPTY);
             mCompundColors[pos] = 0;
         }
     }
@@ -437,9 +545,9 @@ public class MainFragment extends Fragment implements
      * 显示阻塞加载
      */
     public void showLoading() {
-        /*viewLoading.setVisibility(View.VISIBLE);
+        viewLoading.setVisibility(View.VISIBLE);
         viewError.setVisibility(View.GONE);
-        mHandler.sendEmptyMessageDelayed(1, 1000);*/
+        mHandler.sendEmptyMessageDelayed(1, 1000);
     }
 
     /*  SeekBarChangeListener  */
@@ -461,38 +569,47 @@ public class MainFragment extends Fragment implements
     /* ColorChangeListener */
     @Override
     public void colorChanged(int color) {
+        if (!(mLampData.isCanAdjustedColor() || mLampData.isCanAdjustedComposedColor())) {//can not click ColorPicker
+            return;
+        }
+
         if (mIsChangeColor) {
             //编辑灯颜色
             fillPanel(4,color);
         } else {
             //编辑变化色
-            if (!mLampData.isCanAdjustedComposedColor()) {
-                ToastUtils.showShort(mContext, "不可编辑灯色");
+            if (!cancelColorPos.isEmpty()) {
+                int mPos = cancelColorPos.first();
+                fillCompoundColorPanel(mPos,color);
+                cancelColorPos.remove(mPos);
                 return;
             } else {
-                if (!cancelColorPos.isEmpty()) {
-                    int mPos = cancelColorPos.first();
-                    fillPanel(mPos, color);
-                    cancelColorPos.remove(mPos);
+                if (mCompundColorPosition >= compoundColorSize) {
+                    ToastUtils.showShort(mContext, "灯色面板已经填充满");
                     return;
-                } else {
-                    if (mCompundColorPosition >= compoundColorSize) {
-                        ToastUtils.showShort(mContext, "灯色面板已经填充满");
-                        return;
-                    }
                 }
-                mCompundColors[mCompundColorPosition] = color;//1
-                fillPanel(mCompundColorPosition, color);//2
-                mCompundColorPosition++;
             }
+            mCompundColors[mCompundColorPosition] = color;//1
+            fillCompoundColorPanel(mCompundColorPosition, color);//2
+            mCompundColorPosition++;
         }
     }
 
     /**
      * 填充填色板
-     * @param color
      */
-    private void fillPanel(int pos,int color){
+    private void fillPanel(int pos, int color) {
+        mLampColor.setColor(color);
+        String tag = String.format("panel_%d", pos + 2);
+        GradientDrawable gd = (GradientDrawable) getView().findViewWithTag(tag).getBackground();
+        gd.setColor(color);
+    }
+
+    /**
+     * 填充填色板
+     */
+    private void fillCompoundColorPanel(int pos, int color) {
+        mCompundColorWithState.get(pos).setColor(color);
         String tag = String.format("panel_%d", pos + 2);
         GradientDrawable gd = (GradientDrawable) getView().findViewWithTag(tag).getBackground();
         gd.setColor(color);
@@ -519,16 +636,17 @@ public class MainFragment extends Fragment implements
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
             case R.id.cb_checker:
-//                fl_cover.setVisibility(isChecked ? View.VISIBLE : View.GONE);
-                ToastUtils.showShort(mContext,isChecked ? "关机":"开机");
-                tv_header.setEnabled(!isChecked);
+                mPowerOff = isChecked;
+                tv_header.setEnabled(!mPowerOff);
+                setLampEnable(!mPowerOff);
+                ToastUtils.showShort(mContext, mPowerOff ? "关机" : "开机");
                 break;
             // add music panel at footer
             case R.id.cb_arrow:
                 mMusicPanelShowing = isChecked;
-                if (mMusicPanelShowing){
+                if (mMusicPanelShowing) {
                     musicPanelUp();
-                }else{
+                } else {
                     musicPanelDown();
                 }
                 break;
