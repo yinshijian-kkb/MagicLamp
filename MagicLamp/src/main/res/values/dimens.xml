@@ -11,5 +11,9 @@
     <dimen name="music_content_height">90dp</dimen>
     <dimen name="music_content_height_">-90dp</dimen>
     <dimen name="music_arrow_height">12.5dp</dimen>
+    <dimen name="color_padding">4.5dp</dimen>
+    <dimen name="color_txt_margin_left">5dp</dimen>
+    <dimen name="lamp_color_size">21dp</dimen>
+    <dimen name="lamp_color_checked_size">25dp</dimen>
 
 </resources>

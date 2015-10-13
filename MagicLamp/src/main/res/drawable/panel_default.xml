@@ -2,7 +2,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
     <size
-        android:width="21dp"
-        android:height="21dp" />
+        android:width="@dimen/lamp_color_size"
+        android:height="@dimen/lamp_color_size" />
     <solid android:color="@color/red" />
 </shape>

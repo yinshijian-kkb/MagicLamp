@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/rl_panel"
     android:layout_width="30dp"
     android:layout_height="wrap_content"
+    android:paddingTop="@dimen/color_padding"
+    android:paddingBottom="@dimen/color_padding"
     android:background="@drawable/changable_panel_bg">
 
     <Button
         android:id="@+id/panel_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="7.5dp"
-        android:layout_marginBottom="7.5dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/panel_default"
         android:tag="panel_2" />
@@ -20,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/panel_2"
-        android:layout_marginTop="12.5dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/panel_default"
         android:layout_centerHorizontal="true"
         android:tag="panel_3" />
@@ -46,14 +45,22 @@
         android:tag="panel_5" />
 
     <Button
-        android:id="@+id/btn_confirm"
-        android:layout_width="21dp"
-        android:layout_height="21dp"
+        android:id="@+id/panel_6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/panel_5"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="7.5dp"
-        android:background="@drawable/panel_confirm_selector"
+        android:background="@drawable/panel_default"
         android:layout_centerHorizontal="true"
-        android:tag="panel_5" />
+        android:tag="panel_6" />
+
+    <Button
+        android:id="@+id/btn_confirm"
+        android:layout_width="@dimen/lamp_color_size"
+        android:layout_height="@dimen/lamp_color_size"
+        android:layout_below="@id/panel_6"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/panel_confirm_selector"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

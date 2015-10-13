@@ -66,7 +66,7 @@ public class MainFragment extends Fragment implements
     private ColorPickerView colorPicker2;
     private PopupWindow modPop;
     private TextView tv_header;
-    private View viewError, viewLoading, fl_cover, colorPickerCover;
+    private View viewError, viewLoading, fl_cover, colorPickerCover, compoundColorContainer;
 
     /**
      * 模式
@@ -81,13 +81,16 @@ public class MainFragment extends Fragment implements
      */
     private SeekBar brightnessBar;
 
-    private Button panel_1, panel2, panel3, panel4, panel5, panelConfirm;
+    private Button panelConfirm;
     /**
-     * 灯光变化色
+     * 灯光变化总共可选的个数
      */
-    private int compoundColorSize = 5;
-    private int[] mCompundColors = new int[]{0, 0, 0, 0, 0, 0};
+    private final int compoundColorSize = 5;
+    /**
+     * 灯光变化色中当前选中位置
+     */
     private int mCompundColorPosition = 0;
+    private int mLastCompoundPos;
     /**
      * 灯效
      */
@@ -111,13 +114,9 @@ public class MainFragment extends Fragment implements
         }
     };
     /**
-     * 是否可编辑灯色
-     */
-    private boolean mIsChangeColor;
-    /**
      * 变化色是否折叠
      */
-    private boolean mIsExpanded;
+    private boolean mIsExpanded = true;
     /**
      * 是否显示音乐面板
      */
@@ -128,13 +127,25 @@ public class MainFragment extends Fragment implements
     private boolean mPowerOff;
     private SceneManager mSceneManger;
     private CheckBox cb;
+    /**
+     * 首页底部音乐面板，可隐藏
+     */
     private View music_panel;
     private CheckBox music_arrow, music_play;
     private RelativeLayout music_content;
     private int musicContentHeight;
     private long mkeyTime;
+    /**
+     * 当前灯色
+     */
     private LampColor mLampColor;
+    /**
+     * 当前变化色
+     */
     private ArrayList<LampColor> mCompundColorWithState;
+
+    private ImageView iv_lamp_color;
+    private int colorBgOldSize, colorCheckedBgSize;
 
     @Override
     public void onAttach(Activity activity) {
@@ -172,24 +183,21 @@ public class MainFragment extends Fragment implements
         tv_header = (TextView) view.findViewById(R.id.tv_header_title);
         tv_header.setOnClickListener(this);
 
-        panel_1 = (Button) view.findViewById(R.id.panel_1);
-        panel_1.setOnClickListener(this);
+        iv_lamp_color = (ImageView) view.findViewById(R.id.iv_lamp_color);
+        iv_lamp_color.setOnClickListener(this);
 
         colorPicker2 = (ColorPickerView) view.findViewById(R.id.color_picker);
         colorPickerCover = view.findViewById(R.id.picker_cover);
         colorPicker2.setOnColorChangedListener(this);
         colorPickerCover.setOnClickListener(this);
 
-
-        panel2 = (Button) view.findViewById(R.id.panel_2);
-        panel3 = (Button) view.findViewById(R.id.panel_3);
-        panel4 = (Button) view.findViewById(R.id.panel_4);
-        panel5 = (Button) view.findViewById(R.id.panel_5);
+        compoundColorContainer = view.findViewById(R.id.rl_panel);
+        view.findViewById(R.id.panel_2).setOnClickListener(this);
+        view.findViewById(R.id.panel_3).setOnClickListener(this);
+        view.findViewById(R.id.panel_4).setOnClickListener(this);
+        view.findViewById(R.id.panel_5).setOnClickListener(this);
+        view.findViewById(R.id.panel_6).setOnClickListener(this);
         panelConfirm = (Button) view.findViewById(R.id.btn_confirm);
-        panel2.setOnClickListener(this);
-        panel3.setOnClickListener(this);
-        panel4.setOnClickListener(this);
-        panel5.setOnClickListener(this);
         panelConfirm.setOnClickListener(this);
 
         brightnessBar = (SeekBar) view.findViewById(R.id.progress_seek_bar);
@@ -219,18 +227,18 @@ public class MainFragment extends Fragment implements
         musicContentHeight = UIUtils.getDimens(R.dimen.music_content_height);
         mkeyTime = System.currentTimeMillis();
 
+
         //init lamp color data
         mLampColor = new LampColor();
+        //measure compound color bg size
+        colorBgOldSize = mLampColor.getCompoundColorBgSize();
+        colorCheckedBgSize = mLampColor.getCheckedCompoundColorBgSize();
         mCompundColorWithState = new ArrayList<LampColor>();
-        mCompundColorWithState.add(new LampColor());
-        mCompundColorWithState.add(new LampColor());
-        mCompundColorWithState.add(new LampColor());
-        mCompundColorWithState.add(new LampColor());
-        mCompundColorWithState.add(new LampColor());
+        for (int i = 0; i < compoundColorSize; i++) {
+            mCompundColorWithState.add(new LampColor());
+        }
 
-        expandCompoundColor(false);
         lampBeanInvalidate();
-
     }
 
     /**
@@ -244,7 +252,8 @@ public class MainFragment extends Fragment implements
         mMode = ConfigData.curLampMode;
         mLampData = ConfigData.curLamp;
 
-
+        //默认情况下选中灯的颜色
+        checkedLampColor(true);
         //是否显示音乐面板
         music_panel.setVisibility(mLampData.isCanAdjustedMusic() ? View.VISIBLE : View.INVISIBLE);
         if (mLampData.isCanAdjustedMusic()) {
@@ -312,7 +321,7 @@ public class MainFragment extends Fragment implements
             return;
         }
         //灯色
-        GradientDrawable panelBg = (GradientDrawable) panel_1.getBackground();
+        GradientDrawable panelBg = (GradientDrawable) iv_lamp_color.getDrawable();
         panelBg.setColor(mLampData.isCanAdjustedColor() ?
                 mLampColor.getColor()
                 : mLampColor.setState(LampColor.LampColorState.STATE_DISABLE));
@@ -344,7 +353,7 @@ public class MainFragment extends Fragment implements
     private void disableLampController() {
         //是否可编辑
         //灯色
-        GradientDrawable panelBg = (GradientDrawable) panel_1.getBackground();
+        GradientDrawable panelBg = (GradientDrawable) iv_lamp_color.getDrawable();
         panelBg.setColor(mLampColor.setState(LampColor.LampColorState.STATE_DISABLE));
         //变化色
         for (int i = 0; i < compoundColorSize; i++) {
@@ -372,12 +381,14 @@ public class MainFragment extends Fragment implements
      * @param canAdjustedComposedColor
      */
     private void setPanelState(boolean canAdjustedColor, boolean canAdjustedComposedColor) {
-        panel_1.setEnabled(canAdjustedColor ? true : false);
-        panel2.setEnabled(canAdjustedComposedColor ? true : false);
-        panel3.setEnabled(canAdjustedComposedColor ? true : false);
-        panel4.setEnabled(canAdjustedComposedColor ? true : false);
-        panel5.setEnabled(canAdjustedComposedColor ? true : false);
+        iv_lamp_color.setEnabled(canAdjustedColor ? true : false);
         panelConfirm.setEnabled(canAdjustedComposedColor ? true : false);
+
+        //update compound color state
+        for (int i = 0; i < compoundColorSize; i++) {
+            String tag = String.format("panel_%d", i + 2);
+            getView().findViewWithTag(tag).setEnabled(canAdjustedComposedColor ? true : false);
+        }
     }
 
     /**
@@ -436,10 +447,10 @@ public class MainFragment extends Fragment implements
             case R.id.tv_header_title:
                 showPop();
                 break;
-            case R.id.panel_1://编辑灯色
-                mIsChangeColor = true;
+            case R.id.iv_lamp_color://编辑灯色
+                checkedLampColor(true);
                 //灯色
-                GradientDrawable panelBg = (GradientDrawable) panel_1.getBackground();
+                GradientDrawable panelBg = (GradientDrawable) iv_lamp_color.getDrawable();
                 if (mLampData.getColor() != 0) {
                     panelBg.setColor(Color.BLACK);
                     mLampData.setColor(0);
@@ -448,24 +459,24 @@ public class MainFragment extends Fragment implements
                 }
                 break;
             case R.id.panel_2://编辑变化色
+                checkedLampColor(false);
                 if (!mIsExpanded) {
                     expandCompoundColor(true);
                 } else {
-                    mIsChangeColor = false;
                     cancelPanelColor(v, 0);
                 }
                 break;
             case R.id.panel_3:
-                mIsChangeColor = false;
                 cancelPanelColor(v, 1);
                 break;
             case R.id.panel_4:
-                mIsChangeColor = false;
                 cancelPanelColor(v, 2);
                 break;
             case R.id.panel_5:
-                mIsChangeColor = false;
                 cancelPanelColor(v, 3);
+                break;
+            case R.id.panel_6:
+                cancelPanelColor(v, 4);
                 break;
             case R.id.btn_confirm:
                 ToastUtils.showShort(mContext, "同步变化色");
@@ -484,31 +495,76 @@ public class MainFragment extends Fragment implements
     }
 
     /**
+     * 变化色和灯色互斥，通过修改背景来表示当前的选中状态
+     *
+     * @param checked
+     */
+    private void checkedLampColor(boolean checked) {
+        if (mLampColor.isChecked() == checked) return;//这是为什么把选中状态放在对象中的原因
+        iv_lamp_color.setBackgroundResource(checked ? R.drawable.changable_panel_bg : R.color.transparent);
+        if (checked && mIsExpanded) {
+            expandCompoundColor(false);
+        }
+        compoundColorContainer.setBackgroundResource(!checked ? R.drawable.changable_panel_bg : R.color.transparent);
+        mLampColor.setChecked(checked);
+    }
+
+    /**
+     * 选中变化色
+     *
+     * @param pos
+     */
+    private void checkedCompundColor(int pos) {
+        if (mLastCompoundPos == pos) return;
+        ((GradientDrawable) getView().findViewWithTag(String.format("panel_%d", pos + 2)).
+                getBackground()).setSize(colorCheckedBgSize, colorCheckedBgSize);
+        View _lastCompoundColorView = getView().findViewWithTag(String.format("panel_%d", mLastCompoundPos + 2));
+        if (_lastCompoundColorView != null)
+            ((GradientDrawable) _lastCompoundColorView.
+                    getBackground()).setSize(colorCheckedBgSize, colorCheckedBgSize);
+        mLastCompoundPos = pos;
+    }
+
+    /**
      * 展开、折叠变化色
      *
      * @param isExpanded
      */
     private void expandCompoundColor(boolean isExpanded) {
         mIsExpanded = isExpanded;
-        panel3.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
-        panel4.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
-        panel5.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
         panelConfirm.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+
+        for (int i = 0; i < compoundColorSize; i++) {
+            String tag = String.format("panel_%d", i + 2);
+            if (i == 0){
+                GradientDrawable _gd = (GradientDrawable) getView().findViewWithTag(tag).
+                        getBackground();
+                if (mIsExpanded){//TODO:u need test
+                    _gd.setSize(colorCheckedBgSize, colorCheckedBgSize);
+                }else{
+                    _gd.setSize(colorBgOldSize, colorBgOldSize);
+                }
+                continue;
+            }
+            getView().findViewWithTag(tag).setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        }
     }
 
     /**
-     * 将色值填充到色值面板上
+     * 取消填充板上的色值
      *
      * @param v
      * @param pos
      */
     private void cancelPanelColor(View v, int pos) {
-        if (mCompundColors[pos] == 0) {
+        LampColor _curPanel = mCompundColorWithState.get(pos);
+        if (_curPanel.getColor() == LampColor.COLOR_EMPTY) {
+            //无法取消填色值，因为没有填充色值
             ToastUtils.showShort(mContext, "没有填充色值");
         } else {
             cancelColorPos.add(pos);
-            ((GradientDrawable) v.getBackground()).setColor(mLampColor.COLOR_EMPTY);
-            mCompundColors[pos] = 0;
+            ((GradientDrawable) v.getBackground()).setColor(LampColor.COLOR_EMPTY);
+            _curPanel.setColor(LampColor.COLOR_EMPTY);
         }
     }
 
@@ -569,18 +625,19 @@ public class MainFragment extends Fragment implements
     /* ColorChangeListener */
     @Override
     public void colorChanged(int color) {
-        if (!(mLampData.isCanAdjustedColor() || mLampData.isCanAdjustedComposedColor())) {//can not click ColorPicker
+        //ColorPicker cannot click
+        if (!(mLampData.isCanAdjustedColor() || mLampData.isCanAdjustedComposedColor())) {
             return;
         }
 
-        if (mIsChangeColor) {
+        if (mLampColor.isChecked()) {
             //编辑灯颜色
-            fillPanel(4,color);
+            fillPanel(4, color);
         } else {
             //编辑变化色
             if (!cancelColorPos.isEmpty()) {
                 int mPos = cancelColorPos.first();
-                fillCompoundColorPanel(mPos,color);
+                fillCompoundColorPanel(mPos, color);
                 cancelColorPos.remove(mPos);
                 return;
             } else {
@@ -589,19 +646,17 @@ public class MainFragment extends Fragment implements
                     return;
                 }
             }
-            mCompundColors[mCompundColorPosition] = color;//1
-            fillCompoundColorPanel(mCompundColorPosition, color);//2
-            mCompundColorPosition++;
+            fillCompoundColorPanel(mCompundColorPosition, color);
+            checkedCompundColor(++mCompundColorPosition);
         }
     }
 
     /**
-     * 填充填色板
+     * 填充灯色
      */
     private void fillPanel(int pos, int color) {
         mLampColor.setColor(color);
-        String tag = String.format("panel_%d", pos + 2);
-        GradientDrawable gd = (GradientDrawable) getView().findViewWithTag(tag).getBackground();
+        GradientDrawable gd = (GradientDrawable) iv_lamp_color.getDrawable();
         gd.setColor(color);
     }
 
