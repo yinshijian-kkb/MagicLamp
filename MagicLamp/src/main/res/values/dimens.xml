@@ -15,5 +15,6 @@
     <dimen name="color_txt_margin_left">5dp</dimen>
     <dimen name="lamp_color_size">21dp</dimen>
     <dimen name="lamp_color_checked_size">25dp</dimen>
+    <dimen name="lamp_color_bg_size">30dp</dimen>
 
 </resources>

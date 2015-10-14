@@ -6,7 +6,7 @@
     android:paddingBottom="@dimen/color_padding"
     android:background="@drawable/changable_panel_bg">
 
-    <Button
+    <ImageView
         android:id="@+id/panel_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,7 +14,7 @@
         android:background="@drawable/panel_default"
         android:tag="panel_2" />
 
-    <Button
+    <ImageView
         android:id="@+id/panel_3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
         android:layout_centerHorizontal="true"
         android:tag="panel_3" />
 
-    <Button
+    <ImageView
         android:id="@+id/panel_4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
         android:layout_centerHorizontal="true"
         android:tag="panel_4" />
 
-    <Button
+    <ImageView
         android:id="@+id/panel_5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
         android:layout_centerHorizontal="true"
         android:tag="panel_5" />
 
-    <Button
+    <ImageView
         android:id="@+id/panel_6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
