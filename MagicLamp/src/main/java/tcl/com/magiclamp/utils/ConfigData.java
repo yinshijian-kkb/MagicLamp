@@ -36,9 +36,8 @@ public class ConfigData {
         );//all true
         int[] composeColor = new int[5];
         composeColor[0] = 0xffff0000;
-        composeColor[1] = 0xffffffff;
+        composeColor[1] = 0xff0000ff;
         composeColor[2] = 0xffffff00;
-//        composeColor[3] = 0xff0000ff;
         composeColor[3] = 0xffff0000;
 
         normalLamp.setCompoundColor(composeColor);

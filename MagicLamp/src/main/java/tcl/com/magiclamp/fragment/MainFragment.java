@@ -293,7 +293,10 @@ public class MainFragment extends Fragment implements
             LampColor _colorHolder = mCompundColorWithState.get(i);
             if (mLampData.getCompoundColor() != null && mLampData.getCompoundColor()[i] != 0) {
                 _colorHolder.setColor(mLampData.getCompoundColor()[i]);
+                mCompoundColorPosition ++;
+                mLastCompoundColorPos = mCompoundColorPosition;
             } else {
+                cancelColorPos.add(i);
                 _colorHolder.setColor(LampColor.COLOR_EMPTY);
             }
         }
@@ -467,7 +470,6 @@ public class MainFragment extends Fragment implements
                 //灯色
                 if (mLampData.getColor() != 0) {
                     mLampColor.setColor(LampColor.COLOR_EMPTY);
-                    mLampData.setColor(0);
                 } else {
                     ToastUtils.showShort(mContext, "请选择灯色");
                 }
@@ -515,10 +517,10 @@ public class MainFragment extends Fragment implements
      */
     private void checkedLampColor(boolean checked) {
         if (mLampColor.isChecked() == checked) return;//这是为什么把选中状态放在对象中的原因
-        view_lamp_bg.setBackgroundResource(checked ? R.drawable.changable_panel_bg : R.color.transparent);
         if (checked && mIsExpanded) {
             expandCompoundColor(false);
         }
+        view_lamp_bg.setBackgroundResource(checked ? R.drawable.changable_panel_bg : R.color.transparent);
         compoundColorContainer.setBackgroundResource(!checked ? R.drawable.changable_panel_bg : R.color.transparent);
         mLampColor.setChecked(checked);
     }
@@ -550,6 +552,7 @@ public class MainFragment extends Fragment implements
 
         for (int i = 0; i < compoundColorSize; i++) {
             LampColor _compoundColor = mCompundColorWithState.get(i);
+            if (i == 0) continue;
             /*//when expanded set the color button size
             if (i == 0) {
                 if (mIsExpanded) {
@@ -650,7 +653,10 @@ public class MainFragment extends Fragment implements
             if (!cancelColorPos.isEmpty()) {
                 int mPos = cancelColorPos.first();
                 fillCompoundColorPanel(mPos, color);
-                cancelColorPos.remove(mPos);
+                if (cancelColorPos.remove(mPos)){
+                    mCompoundColorPosition++;
+                    mLastCompoundColorPos = mCompoundColorPosition;
+                }
                 return;
             } else {
                 if (mCompoundColorPosition >= compoundColorSize) {
@@ -658,8 +664,18 @@ public class MainFragment extends Fragment implements
                     return;
                 }
             }
-            fillCompoundColorPanel(mCompoundColorPosition++, color);
+            fillCompoundColorPanel(++mCompoundColorPosition, color);
 //            checkedCompoundColor(++mCompoundColorPosition);
+        }
+    }
+
+    /**
+     * 填充填色板
+     */
+    private void fillCompoundColorPanel(int pos, int color) {
+        LampColor _compoundColor = mCompundColorWithState.get(pos);
+        if (_compoundColor.getColor() == LampColor.COLOR_EMPTY ){
+            mCompundColorWithState.get(pos).setColor(color);
         }
     }
 
@@ -668,13 +684,6 @@ public class MainFragment extends Fragment implements
      */
     private void fillPanel(int pos, int color) {
         mLampColor.setColor(color);
-    }
-
-    /**
-     * 填充填色板
-     */
-    private void fillCompoundColorPanel(int pos, int color) {
-        mCompundColorWithState.get(pos).setColor(color);
     }
 
     /*  OnItemClickListener  */

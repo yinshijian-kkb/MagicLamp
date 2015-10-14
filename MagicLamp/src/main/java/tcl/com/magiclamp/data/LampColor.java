@@ -20,7 +20,7 @@ public class LampColor {
     private LampColorState mState;
 
     public static final int COLOR_DISABLE = 0xff888888;
-    public static final int COLOR_EMPTY = 0xff000000;
+    public static final int COLOR_EMPTY = 0xffffffff;
     private boolean mChecked;
 
     public int getColor() {
