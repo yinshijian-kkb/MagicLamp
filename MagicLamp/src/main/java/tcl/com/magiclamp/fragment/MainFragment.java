@@ -340,6 +340,11 @@ public class MainFragment extends Fragment implements
         if (affection == null)
             affection = LampAffection.Default;
         showLampAffection(affection);
+
+        //关灯时选中灯色、变化色收起
+        checkedLampColor(!mPowerOff);
+        expandCompoundColor(mPowerOff);
+
         setLampEnable(!mPowerOff);
     }
 
@@ -370,9 +375,6 @@ public class MainFragment extends Fragment implements
      */
     private void setLampEnable(boolean enabled) {
         fl_cover.setVisibility(enabled ? View.GONE : View.VISIBLE);
-        //关灯时选中灯色、变化色收起
-        checkedLampColor(enabled);
-        expandCompoundColor(!enabled);
         if (!enabled) {
             //默认情况下选中灯的颜色
             disableLampController();
@@ -483,12 +485,6 @@ public class MainFragment extends Fragment implements
     private void enableMusicPanel(boolean enable) {
         music_arrow.setEnabled(enable ? true : false);
         music_content.setEnabled(enable ? true : false);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-//        showLoading();
     }
 
     @Override
@@ -732,7 +728,8 @@ public class MainFragment extends Fragment implements
 
             ConfigData.curLampMode = mSceneManger.getData().get(position).getMode();
             ConfigData.curLamp = ConfigData.lamps.get(ConfigData.curLampMode);
-            lampBeanInvalidate();
+            if (ConfigData.curLampMode != mMode)
+                lampBeanInvalidate();
         }
     }
 
@@ -743,7 +740,11 @@ public class MainFragment extends Fragment implements
             case R.id.cb_checker:
                 mPowerOff = isChecked;
                 tv_header.setEnabled(!mPowerOff);
-                setLampEnable(!mPowerOff);
+                if (mIsExpanded){
+                    checkedLampColor(true);
+                    expandCompoundColor(true);
+                }
+                setLampEnable(mPowerOff);
                 ToastUtils.showShort(mContext, mPowerOff ? "关机" : "开机");
                 break;
             // add music panel at footer
