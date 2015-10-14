@@ -31,7 +31,7 @@ public class MenuHolder extends BaseHolder<MenuItem> {
 
     @Override
     public void refreshView(MenuItem data) {
-        if (data.isChecked){
+        /*if (data.isChecked){
             view.setBackgroundColor(UIUtils.getColor(R.color.c_2b3149));
             tv_mode.setTextColor(UIUtils.getColor(R.color.white));
             iv_mode.setImageResource(checkedIcons[data.getIndex()]);
@@ -39,7 +39,8 @@ public class MenuHolder extends BaseHolder<MenuItem> {
             view.setBackgroundColor(UIUtils.getColor(R.color.c_060d29));
             tv_mode.setTextColor(UIUtils.getColor(R.color.c_a5a5ab));
             iv_mode.setImageResource(uncheckedIcons[data.getIndex()]);
-        }
+        }*/
+        iv_mode.setImageResource(uncheckedIcons[data.getIndex()]);
         tv_mode.setText(UIUtils.getString(data.getTitle()));
     }
 

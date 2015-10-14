@@ -27,11 +27,11 @@ public class LampColor {
         return mColor;
     }
 
-    public int getCompoundColorBgSize() {
+    public static int getCompoundColorBgSize() {
         return UIUtils.getDimens(R.dimen.lamp_color_size);
     }
 
-    public int getCheckedCompoundColorBgSize() {
+    public static int getCheckedCompoundColorBgSize() {
         return UIUtils.getDimens(R.dimen.lamp_color_checked_size);
     }
 
@@ -79,6 +79,10 @@ public class LampColor {
 
     public LampColor(View targetView) {
         mTargetView = targetView;
+    }
+
+    public View getTargetView(){
+        return mTargetView;
     }
 
     /*public void setBackgroundResource(int resId) {

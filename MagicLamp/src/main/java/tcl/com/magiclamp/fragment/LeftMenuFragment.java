@@ -67,7 +67,6 @@ public class LeftMenuFragment extends Fragment {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                updateMenuState(position);
                 mContext.setOnMenuClick(parent, view, position, id);
             }
         });

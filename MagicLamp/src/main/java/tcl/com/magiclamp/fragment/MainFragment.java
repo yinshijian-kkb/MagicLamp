@@ -75,6 +75,10 @@ public class MainFragment extends Fragment implements
     private CheckBox music_arrow, music_play;
     private RelativeLayout music_content;
     /**
+     * 变化色
+     */
+    private View panel_2,panel_3,panel_4,panel_5,panel_6;
+    /**
      * 灯效
      */
     private RadioButton cb_sync_music_mode, blink_mode, candy_light_mode, default_mode;
@@ -98,7 +102,7 @@ public class MainFragment extends Fragment implements
     /**
      * 变化色中当前选中位置
      */
-    private int mCompoundColorPosition = 0;
+    private int mCompoundColorPosition;
     /**
      * 变化色中上一个历史选中位置
      */
@@ -130,7 +134,7 @@ public class MainFragment extends Fragment implements
     /**
      * 变化色是否折叠
      */
-    private boolean mIsExpanded = true;
+    private boolean mIsExpanded;
     /**
      * 是否显示音乐面板
      */
@@ -159,6 +163,10 @@ public class MainFragment extends Fragment implements
      */
     private int colorBgOldSize, colorCheckedBgSize;
 
+    private HashMap<LampMode, TreeSet<Integer>> cancelColorPosMap;
+    private HashMap<LampMode, LampColor> lampColorMap;
+    private HashMap<LampMode, ArrayList<LampColor>> lampCompoundColorMap;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -179,13 +187,15 @@ public class MainFragment extends Fragment implements
         for (LampMode mode : lamps.keySet()) {
             lampModes.add(mode);
         }
+        cancelColorPosMap = new HashMap<LampMode, TreeSet<Integer>>();
+        lampColorMap = new HashMap<LampMode, LampColor>();
+        lampCompoundColorMap = new HashMap<LampMode, ArrayList<LampColor>>();
 
-        cancelColorPos = new TreeSet<Integer>();
         view.findViewById(R.id.header).setBackgroundColor(
                 UIUtils.getColor(R.color.info_sreen_bg));
 
         ImageView ivBack = (ImageView) view.findViewById(R.id.iv_header_back);
-        ivBack.setImageResource(R.drawable.menu);
+        ivBack.setImageResource(R.drawable.menu_selector);
         ivBack.setOnClickListener(this);
 
         CheckBox powerView = (CheckBox) view.findViewById(R.id.cb_checker);
@@ -205,15 +215,15 @@ public class MainFragment extends Fragment implements
         colorPickerCover.setOnClickListener(this);
 
         compoundColorContainer = view.findViewById(R.id.rl_panel);
-        View panel_2 = view.findViewById(R.id.panel_2);
+        panel_2 = view.findViewById(R.id.panel_2);
+        panel_3 = view.findViewById(R.id.panel_3);
+        panel_4 = view.findViewById(R.id.panel_4);
+        panel_5 = view.findViewById(R.id.panel_5);
+        panel_6 = view.findViewById(R.id.panel_6);
         panel_2.setOnClickListener(this);
-        View panel_3 = view.findViewById(R.id.panel_3);
         panel_3.setOnClickListener(this);
-        View panel_4 = view.findViewById(R.id.panel_4);
         panel_4.setOnClickListener(this);
-        View panel_5 = view.findViewById(R.id.panel_5);
         panel_5.setOnClickListener(this);
-        View panel_6 = view.findViewById(R.id.panel_6);
         panel_6.setOnClickListener(this);
         panelConfirm = (Button) view.findViewById(R.id.btn_confirm);
         panelConfirm.setOnClickListener(this);
@@ -245,18 +255,9 @@ public class MainFragment extends Fragment implements
         musicContentHeight = UIUtils.getDimens(R.dimen.music_content_height);
         mkeyTime = System.currentTimeMillis();
 
-
-        //init lamp color data
-        mLampColor = new LampColor(iv_lamp_color);
         //measure compound color bg size
-        colorBgOldSize = mLampColor.getCompoundColorBgSize();
-        colorCheckedBgSize = mLampColor.getCheckedCompoundColorBgSize();
-        mCompundColorWithState = new ArrayList<LampColor>();
-        mCompundColorWithState.add(new LampColor(panel_2));
-        mCompundColorWithState.add(new LampColor(panel_3));
-        mCompundColorWithState.add(new LampColor(panel_4));
-        mCompundColorWithState.add(new LampColor(panel_5));
-        mCompundColorWithState.add(new LampColor(panel_6));
+        colorBgOldSize = LampColor.getCompoundColorBgSize();
+        colorCheckedBgSize = LampColor.getCheckedCompoundColorBgSize();
 
         lampBeanInvalidate();
     }
@@ -272,8 +273,39 @@ public class MainFragment extends Fragment implements
         mMode = ConfigData.curLampMode;
         mLampData = ConfigData.curLamp;
 
-        //默认情况下选中灯的颜色
-        checkedLampColor(true);
+        mCompoundColorPosition = 0;
+        mLastCompoundColorPos = 0;
+        mIsExpanded = true;
+        mPowerOff = false;
+
+        //init lamp color data
+        if (lampColorMap.get(mMode) == null){
+            mLampColor = new LampColor(iv_lamp_color);
+            lampColorMap.put(mMode,mLampColor);
+        }else{
+            mLampColor = lampColorMap.get(mMode);
+        }
+        //init lamp compound color
+        if (lampCompoundColorMap.get(mMode) == null){
+            mCompundColorWithState = new ArrayList<LampColor>();
+            mCompundColorWithState.add(new LampColor(panel_2));
+            mCompundColorWithState.add(new LampColor(panel_3));
+            mCompundColorWithState.add(new LampColor(panel_4));
+            mCompundColorWithState.add(new LampColor(panel_5));
+            mCompundColorWithState.add(new LampColor(panel_6));
+
+            lampCompoundColorMap.put(mMode,mCompundColorWithState);
+        }else{
+            mCompundColorWithState = lampCompoundColorMap.get(mMode);
+        }
+        //lamp compound color cancel position
+        if (cancelColorPosMap.get(mMode) == null){
+            cancelColorPos = new TreeSet<Integer>();
+            cancelColorPosMap.put(mMode,cancelColorPos);
+        }else{
+            cancelColorPos = cancelColorPosMap.get(mMode);
+        }
+
         //是否显示音乐面板
         music_panel.setVisibility(mLampData.isCanAdjustedMusic() ? View.VISIBLE : View.INVISIBLE);
         if (mLampData.isCanAdjustedMusic()) {
@@ -294,7 +326,6 @@ public class MainFragment extends Fragment implements
             if (mLampData.getCompoundColor() != null && mLampData.getCompoundColor()[i] != 0) {
                 _colorHolder.setColor(mLampData.getCompoundColor()[i]);
                 mCompoundColorPosition ++;
-                mLastCompoundColorPos = mCompoundColorPosition;
             } else {
                 cancelColorPos.add(i);
                 _colorHolder.setColor(LampColor.COLOR_EMPTY);
@@ -339,7 +370,11 @@ public class MainFragment extends Fragment implements
      */
     private void setLampEnable(boolean enabled) {
         fl_cover.setVisibility(enabled ? View.GONE : View.VISIBLE);
+        //关灯时选中灯色、变化色收起
+        checkedLampColor(enabled);
+        expandCompoundColor(!enabled);
         if (!enabled) {
+            //默认情况下选中灯的颜色
             disableLampController();
             return;
         }
@@ -404,8 +439,8 @@ public class MainFragment extends Fragment implements
 
         //update compound color state
         for (int i = 0; i < compoundColorSize; i++) {
-            String tag = String.format("panel_%d", i + 2);
-            getView().findViewWithTag(tag).setEnabled(canAdjustedComposedColor ? true : false);
+            LampColor _compoundColor = mCompundColorWithState.get(i);
+            _compoundColor.getTargetView().setEnabled(canAdjustedComposedColor ? true : false);
         }
     }
 
@@ -460,7 +495,7 @@ public class MainFragment extends Fragment implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_header_back:
-                mContext.performSelectLight();//back::showContent
+                mContext.performClickMenu();//back::showContent
                 break;
             case R.id.tv_header_title:
                 showPop();
@@ -657,15 +692,14 @@ public class MainFragment extends Fragment implements
                     mCompoundColorPosition++;
                     mLastCompoundColorPos = mCompoundColorPosition;
                 }
-                return;
             } else {
                 if (mCompoundColorPosition >= compoundColorSize) {
                     ToastUtils.showShort(mContext, "灯色面板已经填充满");
-                    return;
+                } else {
+                    fillCompoundColorPanel(++mCompoundColorPosition, color);
+//            checkedCompoundColor(++mCompoundColorPosition);
                 }
             }
-            fillCompoundColorPanel(++mCompoundColorPosition, color);
-//            checkedCompoundColor(++mCompoundColorPosition);
         }
     }
 

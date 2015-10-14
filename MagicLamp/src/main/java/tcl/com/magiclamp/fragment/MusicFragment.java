@@ -46,7 +46,7 @@ public class MusicFragment extends Fragment implements View.OnClickListener, See
         super.onViewCreated(view, savedInstanceState);
         //init header
         ImageView ivBack = (ImageView) view.findViewById(R.id.iv_header_back);
-        ivBack.setImageResource(R.drawable.menu);
+        ivBack.setImageResource(R.drawable.arrow_down_selector);
         ivBack.setOnClickListener(this);
         view.findViewById(R.id.cb_checker).setVisibility(View.GONE);
         view.findViewById(R.id.rl_header).setBackgroundColor(UIUtils.getColor(R.color.white));
@@ -76,7 +76,7 @@ public class MusicFragment extends Fragment implements View.OnClickListener, See
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_header_back:
-                mContext.performSelectLight();
+                mContext.performClickMenu();
                 break;
             case R.id.btn_retreat:
                 ToastUtils.showShort(mContext,"上一首");

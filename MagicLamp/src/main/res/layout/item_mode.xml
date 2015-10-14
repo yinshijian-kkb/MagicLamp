@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/c_060d29"
+    android:background="@drawable/menu_list_selector"
     android:paddingLeft="12dp">
 
     <ImageView
@@ -20,7 +20,7 @@
         android:layout_height="50dp"
         android:layout_toRightOf="@id/iv_mode"
         android:gravity="center_vertical"
-        android:textColor="@color/white"
+        android:textColor="@color/c_a5a5ab"
         android:text="灯光" />
 
 </RelativeLayout>

@@ -80,7 +80,7 @@ public class MyActivity extends SlidingFragmentActivity{
                 if (mainFragment == null){
                     mainFragment = new MainFragment();
                 }else{
-                    mainFragment.lampBeanInvalidate();
+//                    mainFragment.lampBeanInvalidate(); TODO: HAVE BUG
                 }
                 _fragment = mainFragment;
                 break;
@@ -123,19 +123,14 @@ public class MyActivity extends SlidingFragmentActivity{
     /**
      * 选中灯光
      */
-    public void performSelectLight(){
+    public void performClickMenu(){
         toggle();
-        /*if (!mSlidingMenu.isMenuShowing()){
-            mainFragment.showLoading();
-        }*/
     }
 
     /**
      * 选中音乐
      */
     public void performChange2Music(){
-        //update left menu
-        mLeftFragment.updateMenuState(1);
         //update content fragment
         replaceContentFragment(1);
     }
