@@ -1,4 +1,4 @@
-package tcl.com.magiclamp.views;
+package tcl.com.magiclamp.controller;
 
 import android.content.Context;
 import android.view.View;

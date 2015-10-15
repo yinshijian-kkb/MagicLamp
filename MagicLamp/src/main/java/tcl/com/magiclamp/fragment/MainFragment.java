@@ -34,14 +34,14 @@ import tcl.com.magiclamp.MyActivity;
 import tcl.com.magiclamp.R;
 import tcl.com.magiclamp.data.LampAffection;
 import tcl.com.magiclamp.data.LampBean;
-import tcl.com.magiclamp.data.LampColor;
+import tcl.com.magiclamp.controller.LampColorController;
 import tcl.com.magiclamp.data.LampMode;
 import tcl.com.magiclamp.picker.ColorPickerView;
 import tcl.com.magiclamp.picker.OnColorChangedListener;
 import tcl.com.magiclamp.utils.ConfigData;
 import tcl.com.magiclamp.utils.ToastUtils;
 import tcl.com.magiclamp.utils.UIUtils;
-import tcl.com.magiclamp.views.SceneManager;
+import tcl.com.magiclamp.controller.SceneManager;
 
 import static tcl.com.magiclamp.data.LampAffection.Blink;
 import static tcl.com.magiclamp.data.LampAffection.Candy;
@@ -153,19 +153,19 @@ public class MainFragment extends Fragment implements
     /**
      * 当前灯色
      */
-    private LampColor mLampColor;
+    private LampColorController mLampColorController;
     /**
      * 当前变化色
      */
-    private ArrayList<LampColor> mCompundColorWithState;
+    private ArrayList<LampColorController> mCompundColorWithState;
     /**
      * 变化色的初始大小和选中后大小
      */
     private int colorBgOldSize, colorCheckedBgSize;
 
     private HashMap<LampMode, TreeSet<Integer>> cancelColorPosMap;
-    private HashMap<LampMode, LampColor> lampColorMap;
-    private HashMap<LampMode, ArrayList<LampColor>> lampCompoundColorMap;
+    private HashMap<LampMode, LampColorController> lampColorMap;
+    private HashMap<LampMode, ArrayList<LampColorController>> lampCompoundColorMap;
 
     @Override
     public void onAttach(Activity activity) {
@@ -188,8 +188,8 @@ public class MainFragment extends Fragment implements
             lampModes.add(mode);
         }
         cancelColorPosMap = new HashMap<LampMode, TreeSet<Integer>>();
-        lampColorMap = new HashMap<LampMode, LampColor>();
-        lampCompoundColorMap = new HashMap<LampMode, ArrayList<LampColor>>();
+        lampColorMap = new HashMap<LampMode, LampColorController>();
+        lampCompoundColorMap = new HashMap<LampMode, ArrayList<LampColorController>>();
 
         view.findViewById(R.id.header).setBackgroundColor(
                 UIUtils.getColor(R.color.info_sreen_bg));
@@ -256,8 +256,8 @@ public class MainFragment extends Fragment implements
         mkeyTime = System.currentTimeMillis();
 
         //measure compound color bg size
-        colorBgOldSize = LampColor.getCompoundColorBgSize();
-        colorCheckedBgSize = LampColor.getCheckedCompoundColorBgSize();
+        colorBgOldSize = LampColorController.getCompoundColorBgSize();
+        colorCheckedBgSize = LampColorController.getCheckedCompoundColorBgSize();
 
         lampBeanInvalidate();
     }
@@ -280,19 +280,19 @@ public class MainFragment extends Fragment implements
 
         //init lamp color data
         if (lampColorMap.get(mMode) == null){
-            mLampColor = new LampColor(iv_lamp_color);
-            lampColorMap.put(mMode,mLampColor);
+            mLampColorController = new LampColorController(iv_lamp_color);
+            lampColorMap.put(mMode, mLampColorController);
         }else{
-            mLampColor = lampColorMap.get(mMode);
+            mLampColorController = lampColorMap.get(mMode);
         }
         //init lamp compound color
         if (lampCompoundColorMap.get(mMode) == null){
-            mCompundColorWithState = new ArrayList<LampColor>();
-            mCompundColorWithState.add(new LampColor(panel_2));
-            mCompundColorWithState.add(new LampColor(panel_3));
-            mCompundColorWithState.add(new LampColor(panel_4));
-            mCompundColorWithState.add(new LampColor(panel_5));
-            mCompundColorWithState.add(new LampColor(panel_6));
+            mCompundColorWithState = new ArrayList<LampColorController>();
+            mCompundColorWithState.add(new LampColorController(panel_2));
+            mCompundColorWithState.add(new LampColorController(panel_3));
+            mCompundColorWithState.add(new LampColorController(panel_4));
+            mCompundColorWithState.add(new LampColorController(panel_5));
+            mCompundColorWithState.add(new LampColorController(panel_6));
 
             lampCompoundColorMap.put(mMode,mCompundColorWithState);
         }else{
@@ -315,20 +315,20 @@ public class MainFragment extends Fragment implements
         tv_header.setText(mMode.toString());
         //灯色
         if (mLampData.getColor() != 0) {
-            mLampColor.setColor(mLampData.getColor());
+            mLampColorController.setColor(mLampData.getColor());
         } else {
-            mLampColor.setColor(LampColor.COLOR_EMPTY);
+            mLampColorController.setColor(LampColorController.COLOR_EMPTY);
         }
 
         //变化色
         for (int i = 0; i < compoundColorSize; i++) {
-            LampColor _colorHolder = mCompundColorWithState.get(i);
+            LampColorController _colorHolder = mCompundColorWithState.get(i);
             if (mLampData.getCompoundColor() != null && mLampData.getCompoundColor()[i] != 0) {
                 _colorHolder.setColor(mLampData.getCompoundColor()[i]);
                 mCompoundColorPosition ++;
             } else {
                 cancelColorPos.add(i);
-                _colorHolder.setColor(LampColor.COLOR_EMPTY);
+                _colorHolder.setColor(LampColorController.COLOR_EMPTY);
             }
         }
 
@@ -381,15 +381,15 @@ public class MainFragment extends Fragment implements
             return;
         }
         //灯色
-        mLampColor.setColor(mLampData.isCanAdjustedColor() ?
-                mLampColor.getColor()
-                : mLampColor.setState(LampColor.LampColorState.STATE_DISABLE));
+        mLampColorController.setColor(mLampData.isCanAdjustedColor() ?
+                mLampColorController.getColor()
+                : mLampColorController.setState(LampColorController.LampColorState.STATE_DISABLE));
 
         //变化色
         for (int i = 0; i < compoundColorSize; i++) {
-            LampColor _colorHolder = mCompundColorWithState.get(i);
+            LampColorController _colorHolder = mCompundColorWithState.get(i);
             _colorHolder.setColor(mLampData.isCanAdjustedComposedColor() ? _colorHolder.getColor()
-                    : _colorHolder.setState(LampColor.LampColorState.STATE_DISABLE));
+                    : _colorHolder.setState(LampColorController.LampColorState.STATE_DISABLE));
         }
         setPanelState(mLampData.isCanAdjustedColor(), mLampData.isCanAdjustedComposedColor());
         //色盘
@@ -410,11 +410,11 @@ public class MainFragment extends Fragment implements
     private void disableLampController() {
         //是否可编辑
         //灯色
-        mLampColor.setColor(mLampColor.setState(LampColor.LampColorState.STATE_DISABLE));
+        mLampColorController.setColor(mLampColorController.setState(LampColorController.LampColorState.STATE_DISABLE));
         //变化色
         for (int i = 0; i < compoundColorSize; i++) {
-            LampColor _compoundColor = mCompundColorWithState.get(i);
-            _compoundColor.setColor(mLampColor.setState(LampColor.LampColorState.STATE_DISABLE));
+            LampColorController _compoundColor = mCompundColorWithState.get(i);
+            _compoundColor.setColor(mLampColorController.setState(LampColorController.LampColorState.STATE_DISABLE));
         }
         setPanelState(false, false);
         //色盘
@@ -441,7 +441,7 @@ public class MainFragment extends Fragment implements
 
         //update compound color state
         for (int i = 0; i < compoundColorSize; i++) {
-            LampColor _compoundColor = mCompundColorWithState.get(i);
+            LampColorController _compoundColor = mCompundColorWithState.get(i);
             _compoundColor.getTargetView().setEnabled(canAdjustedComposedColor ? true : false);
         }
     }
@@ -500,7 +500,7 @@ public class MainFragment extends Fragment implements
                 checkedLampColor(true);
                 //灯色
                 if (mLampData.getColor() != 0) {
-                    mLampColor.setColor(LampColor.COLOR_EMPTY);
+                    mLampColorController.setColor(LampColorController.COLOR_EMPTY);
                 } else {
                     ToastUtils.showShort(mContext, "请选择灯色");
                 }
@@ -547,13 +547,13 @@ public class MainFragment extends Fragment implements
      * @param checked
      */
     private void checkedLampColor(boolean checked) {
-        if (mLampColor.isChecked() == checked) return;//这是为什么把选中状态放在对象中的原因
+        if (mLampColorController.isChecked() == checked) return;//这是为什么把选中状态放在对象中的原因
         if (checked && mIsExpanded) {
             expandCompoundColor(false);
         }
         view_lamp_bg.setBackgroundResource(checked ? R.drawable.changable_panel_bg : R.color.transparent);
         compoundColorContainer.setBackgroundResource(!checked ? R.drawable.changable_panel_bg : R.color.transparent);
-        mLampColor.setChecked(checked);
+        mLampColorController.setChecked(checked);
     }
 
     /**
@@ -564,9 +564,9 @@ public class MainFragment extends Fragment implements
     private void checkedCompoundColor(int pos) {
         if (mLastCompoundColorPos == pos) return;
 
-        LampColor _compoundColor = mCompundColorWithState.get(pos);
+        LampColorController _compoundColor = mCompundColorWithState.get(pos);
         _compoundColor.setSize(colorCheckedBgSize, colorCheckedBgSize);
-        LampColor _lastCompoundColor = mCompundColorWithState.get(mLastCompoundColorPos);
+        LampColorController _lastCompoundColor = mCompundColorWithState.get(mLastCompoundColorPos);
         if (_lastCompoundColor != null)
             _lastCompoundColor.setSize(colorCheckedBgSize, colorCheckedBgSize);
         mLastCompoundColorPos = pos;
@@ -582,7 +582,7 @@ public class MainFragment extends Fragment implements
         panelConfirm.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
 
         for (int i = 0; i < compoundColorSize; i++) {
-            LampColor _compoundColor = mCompundColorWithState.get(i);
+            LampColorController _compoundColor = mCompundColorWithState.get(i);
             if (i == 0) continue;
             /*//when expanded set the color button size
             if (i == 0) {
@@ -604,13 +604,13 @@ public class MainFragment extends Fragment implements
      * @param pos
      */
     private void cancelPanelColor(View v, int pos) {
-        LampColor _curPanel = mCompundColorWithState.get(pos);
-        if (_curPanel.getColor() == LampColor.COLOR_EMPTY) {
+        LampColorController _curPanel = mCompundColorWithState.get(pos);
+        if (_curPanel.getColor() == LampColorController.COLOR_EMPTY) {
             //无法取消填色值，因为没有填充色值
             ToastUtils.showShort(mContext, "没有填充色值");
         } else {
             cancelColorPos.add(pos);
-            _curPanel.setColor(LampColor.COLOR_EMPTY);
+            _curPanel.setColor(LampColorController.COLOR_EMPTY);
         }
     }
 
@@ -676,7 +676,7 @@ public class MainFragment extends Fragment implements
             return;
         }
 
-        if (mLampColor.isChecked()) {
+        if (mLampColorController.isChecked()) {
             //编辑灯颜色
             fillPanel(4, color);
         } else {
@@ -703,8 +703,8 @@ public class MainFragment extends Fragment implements
      * 填充填色板
      */
     private void fillCompoundColorPanel(int pos, int color) {
-        LampColor _compoundColor = mCompundColorWithState.get(pos);
-        if (_compoundColor.getColor() == LampColor.COLOR_EMPTY ){
+        LampColorController _compoundColor = mCompundColorWithState.get(pos);
+        if (_compoundColor.getColor() == LampColorController.COLOR_EMPTY ){
             mCompundColorWithState.get(pos).setColor(color);
         }
     }
@@ -713,7 +713,7 @@ public class MainFragment extends Fragment implements
      * 填充灯色
      */
     private void fillPanel(int pos, int color) {
-        mLampColor.setColor(color);
+        mLampColorController.setColor(color);
     }
 
     /*  OnItemClickListener  */

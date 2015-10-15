@@ -1,4 +1,4 @@
-package tcl.com.magiclamp.data;
+package tcl.com.magiclamp.controller;
 
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -12,7 +12,7 @@ import tcl.com.magiclamp.utils.UIUtils;
  * 灯色
  * Created by sjyin on 10/13/15.
  */
-public class LampColor {
+public class LampColorController {
     /**
      * 小神等的灯色
      */
@@ -77,7 +77,7 @@ public class LampColor {
     //====
     private View mTargetView;
 
-    public LampColor(View targetView) {
+    public LampColorController(View targetView) {
         mTargetView = targetView;
     }
 

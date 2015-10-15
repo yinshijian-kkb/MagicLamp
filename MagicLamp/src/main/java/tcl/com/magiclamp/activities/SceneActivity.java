@@ -1,6 +1,5 @@
 package tcl.com.magiclamp.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -8,13 +7,12 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import tcl.com.magiclamp.MyActivity;
-import tcl.com.magiclamp.MyApplication;
 import tcl.com.magiclamp.data.LampMode;
 import tcl.com.magiclamp.R;
 import tcl.com.magiclamp.data.SceneItem;
 import tcl.com.magiclamp.utils.ConfigData;
 import tcl.com.magiclamp.utils.ToastUtils;
-import tcl.com.magiclamp.views.SceneManager;
+import tcl.com.magiclamp.controller.SceneManager;
 
 /**
  * Created by sjyin on 9/26/15.
