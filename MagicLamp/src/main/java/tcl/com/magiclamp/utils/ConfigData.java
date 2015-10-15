@@ -23,13 +23,12 @@ public class ConfigData {
     public static LampBean curLamp;
 
     public static HashMap<LampMode, LampBean> lamps;
-    private static HashMap<LampMode, LampBean> map;
 
     public static HashMap<LampMode, LampBean> init() {
-        if (map != null)
+        if (lamps != null)
             return lamps;
 
-        map = new HashMap<LampMode, LampBean>();
+        lamps = new HashMap<LampMode, LampBean>();
         LampBean normalLamp = new LampBean(
                 true, true, true, true,
                 true, true, true
@@ -43,7 +42,7 @@ public class ConfigData {
         normalLamp.setCompoundColor(composeColor);
         normalLamp.setAffection(LampAffection.Default);
         normalLamp.setBrightness(50);
-        map.put(LampMode.Normal, normalLamp);
+        lamps.put(LampMode.Normal, normalLamp);
 
         /*LampBean awakedLamp = new LampBean(true,
                 false,false,false,false,
@@ -53,7 +52,7 @@ public class ConfigData {
         awakedLamp.setAffection(LampAffection.Default);
         awakedLamp.setBrightness(80);
         awakedLamp.setMusic("鸟叫");
-        map.put(LampMode.Awaked, awakedLamp);
+        lamps.put(LampMode.Awaked, awakedLamp);
 
         /*LampBean readingLamp = new LampBean(true,false,true,
                 false,false,false,false);//亮度、音乐*/
@@ -61,7 +60,7 @@ public class ConfigData {
         readingLamp.setColor(0xffffffff);
         readingLamp.setAffection(LampAffection.Default);
         readingLamp.setBrightness(100);
-        map.put(LampMode.Reading, readingLamp);
+        lamps.put(LampMode.Reading, readingLamp);
 
         /*LampBean romanticLamp = new LampBean(true,true,
                 false,true,
@@ -71,7 +70,7 @@ public class ConfigData {
         romanticLamp.setAffection(LampAffection.Candy);
         romanticLamp.setMusic("爵士音乐");
         romanticLamp.setBrightness(30);
-        map.put(LampMode.Romantic, romanticLamp);
+        lamps.put(LampMode.Romantic, romanticLamp);
 
         /*LampBean asleepLamp = new LampBean(true,
                 false,false,false,false,
@@ -81,8 +80,8 @@ public class ConfigData {
         asleepLamp.setAffection(LampAffection.Default);
         asleepLamp.setMusic("催眠曲");
         asleepLamp.setBrightness(50);
-        map.put(LampMode.Asleep, asleepLamp);
+        lamps.put(LampMode.Asleep, asleepLamp);
 
-        return map;
+        return lamps;
     }
 }

@@ -60,9 +60,8 @@
             android:textSize="12sp" />
     </RelativeLayout>
 
-    <include
+    <FrameLayout
         android:id="@+id/rl_panel"
-        layout="@layout/layout_panel"
         android:layout_width="@dimen/lamp_color_bg_size"
         android:layout_height="wrap_content"
         android:layout_below="@id/rl_panel_1"
