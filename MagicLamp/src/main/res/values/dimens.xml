@@ -6,7 +6,7 @@
     <dimen name="disable_width">123px</dimen>
     <dimen name="disable_height">120px</dimen>
     <dimen name="brightness_bar_height">7dp</dimen>
-    <dimen name="brightness_bar_width">200dp</dimen>
+    <dimen name="brightness_bar_width">250dp</dimen>
     <dimen name="music_shortcut_margin">17dp</dimen>
     <dimen name="music_content_height">90dp</dimen>
     <dimen name="music_content_height_">-90dp</dimen>
@@ -16,5 +16,7 @@
     <dimen name="lamp_color_size">21dp</dimen>
     <dimen name="lamp_color_checked_size">25dp</dimen>
     <dimen name="lamp_color_bg_size">30dp</dimen>
+    <dimen name="volume_bar_width">260dp</dimen>
+    <dimen name="volume_bar_height">5dp</dimen>
 
 </resources>

@@ -3,12 +3,10 @@
     android:shape="rectangle">
 
     <size
-        android:width="200dp"
-        android:height="5dp" />
+        android:width="@dimen/volume_bar_width"
+        android:height="@dimen/volume_bar_height" />
 
-    <gradient
-        android:endColor="@color/black"
-        android:startColor="@color/white" />
+    <solid android:color="@color/c_bcbdc"/>
 
     <corners
         android:bottomLeftRadius="3dp"

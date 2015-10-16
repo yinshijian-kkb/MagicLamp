@@ -8,7 +8,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginRight="7.5dp"
+        android:layout_marginRight="5.5dp"
+        android:paddingLeft="5.5dp"
         android:text="0%"
         android:textColor="@color/black"
         android:textSize="12sp" />
@@ -20,11 +21,13 @@
         android:layout_toLeftOf="@+id/tv_end"
         android:layout_toRightOf="@id/tv_start"
         android:max="100"
-        android:progress="10"
-        android:thumbOffset="0dp"
+        android:progress="100"
+        android:thumbOffset="5dip"
         android:minHeight="5dp"
         android:maxHeight="5dp"
-        android:progressDrawable="@drawable/seekbar_progress"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:progressDrawable="@drawable/progress_drawable4brightness"
         android:thumb="@drawable/thumb" />
 
     <TextView
@@ -33,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="7.5dp"
+        android:layout_marginLeft="5.5dp"
         android:text="100%"
         android:textColor="@color/black"
         android:textSize="12sp" />

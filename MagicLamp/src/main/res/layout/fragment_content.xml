@@ -77,11 +77,11 @@
 
     <include
         android:id="@+id/rl_progress_seek_bar"
-        layout="@layout/music_seek_bar"
-        android:layout_width="wrap_content"
+        layout="@layout/seek_bar"
+        android:layout_width="@dimen/brightness_bar_width"
         android:layout_height="wrap_content"
         android:layout_below="@id/color_picker"
-        android:layout_marginLeft="20dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginRight="20dp"
         android:layout_marginTop="45dp" />
 

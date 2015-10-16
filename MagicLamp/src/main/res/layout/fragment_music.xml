@@ -29,12 +29,12 @@
         android:src="@drawable/music_picture"/>
 
     <include
-        android:layout_width="260dp"
+        android:layout_width="@dimen/volume_bar_width"
         android:layout_height="wrap_content"
         android:layout_below="@id/iv_music_picture"
         android:layout_marginTop="45dp"
         android:layout_centerHorizontal="true"
-        layout="@layout/music_seek_bar"/>
+        layout="@layout/seek_bar"/>
 
     <include
         android:id="@+id/music_player"
