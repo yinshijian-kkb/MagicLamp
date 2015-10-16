@@ -78,7 +78,8 @@ public class CompoundColorController implements View.OnClickListener ,Serializab
         int _pos = 0;
         switch (v.getId()) {
             case R.id.panel_2://编辑变化色
-                if (mCompoundLampColor.isExpanded()) {
+                mFragment.checkSingleColor(false);
+                if (isExpanded()) {
                     cancelPanelColor(0);
                 }else{
                     mFragment.lightLampColor(false);
@@ -212,7 +213,6 @@ public class CompoundColorController implements View.OnClickListener ,Serializab
      * @param isExpanded
      */
     public void expandCompoundColor(boolean isExpanded) {
-    //FIXME:when click compound color it can not expand after switch the mode
         mCompoundLampColor.setExpanded(isExpanded);
         panelConfirm.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
 

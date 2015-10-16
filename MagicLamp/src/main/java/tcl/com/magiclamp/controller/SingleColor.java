@@ -3,10 +3,6 @@ package tcl.com.magiclamp.controller;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.view.View;
-import android.widget.ImageView;
-
-import tcl.com.magiclamp.R;
-import tcl.com.magiclamp.utils.UIUtils;
 
 /**
  * 灯色
@@ -53,16 +49,20 @@ public class SingleColor {
         return mState;
     }
 
-    /*public void lightLamp(boolean clickable) {
+    public void check(boolean clickable) {
         this.mChecked = clickable;
     }
 
-    public boolean isLighted() {
+    public boolean isChecked() {
         return mChecked;
-    }*/
+    }
 
     public SingleColor(View targetView) {
         mTargetView = targetView;
+    }
+
+    public void setTargetView(View mTargetView) {
+        this.mTargetView = mTargetView;
     }
 
     public View getTargetView() {
@@ -84,11 +84,9 @@ public class SingleColor {
      * @param color
      */
     private void updateBg(int color) {
-        if (mTargetView instanceof ImageView) {
-            Drawable _bg = mTargetView.getBackground();
-            if (_bg instanceof GradientDrawable) {
-                ((GradientDrawable) _bg).setColor(color);
-            }
+        Drawable _bg = mTargetView.getBackground();
+        if (_bg instanceof GradientDrawable) {
+            ((GradientDrawable) _bg).setColor(color);
         }
     }
 
@@ -97,19 +95,14 @@ public class SingleColor {
     }
 
     public void setBackgroundResource(int resId) {
-        if (mTargetView instanceof ImageView) {
-            mTargetView.setBackgroundResource(resId);
-        }
+        mTargetView.setBackgroundResource(resId);
     }
 
     public void setSize(int width, int height) {
-        if (mTargetView instanceof ImageView) {
-            Drawable _bg = mTargetView.getBackground();
-            if (_bg instanceof GradientDrawable) {
-                _bg.mutate();
-                ((GradientDrawable) _bg).setSize(width, height);
-            }
-
+        Drawable _bg = mTargetView.getBackground();
+        if (_bg instanceof GradientDrawable) {
+            _bg.mutate();
+            ((GradientDrawable) _bg).setSize(width, height);
         }
     }
 

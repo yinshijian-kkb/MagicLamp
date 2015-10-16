@@ -79,8 +79,6 @@ public class MyActivity extends SlidingFragmentActivity{
             case 0://灯光
                 if (mainFragment == null){
                     mainFragment = new MainFragment();
-                }else{
-//                    mainFragment.lampBeanInvalidate(); TODO: HAVE BUG
                 }
                 _fragment = mainFragment;
                 break;

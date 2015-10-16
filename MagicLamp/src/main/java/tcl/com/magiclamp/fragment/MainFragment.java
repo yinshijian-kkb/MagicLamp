@@ -40,7 +40,6 @@ import tcl.com.magiclamp.data.LampMode;
 import tcl.com.magiclamp.picker.ColorPickerView;
 import tcl.com.magiclamp.picker.OnColorChangedListener;
 import tcl.com.magiclamp.utils.ConfigData;
-import tcl.com.magiclamp.utils.JLog;
 import tcl.com.magiclamp.utils.ToastUtils;
 import tcl.com.magiclamp.utils.UIUtils;
 import tcl.com.magiclamp.controller.SceneManager;
@@ -67,8 +66,7 @@ public class MainFragment extends Fragment implements
     private ColorPickerView colorPicker2;
     private PopupWindow modPop;
     private TextView tv_header;
-    private ImageView iv_lamp_color;
-    private View viewError, viewLoading, fl_cover, colorPickerCover, view_lamp_bg;
+    private View viewError, viewLoading, fl_cover, colorPickerCover, view_lamp_bg, iv_lamp_color;
     private FrameLayout compoundColorContainer;
     /**
      * 首页底部音乐面板，可隐藏
@@ -187,7 +185,7 @@ public class MainFragment extends Fragment implements
         tv_header = (TextView) view.findViewById(R.id.tv_header_title);
         tv_header.setOnClickListener(this);
 
-        iv_lamp_color = (ImageView) view.findViewById(R.id.iv_lamp_color);
+        iv_lamp_color = view.findViewById(R.id.iv_lamp_color);
         iv_lamp_color.setOnClickListener(this);
         view_lamp_bg = view.findViewById(R.id.view_lamp_bg);
 
@@ -255,9 +253,11 @@ public class MainFragment extends Fragment implements
             singleColor = new SingleColor(iv_lamp_color);
             singleColorMap.put(mMode, singleColor);
         } else {
+            singleColor.setTargetView(iv_lamp_color);
             singleColor = singleColorMap.get(mMode);
         }
         if (mLampData.getColor() != SingleColor.COLOR_EMPTY || mLampData.getColor() != 0) {
+            singleColor.check(true);
             singleColor.setColor(mLampData.getColor());
         } else {
             singleColor.setColor(SingleColor.COLOR_EMPTY);
@@ -430,11 +430,13 @@ public class MainFragment extends Fragment implements
                 showPop();
                 break;
             case R.id.iv_lamp_color://编辑灯色
-                JLog.e("click lamp color");
+                checkSingleColor(true);
                 lightLampColor(true);
                 //灯色
                 if (singleColor.getColor() == SingleColor.COLOR_EMPTY) {
                     ToastUtils.showShort(mContext, "请选择灯色");
+                }else{
+                    singleColor.setColor(SingleColor.COLOR_EMPTY);
                 }
                 break;
             //touch the music panel
@@ -455,11 +457,22 @@ public class MainFragment extends Fragment implements
      * @param light
      */
     public void lightLampColor(boolean light) {
-        JLog.e("light lampColor again");
-        if (compoundColorController.isExpanded() == !light) return;
+        if (singleColor.isChecked()) {
+            if (singleColor.isChecked() != light)
+                return;
+        }
         compoundColorController.expandCompoundColor(!light);
         view_lamp_bg.setBackgroundResource(light ? R.drawable.changable_panel_bg : R.color.transparent);
         compoundColorController.setBackgroundResource(!light ? R.drawable.changable_panel_bg : R.color.transparent);
+        singleColor.check(light);
+    }
+
+    public boolean singleColorIsChecked(){
+        return singleColor.isChecked();
+    }
+
+    public void checkSingleColor(boolean checked){
+        singleColor.check(checked);
     }
 
     /**
