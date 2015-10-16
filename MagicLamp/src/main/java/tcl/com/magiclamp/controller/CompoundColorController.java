@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeSet;
@@ -20,7 +21,7 @@ import tcl.com.magiclamp.utils.ToastUtils;
  *
  * Created by sjyin on 10/15/15.
  */
-public class CompoundColorController implements View.OnClickListener {
+public class CompoundColorController implements View.OnClickListener ,Serializable {
 
     private MainFragment mFragment;
     private Context mContext;

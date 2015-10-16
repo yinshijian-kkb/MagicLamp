@@ -39,6 +39,7 @@ public class ConfigData {
         composeColor[2] = 0xffffff00;
         composeColor[3] = 0xffff0000;
 
+        normalLamp.setColor(0xffffffff);
         normalLamp.setCompoundColor(composeColor);
         normalLamp.setAffection(LampAffection.Default);
         normalLamp.setBrightness(50);

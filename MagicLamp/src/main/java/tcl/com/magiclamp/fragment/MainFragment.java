@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -39,6 +40,7 @@ import tcl.com.magiclamp.data.LampMode;
 import tcl.com.magiclamp.picker.ColorPickerView;
 import tcl.com.magiclamp.picker.OnColorChangedListener;
 import tcl.com.magiclamp.utils.ConfigData;
+import tcl.com.magiclamp.utils.JLog;
 import tcl.com.magiclamp.utils.ToastUtils;
 import tcl.com.magiclamp.utils.UIUtils;
 import tcl.com.magiclamp.controller.SceneManager;
@@ -143,20 +145,33 @@ public class MainFragment extends Fragment implements
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_content, null, true);
+        return inflater.inflate(R.layout.fragment_content, null);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        lampModes = new ArrayList<LampMode>();
-        HashMap<LampMode, LampBean> lamps = ConfigData.lamps;
-        for (LampMode mode : lamps.keySet()) {
-            lampModes.add(mode);
+        if (savedInstanceState != null){
+            lampModes = (ArrayList<LampMode>) savedInstanceState.getSerializable("lampModes");
+            singleColorMap = (HashMap<LampMode, SingleColor>) savedInstanceState.getSerializable("singleColorMap");
+            compoundColorController = (CompoundColorController) savedInstanceState.getSerializable("compoundColorController");
         }
-        singleColorMap = new HashMap<LampMode, SingleColor>();
-        compoundColorController = new CompoundColorController(mContext, this);
+        if (lampModes == null){
+            lampModes = new ArrayList<LampMode>();
+            HashMap<LampMode, LampBean> lamps = ConfigData.lamps;
+            for (LampMode mode : lamps.keySet()) {
+                lampModes.add(mode);
+            }
+        }
+
+        if (singleColorMap == null){
+            singleColorMap = new HashMap<LampMode, SingleColor>();
+        }
+
+        if (compoundColorController == null){
+            compoundColorController = new CompoundColorController(mContext, this);
+        }
 
         view.findViewById(R.id.header).setBackgroundColor(
                 UIUtils.getColor(R.color.info_sreen_bg));
@@ -173,8 +188,8 @@ public class MainFragment extends Fragment implements
         tv_header.setOnClickListener(this);
 
         iv_lamp_color = (ImageView) view.findViewById(R.id.iv_lamp_color);
-        view_lamp_bg = view.findViewById(R.id.view_lamp_bg);
         iv_lamp_color.setOnClickListener(this);
+        view_lamp_bg = view.findViewById(R.id.view_lamp_bg);
 
         colorPicker2 = (ColorPickerView) view.findViewById(R.id.color_picker);
         colorPickerCover = view.findViewById(R.id.picker_cover);
@@ -182,7 +197,12 @@ public class MainFragment extends Fragment implements
         colorPickerCover.setOnClickListener(this);
 
         compoundColorContainer = (FrameLayout) view.findViewById(R.id.rl_panel);
-        compoundColorContainer.addView(compoundColorController.getView());
+        View _view = compoundColorController.getView();
+        ViewParent _parentView = _view.getParent();
+        if (_parentView != null){
+            ((ViewGroup)_parentView).removeView(_view);
+        }
+        compoundColorContainer.addView(_view);
 
         brightnessBar = (SeekBar) view.findViewById(R.id.progress_seek_bar);
         brightnessBar.setOnSeekBarChangeListener(this);
@@ -213,13 +233,18 @@ public class MainFragment extends Fragment implements
         lampBeanInvalidate();
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        /*outState.putSerializable("lampModes", lampModes);
+        outState.putSerializable("singleColorMap",singleColorMap);
+        outState.putSerializable("compoundColorController",compoundColorController);*/
+    }
+
     /**
      * 切换不同的模式
      */
     public void lampBeanInvalidate() {
-        if (mMode != null && mMode == ConfigData.curLampMode) {
-            return;
-        }
 
         mMode = ConfigData.curLampMode;
         mLampData = ConfigData.curLamp;
@@ -232,7 +257,7 @@ public class MainFragment extends Fragment implements
         } else {
             singleColor = singleColorMap.get(mMode);
         }
-        if (mLampData.getColor() != 0) {
+        if (mLampData.getColor() != SingleColor.COLOR_EMPTY || mLampData.getColor() != 0) {
             singleColor.setColor(mLampData.getColor());
         } else {
             singleColor.setColor(SingleColor.COLOR_EMPTY);
@@ -405,11 +430,10 @@ public class MainFragment extends Fragment implements
                 showPop();
                 break;
             case R.id.iv_lamp_color://编辑灯色
+                JLog.e("click lamp color");
                 lightLampColor(true);
                 //灯色
-                if (mLampData.getColor() != 0) {
-                    singleColor.setColor(SingleColor.COLOR_EMPTY);
-                } else {
+                if (singleColor.getColor() == SingleColor.COLOR_EMPTY) {
                     ToastUtils.showShort(mContext, "请选择灯色");
                 }
                 break;
@@ -431,6 +455,7 @@ public class MainFragment extends Fragment implements
      * @param light
      */
     public void lightLampColor(boolean light) {
+        JLog.e("light lampColor again");
         if (compoundColorController.isExpanded() == !light) return;
         compoundColorController.expandCompoundColor(!light);
         view_lamp_bg.setBackgroundResource(light ? R.drawable.changable_panel_bg : R.color.transparent);
