@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false" >
+
+    <item android:duration="100">
+        <clip
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/progressbar_loading1"
+            android:gravity="left" >
+        </clip>
+    </item>
+    <item android:duration="100">
+        <clip
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/progressbar_loading2"
+            android:gravity="left" >
+        </clip>
+    </item>
+    <item android:duration="100">
+        <clip
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/progressbar_loading3"
+            android:gravity="left" >
+        </clip>
+    </item>
+    <item android:duration="100">
+        <clip
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/progressbar_loading4"
+            android:gravity="left" >
+        </clip>
+    </item>
+    <item android:duration="100">
+        <clip
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/progressbar_loading5"
+            android:gravity="left" >
+        </clip>
+    </item>
+    <item android:duration="100">
+        <clip
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/progressbar_loading6"
+            android:gravity="left" >
+        </clip>
+    </item>
+    <item android:duration="100">
+        <clip
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/progressbar_loading7"
+            android:gravity="left" >
+        </clip>
+    </item>
+    <item android:duration="100">
+        <clip
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/progressbar_loading8"
+            android:gravity="left" >
+        </clip>
+    </item>
+    <item android:duration="100">
+        <clip
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/progressbar_loading9"
+            android:gravity="left" >
+        </clip>
+    </item>
+    <item android:duration="100">
+        <clip
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/progressbar_loading10"
+            android:gravity="left" >
+        </clip>
+    </item>
+    <item android:duration="100">
+        <clip
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/progressbar_loading11"
+            android:gravity="left" >
+        </clip>
+    </item>
+    <item android:duration="100">
+        <clip
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/progressbar_loading12"
+            android:gravity="left" >
+        </clip>
+    </item>
+</animation-list>

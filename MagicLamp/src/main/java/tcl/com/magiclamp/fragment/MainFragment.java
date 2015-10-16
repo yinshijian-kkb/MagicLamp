@@ -40,6 +40,7 @@ import tcl.com.magiclamp.data.LampMode;
 import tcl.com.magiclamp.picker.ColorPickerView;
 import tcl.com.magiclamp.picker.OnColorChangedListener;
 import tcl.com.magiclamp.utils.ConfigData;
+import tcl.com.magiclamp.utils.MyToast;
 import tcl.com.magiclamp.utils.ToastUtils;
 import tcl.com.magiclamp.utils.UIUtils;
 import tcl.com.magiclamp.controller.SceneManager;
@@ -58,6 +59,10 @@ public class MainFragment extends Fragment implements
         OnColorChangedListener,
         AdapterView.OnItemClickListener, CompoundButton.OnCheckedChangeListener,
         Animator.AnimatorListener {
+
+    public static final int CHANGE_COLOR = 0x0001;
+    public static final int CHANGE_COMPOUND_COLOR = 0x0002;
+    private static final int CHANGE_LIGHT_LEVEL = 0x003;
 
     private MyActivity mContext;
     /**
@@ -103,10 +108,16 @@ public class MainFragment extends Fragment implements
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            mLoading.dismiss();
             switch (msg.what) {
-                case 1:
-                    viewLoading.setVisibility(View.GONE);
-                    viewError.setVisibility(View.GONE);
+                case CHANGE_COLOR:
+                    mLampData.setColor(singleColor.getColor());
+                    break;
+                case CHANGE_COMPOUND_COLOR:
+                    mLampData.setCompoundColor(compoundColorController.getCompoundColor());
+                    break;
+                case CHANGE_LIGHT_LEVEL:
+                    mLampData.setBrightness(curBrightness);
                     break;
             }
         }
@@ -134,6 +145,14 @@ public class MainFragment extends Fragment implements
     private HashMap<LampMode, SingleColor> singleColorMap;
 
     private CompoundColorController compoundColorController;
+    /**
+     * 当前的亮度
+     */
+    private int curBrightness;
+    /**
+     * Loading view
+     */
+    private MyToast mLoading;
 
     @Override
     public void onAttach(Activity activity) {
@@ -210,8 +229,8 @@ public class MainFragment extends Fragment implements
         candy_light_mode = (RadioButton) view.findViewById(R.id.candy_light_mode);
         default_mode = (RadioButton) view.findViewById(R.id.default_mode);
 
-        viewError = view.findViewById(R.id.error_view);
-        viewLoading = view.findViewById(R.id.loading_view);
+//        viewError = view.findViewById(R.id.error_view);
+//        viewLoading = view.findViewById(R.id.loading_view);
         fl_cover = view.findViewById(R.id.fl_cover);
         fl_cover.setOnClickListener(this);
 
@@ -507,10 +526,11 @@ public class MainFragment extends Fragment implements
     /**
      * 显示阻塞加载
      */
-    public void showLoading() {
-        viewLoading.setVisibility(View.VISIBLE);
-        viewError.setVisibility(View.GONE);
-        mHandler.sendEmptyMessageDelayed(1, 1000);
+    public void showLoading(int flag) {
+        if (mLoading == null)
+            mLoading = new MyToast(mContext, true);
+        mLoading.show();
+        mHandler.sendEmptyMessageDelayed(flag, 1000);
     }
 
     /*  SeekBarChangeListener  */
@@ -526,7 +546,9 @@ public class MainFragment extends Fragment implements
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        ToastUtils.showShort(mContext, "当前的亮度是：" + seekBar.getProgress());
+        showLoading(CHANGE_LIGHT_LEVEL);
+        curBrightness = seekBar.getProgress();
+//        ToastUtils.showShort(mContext, "当前的亮度是：" + seekBar.getProgress());
     }
 
     /* ColorChangeListener */
@@ -551,6 +573,7 @@ public class MainFragment extends Fragment implements
      */
     private void fillPanel(int pos, int color) {
         singleColor.setColor(color);
+        showLoading(CHANGE_COLOR);
     }
 
     /*  OnItemClickListener  */

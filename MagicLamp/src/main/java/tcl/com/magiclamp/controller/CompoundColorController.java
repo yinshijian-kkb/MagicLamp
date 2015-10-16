@@ -98,8 +98,8 @@ public class CompoundColorController implements View.OnClickListener ,Serializab
                 _pos = 4;
                 break;
             case R.id.btn_confirm:
-                ToastUtils.showShort(mContext, "同步变化色");
                 expandCompoundColor(false);
+                mFragment.showLoading(MainFragment.CHANGE_COMPOUND_COLOR);
                 break;
 
         }
@@ -244,6 +244,15 @@ public class CompoundColorController implements View.OnClickListener ,Serializab
         if (_compoundColor.getColor() == SingleColor.COLOR_EMPTY) {
             mCompoundLampColor.getCompoundColor().get(pos).setColor(color);
         }
+    }
+
+    public int[] getCompoundColor() {
+        ArrayList<SingleColor> _compoundColor = mCompoundLampColor.getCompoundColor();
+        int[] _colors = new int[_compoundColor.size()];
+        for (int i = 0; i < _compoundColor.size(); i++) {
+            _colors[i] = _compoundColor.get(i).getColor();
+        }
+        return _colors;
     }
 
     /**
