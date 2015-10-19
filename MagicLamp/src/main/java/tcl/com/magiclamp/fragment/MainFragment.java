@@ -9,12 +9,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
@@ -37,6 +39,7 @@ import tcl.com.magiclamp.data.LampAffection;
 import tcl.com.magiclamp.data.LampBean;
 import tcl.com.magiclamp.controller.SingleColor;
 import tcl.com.magiclamp.data.LampMode;
+import tcl.com.magiclamp.data.MusicBean;
 import tcl.com.magiclamp.picker.ColorPickerView;
 import tcl.com.magiclamp.picker.OnColorChangedListener;
 import tcl.com.magiclamp.utils.ConfigData;
@@ -70,14 +73,15 @@ public class MainFragment extends Fragment implements
      */
     private ColorPickerView colorPicker2;
     private PopupWindow modPop;
-    private TextView tv_header;
+    private TextView tv_header, tv_song, tv_singer;
     private View viewError, viewLoading, fl_cover, colorPickerCover, view_lamp_bg, iv_lamp_color;
     private FrameLayout compoundColorContainer;
     /**
      * 首页底部音乐面板，可隐藏
      */
     private View music_panel;
-    private CheckBox music_arrow, music_play;
+    private Button music_arrow;
+    private CheckBox music_play;
     private RelativeLayout music_content;
     /**
      * 灯效
@@ -153,6 +157,10 @@ public class MainFragment extends Fragment implements
      * Loading view
      */
     private MyToast mLoading;
+    /**
+     * 播放背景音乐
+     */
+    private boolean mIsPlaying;
 
     @Override
     public void onAttach(Activity activity) {
@@ -169,12 +177,12 @@ public class MainFragment extends Fragment implements
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             lampModes = (ArrayList<LampMode>) savedInstanceState.getSerializable("lampModes");
             singleColorMap = (HashMap<LampMode, SingleColor>) savedInstanceState.getSerializable("singleColorMap");
             compoundColorController = (CompoundColorController) savedInstanceState.getSerializable("compoundColorController");
         }
-        if (lampModes == null){
+        if (lampModes == null) {
             lampModes = new ArrayList<LampMode>();
             HashMap<LampMode, LampBean> lamps = ConfigData.lamps;
             for (LampMode mode : lamps.keySet()) {
@@ -182,11 +190,11 @@ public class MainFragment extends Fragment implements
             }
         }
 
-        if (singleColorMap == null){
+        if (singleColorMap == null) {
             singleColorMap = new HashMap<LampMode, SingleColor>();
         }
 
-        if (compoundColorController == null){
+        if (compoundColorController == null) {
             compoundColorController = new CompoundColorController(mContext, this);
         }
 
@@ -218,8 +226,8 @@ public class MainFragment extends Fragment implements
         compoundColorContainer = (FrameLayout) view.findViewById(R.id.rl_panel);
         View _view = compoundColorController.getView();
         ViewParent _parentView = _view.getParent();
-        if (_parentView != null){
-            ((ViewGroup)_parentView).removeView(_view);
+        if (_parentView != null) {
+            ((ViewGroup) _parentView).removeView(_view);
         }
         compoundColorContainer.addView(_view);
 
@@ -237,13 +245,15 @@ public class MainFragment extends Fragment implements
         fl_cover.setOnClickListener(this);
 
         //add music panel at footer
+        tv_singer = (TextView) view.findViewById(R.id.tv_singer);
+        tv_song = (TextView) view.findViewById(R.id.tv_song);
         music_panel = view.findViewById(R.id.music_panel);
-        music_arrow = ((CheckBox) view.findViewById(R.id.cb_arrow));
+        music_arrow = ((Button) view.findViewById(R.id.btn_arrow));
         music_play = ((CheckBox) view.findViewById(R.id.cb_play));
         music_content = ((RelativeLayout) view.findViewById(R.id.rl_music_content));
         music_content.setOnClickListener(this);
-        music_arrow.setOnCheckedChangeListener(this);
-        music_play.setOnCheckedChangeListener(this);
+        music_arrow.setOnClickListener(this);
+        music_play.setOnClickListener(this);
 
         //measure music content height
         musicContentHeight = UIUtils.getDimens(R.dimen.music_content_height);
@@ -288,9 +298,13 @@ public class MainFragment extends Fragment implements
         compoundColorController.resetCompoundColor(mMode, mLampData);
 
         //是否显示音乐面板
-        music_panel.setVisibility(mLampData.isCanAdjustedMusic() ? View.VISIBLE : View.INVISIBLE);
-        if (mLampData.isCanAdjustedMusic()) {
-            mMusicPanelShowing = true;
+        checkBox(mIsPlaying);
+        if (mLampData.isCanAdjustedMusic() && mLampData.getMusic() != null &&
+                mLampData.getMusic().isPlaying() && !mLampData.getMusic().isHided()) {
+            music_panel.setVisibility(View.VISIBLE);
+            initMusicPanel();
+        } else {
+            music_panel.setVisibility(View.INVISIBLE);
         }
         //更新标题
         tv_header.setText(mMode.toString());
@@ -308,6 +322,27 @@ public class MainFragment extends Fragment implements
         lightLampColor(true);
         //开机时屏幕中的控件是否可操作
         setLampEnable(true);
+    }
+
+    /**
+     * 初始化音乐面板
+     */
+    private void initMusicPanel() {
+        //tv_song, tv_singer
+        String _song = "", _singer = "";
+        MusicBean _bean = mLampData.getMusic();
+        if (!TextUtils.isEmpty(_bean.getSong().toString().trim())) {
+            _song = _bean.getSong();
+        }
+        if (!TextUtils.isEmpty(_bean.getSinger().toString().trim())) {
+            _singer = _bean.getSinger();
+        }
+        mIsPlaying = !_bean.isPlaying();
+        music_play.performClick();
+        tv_song.setText(_song);
+        tv_singer.setText(_singer);
+
+        musicPanelUp();
     }
 
     /**
@@ -345,9 +380,9 @@ public class MainFragment extends Fragment implements
             return;
         }
         //灯色
-        if (mLampData.isCanAdjustedColor()){
+        if (mLampData.isCanAdjustedColor()) {
             singleColor.setColor(singleColor.getColor());
-        }else{
+        } else {
             singleColor.setState(SingleColor.LampColorState.STATE_DISABLE);
         }
 
@@ -457,7 +492,7 @@ public class MainFragment extends Fragment implements
                 //灯色
                 if (singleColor.getColor() == SingleColor.COLOR_EMPTY) {
                     ToastUtils.showShort(mContext, "请选择灯色");
-                }else{
+                } else {
                     singleColor.setColor(SingleColor.COLOR_EMPTY);
                 }
                 break;
@@ -467,14 +502,40 @@ public class MainFragment extends Fragment implements
                 break;
             //touch the music panel
             case R.id.rl_music_content:
-                if ((System.currentTimeMillis() - mkeyTime) > 2000) {
-                    mContext.performChange2Music();
-                }
-                mkeyTime = System.currentTimeMillis();
+                hideMusicPanel();
+                mContext.performChange2Music();
+                break;
+            case R.id.btn_arrow:
+                hideMusicPanel();
+                musicPanelDown();
+                break;
+            case R.id.cb_play://播放
+                mIsPlaying = !mIsPlaying;
+                checkBox(mIsPlaying);
+                ToastUtils.showShort(mContext, mIsPlaying ? "播放" : "暂停");
+                mLampData.getMusic().play(mIsPlaying);
                 break;
             default:
                 break;
         }
+    }
+
+    /**
+     * 设置CheckBox的选中状态
+     *
+     * @param checked
+     */
+    private void checkBox(boolean checked){
+        music_play.setButtonDrawable(checked ? R.drawable.music_play_normal : R.drawable.music_suspended_normal);
+    }
+
+    /**
+     * 隐藏音乐面板
+     */
+    private void hideMusicPanel() {
+        music_panel.setVisibility(View.INVISIBLE);
+        mLampData.getMusic().hide(true);
+        mLampData.getMusic().play(false);
     }
 
     /**
@@ -493,11 +554,11 @@ public class MainFragment extends Fragment implements
         singleColor.check(light);
     }
 
-    public boolean singleColorIsChecked(){
+    public boolean singleColorIsChecked() {
         return singleColor.isChecked();
     }
 
-    public void checkSingleColor(boolean checked){
+    public void checkSingleColor(boolean checked) {
         singleColor.check(checked);
     }
 
@@ -538,6 +599,13 @@ public class MainFragment extends Fragment implements
             mLoading = new MyToast(mContext, true);
         mLoading.show();
         mHandler.sendEmptyMessageDelayed(flag, 1000);
+    }
+
+    @Override
+    public void onStop() {
+        super.onDetach();
+        ConfigData.curLampMode = mMode;
+        ConfigData.curLamp = mLampData;
     }
 
     /*  SeekBarChangeListener  */
@@ -612,18 +680,6 @@ public class MainFragment extends Fragment implements
                 }
                 setLampEnable(!mPowerOff);
                 ToastUtils.showShort(mContext, mPowerOff ? "关机" : "开机");
-                break;
-            // add music panel at footer
-            case R.id.cb_arrow:
-                mMusicPanelShowing = isChecked;
-                if (mMusicPanelShowing) {
-                    musicPanelUp();
-                } else {
-                    musicPanelDown();
-                }
-                break;
-            case R.id.cb_play:
-                ToastUtils.showShort(mContext, isChecked ? "播放" : "暂停");
                 break;
         }
     }

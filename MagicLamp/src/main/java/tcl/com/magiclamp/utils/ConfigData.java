@@ -5,6 +5,7 @@ import java.util.HashMap;
 import tcl.com.magiclamp.data.LampBean;
 import tcl.com.magiclamp.data.LampAffection;
 import tcl.com.magiclamp.data.LampMode;
+import tcl.com.magiclamp.data.MusicBean;
 
 /**
  * Created by sjyin on 9/27/15.
@@ -43,6 +44,11 @@ public class ConfigData {
         normalLamp.setCompoundColor(composeColor);
         normalLamp.setAffection(LampAffection.Default);
         normalLamp.setBrightness(50);
+        //for Test ,can delete
+        MusicBean _bean = new MusicBean("2222","11");
+        _bean.play(true);
+        normalLamp.setMusic(_bean);
+        //
         lamps.put(LampMode.Normal, normalLamp);
 
         /*LampBean awakedLamp = new LampBean(true,
@@ -52,7 +58,7 @@ public class ConfigData {
         awakedLamp.setColor(0xffffffff);
         awakedLamp.setAffection(LampAffection.Default);
         awakedLamp.setBrightness(80);
-        awakedLamp.setMusic("鸟叫");
+        awakedLamp.setMusic(new MusicBean("鸟叫",null));
         lamps.put(LampMode.Awaked, awakedLamp);
 
         /*LampBean readingLamp = new LampBean(true,false,true,
@@ -69,7 +75,7 @@ public class ConfigData {
         LampBean romanticLamp = new LampBean();
         romanticLamp.setColor(0xff9932cd);
         romanticLamp.setAffection(LampAffection.Candy);
-        romanticLamp.setMusic("爵士音乐");
+        romanticLamp.setMusic(new MusicBean("爵士音乐",null));
         romanticLamp.setBrightness(30);
         lamps.put(LampMode.Romantic, romanticLamp);
 
@@ -79,7 +85,7 @@ public class ConfigData {
         LampBean asleepLamp = new LampBean();
         asleepLamp.setColor(0xffc0d9d9);
         asleepLamp.setAffection(LampAffection.Default);
-        asleepLamp.setMusic("催眠曲");
+        asleepLamp.setMusic(new MusicBean("催眠曲",null));
         asleepLamp.setBrightness(50);
         lamps.put(LampMode.Asleep, asleepLamp);
 

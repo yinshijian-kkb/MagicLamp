@@ -4,20 +4,19 @@
     android:layout_height="wrap_content"
     android:background="@color/info_sreen_bg">
 
-    <CheckBox
-        android:id="@+id/cb_arrow"
+    <Button
+        android:id="@+id/btn_arrow"
         android:layout_width="wrap_content"
-        android:padding="5dp"
-        android:layout_height="22.5dp"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:background="@null"
-        android:button="@drawable/music_arrow" />
+        android:layout_margin="5dp"
+        android:background="@drawable/music_arrow_a"/>
 
     <RelativeLayout
         android:id="@+id/rl_music_content"
         android:layout_width="match_parent"
         android:layout_height="@dimen/music_content_height"
-        android:layout_below="@id/cb_arrow"
+        android:layout_below="@id/btn_arrow"
         android:layout_marginTop="5dp"
         android:background="@color/c_3c3e45">
 
@@ -61,19 +60,19 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:gravity="center"
             android:layout_marginLeft="@dimen/music_shortcut_margin"
             android:layout_marginRight="@dimen/music_shortcut_margin"
-            android:button="@drawable/play_selector2"
-            android:background="@null" />
+            android:background="@null"
+            android:button="@drawable/music_main_play_normal"
+            android:gravity="center" />
 
         <ProgressBar
+            style="@style/music_syllable_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="6dp"
-            android:layout_toLeftOf="@id/cb_play"
-            style="@style/music_syllable_style"/>
+            android:layout_toLeftOf="@id/cb_play" />
 
     </RelativeLayout>
 

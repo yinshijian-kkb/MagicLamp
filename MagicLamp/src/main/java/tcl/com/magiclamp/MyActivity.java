@@ -108,11 +108,11 @@ public class MyActivity extends SlidingFragmentActivity{
                 break;
         }
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        /*if (fragmentPos > mLastFragmentPos){
+        if (fragmentPos > mLastFragmentPos){
             fragmentTransaction.setCustomAnimations(R.anim.fade_up_enter, R.anim.fade_up_exit);
         }else{
             fragmentTransaction.setCustomAnimations(R.anim.fade_down_enter, R.anim.fade_down_exit);
-        }*/
+        }
         fragmentTransaction.replace(R.id.content, _fragment);
         fragmentTransaction.commit();
         mLastFragmentPos = fragmentPos;

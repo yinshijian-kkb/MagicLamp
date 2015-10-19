@@ -19,7 +19,7 @@
         android:layout_toRightOf="@id/btn_retreat"
         android:gravity="center"
         android:layout_marginLeft="20dp"
-        android:button="@drawable/play_selector_4fragment"
+        android:button="@drawable/music_main_play_normal"
         android:background="@null" />
 
 

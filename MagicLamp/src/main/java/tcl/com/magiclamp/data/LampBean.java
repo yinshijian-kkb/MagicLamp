@@ -15,7 +15,7 @@ public class LampBean {
     private String startTime;
     private String endTime;
     private String repeatDuration;
-    private String music;
+    private MusicBean music;
 
     private boolean canAdjustedColor;
     private boolean canAdjustedBrightness;
@@ -88,11 +88,11 @@ public class LampBean {
         this.compoundColor = compoundColor;
     }
 
-    public String getMusic() {
+    public MusicBean getMusic() {
         return music;
     }
 
-    public void setMusic(String music) {
+    public void setMusic(MusicBean music) {
         this.music = music;
     }
 
