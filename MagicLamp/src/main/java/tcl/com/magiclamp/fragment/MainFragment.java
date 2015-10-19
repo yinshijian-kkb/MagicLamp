@@ -205,6 +205,8 @@ public class MainFragment extends Fragment implements
         tv_header.setOnClickListener(this);
 
         iv_lamp_color = view.findViewById(R.id.iv_lamp_color);
+        view.findViewById(R.id.tv_panel).setOnClickListener(this);
+        view.findViewById(R.id.tv_lamp_color).setOnClickListener(this);
         iv_lamp_color.setOnClickListener(this);
         view_lamp_bg = view.findViewById(R.id.view_lamp_bg);
 
@@ -448,6 +450,7 @@ public class MainFragment extends Fragment implements
             case R.id.tv_header_title:
                 showPop();
                 break;
+            case R.id.tv_lamp_color:
             case R.id.iv_lamp_color://编辑灯色
                 checkSingleColor(true);
                 lightLampColor(true);
@@ -457,6 +460,10 @@ public class MainFragment extends Fragment implements
                 }else{
                     singleColor.setColor(SingleColor.COLOR_EMPTY);
                 }
+                break;
+            case R.id.tv_panel://编辑变化色
+                checkSingleColor(false);
+                lightLampColor(false);
                 break;
             //touch the music panel
             case R.id.rl_music_content:
@@ -481,7 +488,7 @@ public class MainFragment extends Fragment implements
                 return;
         }
         compoundColorController.expandCompoundColor(!light);
-        view_lamp_bg.setBackgroundResource(light ? R.drawable.changable_panel_bg : R.color.transparent);
+        view_lamp_bg.setBackgroundResource(light ? R.drawable.lamp_color_bg2 : R.color.transparent);
         compoundColorController.setBackgroundResource(!light ? R.drawable.changable_panel_bg : R.color.transparent);
         singleColor.check(light);
     }

@@ -3,7 +3,7 @@
     android:id="@+id/rl_header"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:background="@color/c_00bcd5">
+    android:background="@color/info_sreen_bg">
 
     <ImageView
         android:id="@+id/iv_header_back"

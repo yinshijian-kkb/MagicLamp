@@ -18,5 +18,6 @@
     <dimen name="lamp_color_bg_size">30dp</dimen>
     <dimen name="volume_bar_width">260dp</dimen>
     <dimen name="volume_bar_height">5dp</dimen>
+    <dimen name="lamp_color_bg_corner_radius">15dp</dimen>
 
 </resources>

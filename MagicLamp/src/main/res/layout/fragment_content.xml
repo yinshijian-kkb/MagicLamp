@@ -26,54 +26,13 @@
         android:background="@color/transparent"
         android:visibility="gone" />
 
-    <RelativeLayout
-        android:id="@+id/view_lamp_bg"
-        android:layout_width="@dimen/lamp_color_bg_size"
-        android:layout_height="@dimen/lamp_color_bg_size"
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/header"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/changable_panel_bg">
-
-        <TextView
-            android:id="@+id/iv_lamp_color"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="@drawable/panel_default" />
-
-    </RelativeLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/view_lamp_bg"
-        android:layout_marginLeft="@dimen/color_txt_margin_left"
-        android:layout_marginTop="@dimen/color_padding"
-        android:layout_toRightOf="@id/view_lamp_bg"
-        android:text="@string/lamp_color"
-        android:textColor="@color/c_666666"
-        android:textSize="12sp" />
-
-    <FrameLayout
-        android:id="@+id/rl_panel"
-        android:layout_width="@dimen/lamp_color_bg_size"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/view_lamp_bg"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="12.5dp" />
-
-    <TextView
-        android:id="@+id/tv_panel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/rl_panel"
-        android:layout_marginLeft="@dimen/color_txt_margin_left"
-        android:layout_marginTop="@dimen/color_padding"
-        android:layout_toRightOf="@id/rl_panel"
-        android:text="@string/panel_name"
-        android:textColor="@color/c_666666"
-        android:textSize="12sp" />
+        android:layout_alignParentRight="true"
+        layout="@layout/layout_lamp_color"/>
 
     <include
         android:id="@+id/rl_progress_seek_bar"
@@ -146,7 +105,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/music_content_height_" />
-
 
     <FrameLayout
         android:id="@+id/fl_cover"

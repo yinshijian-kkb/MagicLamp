@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <solid android:color="@color/c_e5e5e5" />
+
+    <size
+        android:height="@dimen/lamp_color_bg_size"/>
+
+    <corners
+        android:bottomLeftRadius="@dimen/lamp_color_bg_corner_radius"
+        android:bottomRightRadius="@dimen/lamp_color_bg_corner_radius"
+        android:topLeftRadius="@dimen/lamp_color_bg_corner_radius"
+        android:topRightRadius="@dimen/lamp_color_bg_corner_radius" />
+
+</shape>
