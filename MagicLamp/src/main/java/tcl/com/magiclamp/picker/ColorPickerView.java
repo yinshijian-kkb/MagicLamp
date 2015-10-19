@@ -25,6 +25,7 @@ public class ColorPickerView extends View {//颜色选择器自定义View
     //内圆的参数
     private static final int CENTER_X = 200;
     private static final int CENTER_Y = 200;
+    private static final int CENTER_RADIUS = 200;
 
     public ColorPickerView(Context context) {
         this(context, null);
@@ -64,7 +65,7 @@ public class ColorPickerView extends View {//颜色选择器自定义View
 
         //移动中心
         canvas.translate(CENTER_X, CENTER_X);
-        //画出色环和中心圆
+        //画出色环
         canvas.drawOval(new RectF(-r, -r, r, r), mPaint);//new RectF(LeftTopPoint,RightBottomPoint)
     }
 
@@ -146,24 +147,30 @@ public class ColorPickerView extends View {//颜色选择器自定义View
     public boolean onTouchEvent(MotionEvent event) {
         float x = event.getX() - CENTER_X;
         float y = event.getY() - CENTER_Y;
+        boolean _InCenter = java.lang.Math.sqrt(x*x + y*y) <= CENTER_RADIUS;
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
-                float angle = (float) java.lang.Math.atan2(y, x);
-                // need to turn angle [-PI ... PI] into unit [0....1]
-                float unit = angle / (2 * PI);
-                if (unit < 0) {
-                    unit += 1;
-                }
-                if (isEnabled()){
-                    mPaint.setColor(interpColor(mColors, unit));
-                }
+                if (_InCenter) {//是否是中心圆
+                    float angle = (float) java.lang.Math.atan2(y, x);
+                    // need to turn angle [-PI ... PI] into unit [0....1]
+                    float unit = angle / (2 * PI);
+                    if (unit < 0) {
+                        unit += 1;
+                    }
+                    if (isEnabled()){
+                        mPaint.setColor(interpColor(mColors, unit));
+                    }
 //                invalidate();
+                }
+
                 break;
             case MotionEvent.ACTION_UP:
-                mListener.colorChanged(mPaint.getColor());
-                invalidate();
+                if (_InCenter){
+                    mListener.colorChanged(mPaint.getColor());
+                    invalidate();
+                }
                 break;
         }
         return true;
