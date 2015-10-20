@@ -80,7 +80,7 @@ public class MainFragment extends Fragment implements
      * 首页底部音乐面板，可隐藏
      */
     private View music_panel;
-    private Button music_arrow;
+    private ImageView music_arrow;
     private CheckBox music_play;
     private RelativeLayout music_content;
     /**
@@ -248,7 +248,7 @@ public class MainFragment extends Fragment implements
         tv_singer = (TextView) view.findViewById(R.id.tv_singer);
         tv_song = (TextView) view.findViewById(R.id.tv_song);
         music_panel = view.findViewById(R.id.music_panel);
-        music_arrow = ((Button) view.findViewById(R.id.btn_arrow));
+        music_arrow = ((ImageView) view.findViewById(R.id.iv_arrow));
         music_play = ((CheckBox) view.findViewById(R.id.cb_play));
         music_content = ((RelativeLayout) view.findViewById(R.id.rl_music_content));
         music_content.setOnClickListener(this);
@@ -505,7 +505,7 @@ public class MainFragment extends Fragment implements
                 hideMusicPanel();
                 mContext.performChange2Music();
                 break;
-            case R.id.btn_arrow:
+            case R.id.iv_arrow:
                 hideMusicPanel();
                 musicPanelDown();
                 break;
