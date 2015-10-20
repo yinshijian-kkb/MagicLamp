@@ -43,7 +43,7 @@ public class ColorPickerView extends View {//颜色选择器自定义View
                 0xFFFFFF00, 0xFFFF0000
         };
         mDisableColors = new int[]{//渐变色数组
-                0xFFFFFFFF, 0x00000000
+                0xff888888, 0xff888888
         };
         Shader s = new SweepGradient(0, 0, mColors, null);
         //初始化渐变色画笔

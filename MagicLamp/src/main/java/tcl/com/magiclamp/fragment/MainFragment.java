@@ -74,7 +74,7 @@ public class MainFragment extends Fragment implements
     private ColorPickerView colorPicker2;
     private PopupWindow modPop;
     private TextView tv_header, tv_song, tv_singer;
-    private View viewError, viewLoading, fl_cover, colorPickerCover, view_lamp_bg, iv_lamp_color;
+    private View viewError, viewLoading, fl_cover, colorPickerCover, view_lamp_bg, iv_lamp_color, tv_lamp_color, tv_panel;
     private FrameLayout compoundColorContainer;
     /**
      * 首页底部音乐面板，可隐藏
@@ -213,8 +213,10 @@ public class MainFragment extends Fragment implements
         tv_header.setOnClickListener(this);
 
         iv_lamp_color = view.findViewById(R.id.iv_lamp_color);
-        view.findViewById(R.id.tv_panel).setOnClickListener(this);
-        view.findViewById(R.id.tv_lamp_color).setOnClickListener(this);
+        tv_panel = view.findViewById(R.id.tv_panel);
+        tv_panel.setOnClickListener(this);
+        tv_lamp_color = view.findViewById(R.id.tv_lamp_color);
+        tv_lamp_color.setOnClickListener(this);
         iv_lamp_color.setOnClickListener(this);
         view_lamp_bg = view.findViewById(R.id.view_lamp_bg);
 
@@ -386,7 +388,6 @@ public class MainFragment extends Fragment implements
             singleColor.setState(SingleColor.LampColorState.STATE_DISABLE);
         }
 
-
         //变化色
         compoundColorController.setColorEnable(mLampData.isCanAdjustedColor());
         setPanelState(mLampData.isCanAdjustedColor(), mLampData.isCanAdjustedComposedColor());
@@ -423,6 +424,15 @@ public class MainFragment extends Fragment implements
         setAffectionState(false);
     }
 
+    /**
+     * 灯色是否可选中
+     * @param enable
+     */
+    private void enableSingleColor(boolean enable){
+        tv_lamp_color.setEnabled(enable);
+        iv_lamp_color.setEnabled(enable);
+    }
+
 
     /**
      * 灯色和变化色是否可点击
@@ -431,7 +441,8 @@ public class MainFragment extends Fragment implements
      * @param canAdjustedComposedColor
      */
     private void setPanelState(boolean canAdjustedColor, boolean canAdjustedComposedColor) {
-        iv_lamp_color.setEnabled(canAdjustedColor ? true : false);
+        enableSingleColor(canAdjustedColor);
+        tv_panel.setEnabled(canAdjustedComposedColor);
         compoundColorController.setEnable(canAdjustedComposedColor);
     }
 
