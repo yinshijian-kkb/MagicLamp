@@ -102,7 +102,7 @@ public class MusicFragment extends Fragment implements View.OnClickListener, See
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_header_back:
-                mContext.performClickMenu();
+                mContext.closeMusicFragment();
                 break;
             case R.id.btn_retreat:
                 ToastUtils.showShort(mContext, "上一首");

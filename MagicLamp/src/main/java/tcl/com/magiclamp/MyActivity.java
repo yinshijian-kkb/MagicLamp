@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 
+import tcl.com.magiclamp.activities.MusicActivity;
 import tcl.com.magiclamp.fragment.BroadcastFragment;
 import tcl.com.magiclamp.fragment.MainFragment;
 import tcl.com.magiclamp.fragment.LeftMenuFragment;
@@ -20,7 +21,7 @@ import tcl.com.magiclamp.fragment.SceneFragment;
 import tcl.com.magiclamp.fragment.SettingFragment;
 import tcl.com.magiclamp.utils.JLog;
 
-public class MyActivity extends SlidingFragmentActivity{
+public class MyActivity extends SlidingFragmentActivity {
 
     private SlidingMenu mSlidingMenu;
     private long mkeyTime;
@@ -73,46 +74,46 @@ public class MyActivity extends SlidingFragmentActivity{
      *
      * @param fragmentPos
      */
-    public void replaceContentFragment(int fragmentPos){
+    public void replaceContentFragment(int fragmentPos) {
         Fragment _fragment = null;
-        switch (fragmentPos){
+        switch (fragmentPos) {
             case 0://灯光
-                if (mainFragment == null){
+                if (mainFragment == null) {
                     mainFragment = new MainFragment();
                 }
                 _fragment = mainFragment;
                 break;
             case 1://音乐
-                if (musicFragment == null){
+                if (musicFragment == null) {
                     musicFragment = new MusicFragment();
                 }
                 _fragment = musicFragment;
                 break;
             case 2://广播
-                if (broadcastFragment == null){
+                if (broadcastFragment == null) {
                     broadcastFragment = new MusicFragment();
                 }
                 _fragment = broadcastFragment;
                 break;
             case 3://场景
-                if (sceneFragment == null){
+                if (sceneFragment == null) {
                     sceneFragment = new SceneFragment();
                 }
                 _fragment = sceneFragment;
                 break;
             case 4://设置
-                if (settingFragment == null){
+                if (settingFragment == null) {
                     settingFragment = new SettingFragment();
                 }
                 _fragment = settingFragment;
                 break;
         }
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        if (fragmentPos > mLastFragmentPos){
+        /*if (fragmentPos > mLastFragmentPos){
             fragmentTransaction.setCustomAnimations(R.anim.fade_up_enter, R.anim.fade_up_exit);
         }else{
             fragmentTransaction.setCustomAnimations(R.anim.fade_down_enter, R.anim.fade_down_exit);
-        }
+        }*/
         fragmentTransaction.replace(R.id.content, _fragment);
         fragmentTransaction.commit();
         mLastFragmentPos = fragmentPos;
@@ -121,27 +122,39 @@ public class MyActivity extends SlidingFragmentActivity{
     /**
      * 选中灯光
      */
-    public void performClickMenu(){
+    public void performClickMenu() {
         toggle();
     }
 
     /**
-     * 选中音乐
+     * 关闭MusicFragment
      */
-    public void performChange2Music(){
-        //update content fragment
-        replaceContentFragment(1);
+    public void closeMusicFragment(){
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.content, mainFragment);
+        fragmentTransaction.commit();
+        mLastFragmentPos = 0;
+    }
+
+    /**
+     * 选中音乐:now do not need close the sliding menu
+     */
+    public void performChange2Music() {
+        Intent i = new Intent(this,MusicActivity.class);
+        startActivity(i);
+        overridePendingTransition(R.anim.fade_up_enter, R.anim.fade);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
+        switch (requestCode) {
             case RequestCode:
-                switch (resultCode){
+                switch (resultCode) {
                     case SceneFinishResultCode:
-                        mLeftFragment.updateMenuState(0);
-                        setOnMenuClick(null,null,0,0);
+                        if (mSlidingMenu.isMenuShowing()){
+                            toggle();
+                        }
                         break;
                 }
                 break;
@@ -154,14 +167,13 @@ public class MyActivity extends SlidingFragmentActivity{
             mkeyTime = System.currentTimeMillis();
             Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_LONG).show();
         } else {
-//            finish();
             super.onBackPressed();
         }
     }
 
     public void setOnMenuClick(AdapterView<?> parent, View view, int position, long id) {
         Intent i = new Intent();
-        switch (position){
+        switch (position) {
             case 0://灯光
                 toggle();
                 replaceContentFragment(0);
@@ -194,8 +206,8 @@ public class MyActivity extends SlidingFragmentActivity{
                 i = null;
                 break;
         }
-        if (i != null){
-            startActivityForResult(i, RequestCode);
+        if (i != null) {
+//            startActivityForResult(i, RequestCode);
         }
     }
 }

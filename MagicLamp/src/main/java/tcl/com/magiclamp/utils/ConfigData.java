@@ -45,7 +45,7 @@ public class ConfigData {
         normalLamp.setAffection(LampAffection.Default);
         normalLamp.setBrightness(50);
         //for Test ,can delete
-        MusicBean _bean = new MusicBean("2222","11");
+        MusicBean _bean = new MusicBean("怒放的生命","汪峰");
         _bean.play(true);
         normalLamp.setMusic(_bean);
         //
