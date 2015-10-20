@@ -34,7 +34,7 @@ public class MyActivity extends SlidingFragmentActivity{
      * 上一Fragment的标记
      */
     private int mLastFragmentPos;
-    private BroadcastFragment broadcastFragment;
+    private MusicFragment broadcastFragment;
     private SceneFragment sceneFragment;
     private SettingFragment settingFragment;
 
@@ -90,7 +90,7 @@ public class MyActivity extends SlidingFragmentActivity{
                 break;
             case 2://广播
                 if (broadcastFragment == null){
-                    broadcastFragment = new BroadcastFragment();
+                    broadcastFragment = new MusicFragment();
                 }
                 _fragment = broadcastFragment;
                 break;
