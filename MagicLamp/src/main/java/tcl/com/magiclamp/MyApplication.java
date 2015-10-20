@@ -1,6 +1,8 @@
 package tcl.com.magiclamp;
 
+import android.app.Activity;
 import android.app.Application;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -17,6 +19,7 @@ import java.io.File;
 
 import tcl.com.magiclamp.data.LampMode;
 import tcl.com.magiclamp.utils.ConfigData;
+import tcl.com.magiclamp.utils.CrashHandler;
 
 /**
  * Created by sjyin on 9/21/15.
@@ -44,6 +47,12 @@ public class MyApplication extends Application {
 
         initImageLoader();
         initLamp();
+        collectCrash();
+    }
+
+    private void collectCrash() {
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(this);
     }
 
     /**
@@ -77,7 +86,7 @@ public class MyApplication extends Application {
     /**
      * 初始化不同模式下的灯参数
      */
-    private void initLamp(){
+    private void initLamp() {
         ConfigData.lamps = ConfigData.init();
         ConfigData.curLampMode = LampMode.Normal;
         ConfigData.curLamp = ConfigData.lamps.get(ConfigData.curLampMode);
@@ -97,5 +106,9 @@ public class MyApplication extends Application {
 
     public static int getMainThreadID() {
         return mMainThreadID;
+    }
+
+    public void ExitApp() {
+        System.exit(0);
     }
 }
