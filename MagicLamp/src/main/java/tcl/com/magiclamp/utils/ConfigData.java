@@ -1,6 +1,7 @@
 package tcl.com.magiclamp.utils;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import tcl.com.magiclamp.data.LampBean;
 import tcl.com.magiclamp.data.LampAffection;
@@ -29,7 +30,7 @@ public class ConfigData {
         if (lamps != null)
             return lamps;
 
-        lamps = new HashMap<LampMode, LampBean>();
+        lamps = new LinkedHashMap<LampMode, LampBean>();
         LampBean normalLamp = new LampBean(
                 true, true, true, true,
                 true, true, true
